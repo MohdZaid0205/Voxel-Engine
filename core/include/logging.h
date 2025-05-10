@@ -13,7 +13,7 @@ namespace Core {
 	
 	namespace Console {
 		// Logging level flags used to categorize log messages
-		enum LoggingLevel {
+		enum LogLevel {
 			OFF = 0b00000,
 			LOG = 0b00001,
 			INF = 0b00010,
@@ -23,7 +23,7 @@ namespace Core {
 		};
 
 		// Logging priorities used to indicate message importance
-		enum LoggingPriority {
+		enum LogPriority {
 			LOW = 0b001,
 			MED = 0b010,
 			HIG = 0b100,
@@ -33,8 +33,8 @@ namespace Core {
 	CORE_API String __fg_color_hex_to_ansi(Color val);
 	CORE_API String __bg_color_hex_to_ansi(Color val);
 
-	template<Console::LoggingPriority P> CORE_API String __get_banner(String of, Color fg, Color bg, Color xx);
-	template<Console::LoggingPriority P> CORE_API String __get_highlight(String on, Color highlight, Color xx);
+	template<Console::LogPriority P> CORE_API String __get_banner(String of, Color fg, Color bg, Color xx);
+	template<Console::LogPriority P> CORE_API String __get_highlight(String on, Color highlight, Color xx);
 
 	template CORE_API String __get_banner<Console::LOW>(String, Color, Color, Color);
 	template CORE_API String __get_banner<Console::MED>(String, Color, Color, Color);

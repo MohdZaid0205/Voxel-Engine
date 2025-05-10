@@ -14,7 +14,7 @@ CORE_API Core::String Core::__bg_color_hex_to_ansi(Color val){
     return std::format("\x1b[48;2;{};{};{}m", r, g, b);
 }
 
-template<Core::Console::LoggingPriority P>
+template<Core::Console::LogPriority P>
 CORE_API Core::String Core::__get_banner(String of, Color fg, Color bg, Color xx) {
 	switch (P)
 	{
@@ -29,7 +29,7 @@ CORE_API Core::String Core::__get_banner(String of, Color fg, Color bg, Color xx
 	}
 }
 
-template<Core::Console::LoggingPriority P>
+template<Core::Console::LogPriority P>
 CORE_API Core::String Core::__get_highlight(String on, Color highlight, Color xx){
 	switch (P)
 	{
