@@ -16,6 +16,7 @@ add_library(Engine SHARED ${ENGINE_SOURCE})
 target_include_directories(Engine PUBLIC "${CMAKE_SOURCE_DIR}/core/include")
 target_compile_definitions(Engine PRIVATE -DBUILD_CORE -DBUILD_PLATFORM_WIN)
 set_target_properties(Engine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+target_compile_features(Engine PUBLIC cxx_std_20)
 
 # temporary project to assist through development.
 add_executable(Sandbox 
