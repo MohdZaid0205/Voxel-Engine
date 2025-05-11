@@ -5,6 +5,33 @@
 #include <iostream>
 #include "platform.h"
 
+#define CORE_CONSOLE_DISABLED 0x66666600
+
+#define CORE_CONSOLE_BA_LOG "LOG"
+#define CORE_CONSOLE_FG_LOG 0xffffff00
+#define CORE_CONSOLE_BG_LOG 0xffffff00
+#define CORE_CONSOLE_XX_LOG CORE_CONSOLE_DISABLED
+
+#define CORE_CONSOLE_BA_INF "INF"
+#define CORE_CONSOLE_FG_INF 0x6666ff00
+#define CORE_CONSOLE_BG_INF 0x6666ff00
+#define CORE_CONSOLE_XX_INF CORE_CONSOLE_DISABLED
+
+#define CORE_CONSOLE_BA_DBG "DBG"
+#define CORE_CONSOLE_FG_DBG 0x66ff6600
+#define CORE_CONSOLE_BG_DBG 0x66ff6600
+#define CORE_CONSOLE_XX_DBG CORE_CONSOLE_DISABLED
+
+#define CORE_CONSOLE_BA_WRN "WRN"
+#define CORE_CONSOLE_FG_WRN 0xffff6600
+#define CORE_CONSOLE_BG_WRN 0xffff6600
+#define CORE_CONSOLE_XX_WRN CORE_CONSOLE_DISABLED
+
+#define CORE_CONSOLE_BA_ERR "ERR"
+#define CORE_CONSOLE_FG_ERR 0xff666600
+#define CORE_CONSOLE_BG_ERR 0xff666600
+#define CORE_CONSOLE_XX_ERR CORE_CONSOLE_DISABLED
+
 namespace Core {
 
 	// Type aliases for terminal color -----------------------------------------------------------------------------+
@@ -18,8 +45,8 @@ namespace Core {
 			LOG = 0b00001,
 			INF = 0b00010,
 			DBG = 0b00100,
-			ERR = 0b01000,
-			FTL = 0b10000,
+			WRN = 0b01000,
+			ERR = 0b10000,
 		};
 
 		// Logging priorities used to indicate message importance
@@ -47,6 +74,13 @@ namespace Core {
 	template<typename T, typename... Arg>CORE_API void __recurse_output(T item, Arg... args);
 	CORE_API void __recurse_output();
 
+	namespace Console {
+		template<LogPriority P = LOW, typename T, typename... Args> CORE_API void Log(T msg, Args... args);
+		template<LogPriority P = LOW, typename T, typename... Args> CORE_API void Info(T msg, Args... args);
+		template<LogPriority P = LOW, typename T, typename... Args> CORE_API void Debug(T msg, Args... args);
+		template<LogPriority P = LOW, typename T, typename... Args> CORE_API void Warn(T msg, Args... args);
+		template<LogPriority P = LOW, typename T, typename... Args> CORE_API void Error(T msg, Args... args);
+	};
 };
 
 CORE_API Core::String operator"" _H(const char* str, Core::uInt32 len);	// highlight
@@ -63,6 +97,66 @@ template<typename T, typename ... Arg>CORE_API void Core::__recurse_output(T ite
 
 CORE_API void Core::__recurse_output(){
 	std::cout << std::endl;
+}
+
+template<Core::Console::LogPriority P, typename T, typename ...Args>
+void Core::Console::Log(T msg, Args ...args) {
+	__recurse_output( 
+		__get_banner<P>(
+			CORE_CONSOLE_BA_LOG, 
+			CORE_CONSOLE_FG_LOG, 
+			CORE_CONSOLE_BG_LOG, 
+			CORE_CONSOLE_XX_LOG
+		), ":", msg, args...
+	);
+}
+
+template<Core::Console::LogPriority P, typename T, typename ...Args>
+void Core::Console::Info(T msg, Args ...args) {
+	__recurse_output(
+		__get_banner<P>(
+			CORE_CONSOLE_BA_INF, 
+			CORE_CONSOLE_FG_INF, 
+			CORE_CONSOLE_BG_INF, 
+			CORE_CONSOLE_XX_INF
+		), ":", msg, args...
+	);
+}
+
+template<Core::Console::LogPriority P, typename T, typename ...Args>
+void Core::Console::Debug(T msg, Args ...args) {
+	__recurse_output(
+		__get_banner<P>(
+			CORE_CONSOLE_BA_DBG,
+			CORE_CONSOLE_FG_DBG,
+			CORE_CONSOLE_BG_DBG,
+			CORE_CONSOLE_XX_DBG
+		), ":", msg, args...
+	);
+}
+
+template<Core::Console::LogPriority P, typename T, typename ...Args>
+void Core::Console::Warn(T msg, Args ...args) {
+	__recurse_output(
+		__get_banner<P>(
+			CORE_CONSOLE_BA_WRN,
+			CORE_CONSOLE_FG_WRN,
+			CORE_CONSOLE_BG_WRN,
+			CORE_CONSOLE_XX_WRN
+		), ":", msg, args...
+	);
+}
+
+template<Core::Console::LogPriority P, typename T, typename ...Args>
+void Core::Console::Error(T msg, Args ...args) {
+	__recurse_output(
+		__get_banner<P>(
+			CORE_CONSOLE_BA_ERR,
+			CORE_CONSOLE_FG_ERR,
+			CORE_CONSOLE_BG_ERR,
+			CORE_CONSOLE_XX_ERR
+		), ":", msg, args...
+	);
 }
 
 #endif
