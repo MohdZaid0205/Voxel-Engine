@@ -4,16 +4,20 @@
 int main(int argc, char** argv){
 
     // Just trying to use those core-defined entities in sanbox to ensure linking.
-    Core::String bannerA = Core::__get_banner<Core::Console::LOW>("DBG", 0x66ff6600, 0x66ff6600, 0x66666600);
+    Core::String bannerA = Core::__get_banner<Core::Console::LOW>("LOG", 0x66ff6600, 0x66ff6600, 0x66666600);
     Core::String bannerB = Core::__get_banner<Core::Console::MED>("DBG", 0x66ff6600, 0x66ff6600, 0x66666600);
-    Core::String bannerC = Core::__get_banner<Core::Console::HIG>("DBG", 0x66ff6600, 0x66ff6600, 0x66666600);
-    Core::String highlightedA = Core::__get_highlight<Core::Console::LOW>("This is how to print some debug to console."_U, 0x66ff6600, 0x66666600);
-    Core::String highlightedB = Core::__get_highlight<Core::Console::MED>("This is how to print some debug to console."_B, 0x66ff6600, 0x66666600);
-    Core::String highlightedC = Core::__get_highlight<Core::Console::HIG>("This is how to print some debug to console."_B, 0x66ff6600, 0x66666600);
+    Core::String bannerC = Core::__get_banner<Core::Console::HIG>("ERR", 0xff666600, 0xff666600, 0x66666600);
 
-    Core::__recurse_output(bannerA, ":"_D, highlightedA);
-    Core::__recurse_output(bannerB, ":"_D, highlightedB);
-    Core::__recurse_output(bannerC, ":"_D, highlightedC);
+    Core::__recurse_output(bannerA, ":", "System initialized"_D, "successfully"_D);
+    Core::__recurse_output(bannerA, ":", "Loaded module"_D, "Core::Graphics"_D);
+    Core::__recurse_output(bannerA, ":", "Configuration file"_D, "config.json"_D);
+    Core::__recurse_output(bannerB, ":", "Memory pool"_D, "allocated"_D);
+    Core::__recurse_output(bannerB, ":", "Time sync"_D, "complete"_B);
+    Core::__recurse_output(bannerA, ":", "Input handler"_D, "registered"_D);
+    Core::__recurse_output(bannerA, ":", "Scheduler"_D, "running"_D);
+    Core::__recurse_output(bannerB, ":", "Network connection"_D, "established"_B);
+    Core::__recurse_output(bannerC, ":", "Critical failure in module"_D, "ShaderCompiler"_D);
+
 
     return 0;
 }
