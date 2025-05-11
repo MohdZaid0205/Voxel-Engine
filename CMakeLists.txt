@@ -1,16 +1,20 @@
 cmake_minimum_required(VERSION 3.30.2)
 
 set(PROJ_NAME "Voxel-Engine"    )
-set(PROJ_LANG LANGUAGES CXX     )
+set(PROJ_LANG LANGUAGES CXX C   )
 set(PROJ_VERS VERSION  0.00.0   ) 
 set(PROJ_DESC DESCRIPTION "implimentation of voxel engine.")
 
 project(${PROJ_NAME} ${PROJ_DESC} ${PROJ_LANG} ${PROJ_VERS})
+find_package(OpenGL REQUIRED)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin" CACHE PATH "" FORCE)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin" CACHE PATH "" FORCE)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib" CACHE PATH "" FORCE)
+set(CMAKE_GLFW_INCLUDE_DIRECTORY "${CMAKE_SOURCE_DIR}/submodules/Glfw/include")
 add_subdirectory(submodules/Glfw)           # To generate Glfw libs.
+set(CMAKE_GLAD_INCLUDE_DIRECTORY "${CMAKE_SOURCE_DIR}/submodules/Glad/include")
+set(CMAKE_GLAD_SOURCES_DIRECTORY "${CMAKE_SOURCE_DIR}/submodules/Glad/src")
 #add_subdirectory(submodules/Glad/cmake)    # Not needed as it generates no bimaries.
 
 
@@ -41,9 +45,14 @@ set(SANDBOX_RUN_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
 add_executable(Sandbox 
     "${CMAKE_SOURCE_DIR}/examples/Sandbox.cpp"
     "${CMAKE_SOURCE_DIR}/core/engine.h"
+    "${CMAKE_GLAD_SOURCES_DIRECTORY}/glad.c"
 )
 target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/core")
 set_target_properties(Sandbox PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${SANDBOX_ARC_OUT_DIR})
 set_target_properties(Sandbox PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${SANDBOX_LIB_OUT_DIR})
 set_target_properties(Sandbox PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${SANDBOX_RUN_OUT_DIR})
-target_link_libraries(Sandbox PUBLIC Engine)
+target_include_directories(Sandbox PRIVATE ${CMAKE_GLAD_INCLUDE_DIRECTORY})
+target_include_directories(Sandbox PRIVATE ${CMAKE_GLFW_INCLUDE_DIRECTORY})
+target_link_libraries(Sandbox PRIVATE Engine)
+target_link_libraries(Sandbox PRIVATE glfw)
+target_link_libraries(Sandbox PRIVATE OpenGL::GL)
