@@ -83,11 +83,11 @@ namespace Core {
 	};
 };
 
-CORE_API Core::String operator"" _H(const char* str, Core::uInt32 len);	// highlight
-CORE_API Core::String operator"" _B(const char* str, Core::uInt32 len);	// bold
-CORE_API Core::String operator"" _D(const char* str, Core::uInt32 len);	// dim
-CORE_API Core::String operator"" _U(const char* str, Core::uInt32 len);	// underline
-CORE_API Core::String operator"" _I(const char* str, Core::uInt32 len); // italics
+CORE_API Core::String operator"" _H(const char* str, Core::uInt64 len);	// highlight
+CORE_API Core::String operator"" _B(const char* str, Core::uInt64 len);	// bold
+CORE_API Core::String operator"" _D(const char* str, Core::uInt64 len);	// dim
+CORE_API Core::String operator"" _U(const char* str, Core::uInt64 len);	// underline
+CORE_API Core::String operator"" _I(const char* str, Core::uInt64 len); // italics
 
 // define templated -unknown typed classes and functions within header file to avoid liknking exceptions.
 template<typename T, typename ... Arg>CORE_API void Core::__recurse_output(T item, Arg ...args){

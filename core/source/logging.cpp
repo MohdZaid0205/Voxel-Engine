@@ -52,22 +52,22 @@ template Core::String Core::__get_highlight<Core::Console::LOW>(String, Color, C
 template Core::String Core::__get_highlight<Core::Console::MED>(String, Color, Color);
 template Core::String Core::__get_highlight<Core::Console::HIG>(String, Color, Color);
 
-CORE_API Core::String operator""_H(const char* str, Core::uInt32 len){
+CORE_API Core::String operator""_H(const char* str, Core::uInt64 len){
 	return std::format("<%@H>{}</%@H>", str);
 }
 
-CORE_API Core::String operator""_B(const char* str, Core::uInt32 len) {
+CORE_API Core::String operator""_B(const char* str, Core::uInt64 len) {
 	return std::format("\x1b[1m{}\x1b[22m", str);
 }
 
-CORE_API Core::String operator""_D(const char* str, Core::uInt32 len){
+CORE_API Core::String operator""_D(const char* str, Core::uInt64 len){
 	return std::format("\x1b[2m{}\x1b[22m", str);
 }
 
-CORE_API Core::String operator""_I(const char* str, Core::uInt32 len){
+CORE_API Core::String operator""_I(const char* str, Core::uInt64 len){
 	return std::format("\x1b[3m{}\x1b[23m", str);
 }
 
-CORE_API Core::String operator""_U(const char* str, Core::uInt32 len){
+CORE_API Core::String operator""_U(const char* str, Core::uInt64 len){
 	return std::format("\x1b[4m{}\x1b[24m", str);
 }
