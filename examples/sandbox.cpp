@@ -30,6 +30,9 @@ const char* fragmentShaderSource = "#version 330 core\n"
 
 int main(int argc, char** argv){
     
+    //FILE* fragSource = fopen("../core/resources/shders/default.frag", "r");
+    //FILE* vertSource = fopen("../core/resources/shders/default.vert", "r");
+
     glfwInit(); // initialise and instruct versions.
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -52,9 +55,10 @@ int main(int argc, char** argv){
 
     // load vertices for triangles on respective screens
     GLfloat mainVerts[] = {
-         0.0f,  0.5f,  0.0f,
+        -0.5f,  0.5f,  0.0f,
         -0.5f, -0.5f,  0.0f,
          0.5f, -0.5f,  0.0f,
+         0.5f,  0.5f,  0.0f,
     };
     
     GLfloat sideVerts[] = {
@@ -63,18 +67,28 @@ int main(int argc, char** argv){
          0.0f, -0.5f,  0.0f,
     };
 
+    GLuint mainIndecies[] = {
+        0, 1, 2,
+        0, 3, 2
+    };
+
     glfwMakeContextCurrent(mainWin);
     gladLoadGL();
     // address that we need memory and tell to gpu, waitr for it to assign you id.
     // id is important and it keeps track of where in gpu mem out data is stored.
     GLuint mainVertBufferObject;
-    glGenBuffers(1, &mainVertBufferObject);
     GLuint mainVertAttributeObject;
+    GLuint mainVertIndexBufferObject;
+    glGenBuffers(1, &mainVertBufferObject);
     glGenVertexArrays(1, &mainVertAttributeObject);
+    glGenBuffers(1, &mainVertIndexBufferObject);
+
     // tell it that i am taking about data with this id.
     glBindVertexArray(mainVertAttributeObject);
     glBindBuffer(GL_ARRAY_BUFFER, mainVertBufferObject);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mainVertIndexBufferObject);
     glBufferData(GL_ARRAY_BUFFER, sizeof(mainVerts), mainVerts, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(mainIndecies), mainIndecies, GL_STATIC_DRAW);
     
 
     glfwMakeContextCurrent(sideWin);
@@ -143,7 +157,6 @@ int main(int argc, char** argv){
     }
 
     // specify that we will use this program
-    glUseProgram(shaderProgram);
 
     glfwMakeContextCurrent(mainWin);
     gladLoadGL();
@@ -174,7 +187,10 @@ int main(int argc, char** argv){
                 glClearColor(0.5, 0.5, 1, 1);
                 glClear(GL_COLOR_BUFFER_BIT);
                 glBindVertexArray(mainVertAttributeObject);
-                glDrawArrays(GL_TRIANGLES, 0, 3);
+                glUseProgram(shaderProgram);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mainVertIndexBufferObject);
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
                 glfwSwapBuffers(mainWin);
             }
         }
@@ -192,6 +208,7 @@ int main(int argc, char** argv){
                 glClearColor(0.5, 1, 0.5, 1);
                 glClear(GL_COLOR_BUFFER_BIT);
                 glBindVertexArray(sideVertAttributeObject);
+                glUseProgram(shaderProgram);
                 glDrawArrays(GL_TRIANGLES, 0, 3);
                 glfwSwapBuffers(sideWin);
             }
