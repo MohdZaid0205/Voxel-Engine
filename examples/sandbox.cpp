@@ -103,7 +103,7 @@ int main(int argc, char** argv){
     glBindBuffer(GL_ARRAY_BUFFER, sideVertBufferObject);
     glBufferData(GL_ARRAY_BUFFER, sizeof(sideVerts), sideVerts, GL_STATIC_DRAW);
 
-    glfwMakeContextCurrent(mainWin);
+    glfwMakeContextCurrent(sideWin);
     // compike the vertex shader (a boilerplate maybe!).
     GLuint vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
