@@ -22,12 +22,19 @@ set(ENGINE_ARC_OUT_DIR "${CMAKE_BINARY_DIR}/lib")
 set(ENGINE_LIB_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
 set(ENGINE_RUN_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
 
+file(GLOB ENGINE_RESOURCE_FILES 
+"${CMAKE_SOURCE_DIR}/core/resources/images/*"
+"${CMAKE_SOURCE_DIR}/core/resources/shaders/*"
+)
+source_group("Resources" FILES ${ENGINE_RESOURCE_FILES})
+
 file(GLOB_RECURSE ENGINE_SOURCE
     "${CMAKE_SOURCE_DIR}/core/source/*.cpp"
     "${CMAKE_SOURCE_DIR}/core/include/*.h"
 )
 
 add_library(Engine SHARED ${ENGINE_SOURCE})
+target_sources(Engine PRIVATE ${ENGINE_RESOURCE_FILES})
 target_include_directories(Engine PUBLIC "${CMAKE_SOURCE_DIR}/core/include")
 target_compile_definitions(Engine PRIVATE -DBUILD_CORE -DBUILD_PLATFORM_WIN)
 set_target_properties(Engine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -35,7 +42,6 @@ set_target_properties(Engine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${ENGINE_ARC_OU
 set_target_properties(Engine PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${ENGINE_LIB_OUT_DIR})
 set_target_properties(Engine PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_RUN_OUT_DIR})
 target_compile_features(Engine PUBLIC cxx_std_20)
-
 
 set(SANDBOX_ARC_OUT_DIR "${CMAKE_BINARY_DIR}/lib")
 set(SANDBOX_LIB_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
