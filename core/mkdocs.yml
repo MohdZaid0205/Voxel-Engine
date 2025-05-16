@@ -1,0 +1,10 @@
+site_name: voxel-engine-documentation
+nav:
+  - dev-side documentaion: 
+    - About Project: dev-side/index.md
+    - Logging Module: dev-side/logging.md
+  - user-side documentaion: 
+    - Getting Started: usr-side/index.md
+  
+theme:
+  name: readthedocs
