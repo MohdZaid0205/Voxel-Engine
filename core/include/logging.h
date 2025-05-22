@@ -1,9 +1,8 @@
 #ifndef CORE_LOGGING_H
 #define CORE_LOGGING_H
 
-#include <format>
-#include <iostream>
 #include "platform.h"
+#include "pch.h"
 
 #define CORE_CONSOLE_DISABLED 0x66666600
 

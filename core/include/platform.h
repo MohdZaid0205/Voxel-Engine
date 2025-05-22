@@ -11,7 +11,7 @@
     #define CORE_API
 #endif
 
-#include <string>
+#include "pch.h"
 
 namespace Core {
 

@@ -23,8 +23,8 @@ set(ENGINE_LIB_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
 set(ENGINE_RUN_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
 
 file(GLOB ENGINE_RESOURCE_FILES 
-"${CMAKE_SOURCE_DIR}/core/resources/images/*"
-"${CMAKE_SOURCE_DIR}/core/resources/shaders/*"
+    "${CMAKE_SOURCE_DIR}/core/resources/images/*"
+    "${CMAKE_SOURCE_DIR}/core/resources/shaders/*"
 )
 source_group("Resources" FILES ${ENGINE_RESOURCE_FILES})
 
@@ -37,6 +37,7 @@ add_library(Engine SHARED ${ENGINE_SOURCE})
 target_sources(Engine PRIVATE ${ENGINE_RESOURCE_FILES})
 target_include_directories(Engine PUBLIC "${CMAKE_SOURCE_DIR}/core/include")
 target_compile_definitions(Engine PRIVATE -DBUILD_CORE -DBUILD_PLATFORM_WIN)
+target_precompile_headers(Engine PRIVATE "${CMAKE_SOURCE_DIR}/core/include/pch.h")
 set_target_properties(Engine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set_target_properties(Engine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${ENGINE_ARC_OUT_DIR})
 set_target_properties(Engine PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${ENGINE_LIB_OUT_DIR})
