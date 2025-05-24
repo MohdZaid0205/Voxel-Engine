@@ -14,7 +14,7 @@ namespace Core::Memory {
 	class IObserverBase;
 
 	class IObservableBase {
-		private:
+		protected:
 			std::list<IObserverBase*> __observers;
 		public:
 			virtual CORE_API ~IObservableBase() { __observers.clear(); }
@@ -25,7 +25,7 @@ namespace Core::Memory {
 	};
 
 	class IObserverBase {
-		private:
+		protected:
 			IObservableBase& __observable;
 		public:
 			IObserverBase(IObservableBase& subject);
