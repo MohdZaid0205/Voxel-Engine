@@ -31,18 +31,24 @@ source_group("Resources" FILES ${ENGINE_RESOURCE_FILES})
 file(GLOB_RECURSE ENGINE_SOURCE
     "${CMAKE_SOURCE_DIR}/core/source/*.cpp"
     "${CMAKE_SOURCE_DIR}/core/include/*.h"
+    "${CMAKE_GLAD_SOURCES_DIRECTORY}/glad.c"
 )
 
 add_library(Engine SHARED ${ENGINE_SOURCE})
 target_sources(Engine PRIVATE ${ENGINE_RESOURCE_FILES})
 target_include_directories(Engine PUBLIC "${CMAKE_SOURCE_DIR}/core/include")
 target_compile_definitions(Engine PRIVATE -DBUILD_CORE -DBUILD_PLATFORM_WIN)
-target_precompile_headers(Engine PRIVATE "${CMAKE_SOURCE_DIR}/core/include/pch.h")
+target_precompile_headers(Engine PRIVATE $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_SOURCE_DIR}/core/include/pch.h>)
+target_compile_features(Engine PUBLIC cxx_std_20)
 set_target_properties(Engine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set_target_properties(Engine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${ENGINE_ARC_OUT_DIR})
 set_target_properties(Engine PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${ENGINE_LIB_OUT_DIR})
 set_target_properties(Engine PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_RUN_OUT_DIR})
-target_compile_features(Engine PUBLIC cxx_std_20)
+target_include_directories(Engine PUBLIC ${CMAKE_GLAD_INCLUDE_DIRECTORY})
+target_include_directories(Engine PUBLIC ${CMAKE_GLFW_INCLUDE_DIRECTORY})
+target_link_libraries(Engine PUBLIC glfw)
+target_link_libraries(Engine PUBLIC OpenGL::GL)
+
 
 set(SANDBOX_ARC_OUT_DIR "${CMAKE_BINARY_DIR}/lib")
 set(SANDBOX_LIB_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
@@ -52,14 +58,9 @@ set(SANDBOX_RUN_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
 add_executable(Sandbox 
     "${CMAKE_SOURCE_DIR}/examples/Sandbox.cpp"
     "${CMAKE_SOURCE_DIR}/core/engine.h"
-    "${CMAKE_GLAD_SOURCES_DIRECTORY}/glad.c"
 )
 target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/core")
 set_target_properties(Sandbox PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${SANDBOX_ARC_OUT_DIR})
 set_target_properties(Sandbox PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${SANDBOX_LIB_OUT_DIR})
 set_target_properties(Sandbox PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${SANDBOX_RUN_OUT_DIR})
-target_include_directories(Sandbox PRIVATE ${CMAKE_GLAD_INCLUDE_DIRECTORY})
-target_include_directories(Sandbox PRIVATE ${CMAKE_GLFW_INCLUDE_DIRECTORY})
 target_link_libraries(Sandbox PRIVATE Engine)
-target_link_libraries(Sandbox PRIVATE glfw)
-target_link_libraries(Sandbox PRIVATE OpenGL::GL)
