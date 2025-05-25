@@ -71,7 +71,7 @@ namespace Core {
 	template CORE_API Core::String Core::__get_highlight<Core::Console::HIG>(String, Color, Color);
 	
 	template<typename T, typename... Arg>CORE_API void __recurse_output(T item, Arg... args);
-	CORE_API void __recurse_output();
+	inline CORE_API void __recurse_output();
 
 	namespace Console {
 		template<LogPriority P = LOW, typename T, typename... Args> CORE_API void Log(T msg, Args... args);
@@ -94,7 +94,7 @@ template<typename T, typename ... Arg>CORE_API void Core::__recurse_output(T ite
 	__recurse_output(args...);
 }
 
-CORE_API void Core::__recurse_output(){
+inline CORE_API void Core::__recurse_output(){
 	std::cout << std::endl;
 }
 
