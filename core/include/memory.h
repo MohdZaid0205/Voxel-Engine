@@ -10,10 +10,11 @@ namespace Core::Memory {
 	template<typename Type> using Shared = std::shared_ptr<Type>;
 	template<typename Type> using Weak = std::weak_ptr<Type>;
 
-	class IObservableBase;
-	class IObserverBase;
+	namespace Base {
+		class IObservableBase;
+		class IObserverBase;
 
-	class IObservableBase {
+		class IObservableBase {
 		protected:
 			std::list<IObserverBase*> __observers;
 		public:
@@ -22,9 +23,9 @@ namespace Core::Memory {
 			void attachObserver(IObserverBase* observer);
 			void detachObserver(IObserverBase* observer);
 			void notifyObserver(IObserverBase* observer, const String& message);
-	};
+		};
 
-	class IObserverBase {
+		class IObserverBase {
 		protected:
 			IObservableBase& __observable;
 		public:
@@ -32,6 +33,7 @@ namespace Core::Memory {
 			virtual CORE_API ~IObserverBase() { __observable.detachObserver(this); }
 		public:
 			virtual CORE_API void eventUpdate(const String& message) = 0;
+		};
 	};
 };
 
