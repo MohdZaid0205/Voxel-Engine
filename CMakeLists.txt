@@ -58,6 +58,7 @@ set(SANDBOX_RUN_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
 add_executable(Sandbox 
     "${CMAKE_SOURCE_DIR}/examples/Sandbox.cpp"
     "${CMAKE_SOURCE_DIR}/core/engine.h"
+    "${CMAKE_GLAD_SOURCES_DIRECTORY}/glad.c"
 )
 target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/core")
 set_target_properties(Sandbox PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${SANDBOX_ARC_OUT_DIR})
