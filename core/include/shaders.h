@@ -5,9 +5,6 @@
 #include "logging.h"
 #include "pch.h"
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
-
 namespace Core::Shaders {
 
 	using Source = const char*;
@@ -40,6 +37,13 @@ namespace Core::Shaders {
 		void destroy() override;
 	};
 
+	class FragmentShader : public Base::IShaderBase {
+	public:
+		FragmentShader(String source) : Base::IShaderBase(source, GL_FRAGMENT_SHADER) {}
+	public:
+		void compile() override;
+		void destroy() override;
+	};
 };
 
 #endif

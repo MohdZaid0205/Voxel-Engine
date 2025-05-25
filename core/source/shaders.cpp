@@ -38,7 +38,7 @@ void Core::Shaders::VertexShader::compile(){
         Core::Console::Error<Console::HIG>("Failed to compile vertex shader due to :"_D, vertShaderException);
     }
     else {
-        Core::Console::Debug<Console::HIG>("Success in compiling vertex shader"_D);
+        Core::Console::Debug<Console::MED>("Success in compiling vertex shader"_D);
     }
 }
 
@@ -47,3 +47,20 @@ void Core::Shaders::VertexShader::destroy(){
     __shader_compiled = 0;
 }
 
+void Core::Shaders::FragmentShader::compile(){
+    glCompileShader(__shader_identity);
+    glGetShaderiv(__shader_identity, GL_COMPILE_STATUS, &__shader_compiled);
+    if (!__shader_compiled) {
+        GLchar fragShaderException[512];
+        glGetShaderInfoLog(__shader_identity, 512, NULL, fragShaderException);
+        Core::Console::Error<Console::HIG>("Failed to compile fragment shader due to :"_D, fragShaderException);
+    }
+    else {
+        Core::Console::Debug<Console::MED>("Success in compiling fragment shader"_D);
+    }
+}
+
+void Core::Shaders::FragmentShader::destroy() {
+    glDeleteShader(__shader_identity);
+    __shader_compiled = 0;
+}

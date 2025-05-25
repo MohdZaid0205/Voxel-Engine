@@ -13,6 +13,10 @@
 
 #include "pch.h"
 
+// some other dependencies
+#include "glad/glad.h"
+#include "glfw/glfw3.h"
+
 namespace Core {
 
     // Fundamental types -------------------------------------------------------------------------------+
