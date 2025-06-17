@@ -1,0 +1,7 @@
+[submodule "submodules/Glfw"]
+	path = submodules/Glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "submodules/Glad"]
+	path = submodules/Glad
+	url = https://github.com/Dav1dde/glad.git
+	branch = c
