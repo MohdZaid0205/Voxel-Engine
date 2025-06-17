@@ -55,6 +55,7 @@ Log functions are templated by priority, allowing compile-time customization.
 Each log level has predefined macros for banner label, foreground color, background color, and optional disabled fallback.
 
 Example for `LOG`:
+
 ```cpp
 #define CORE_CONSOLE_BA_LOG "LOG"
 #define CORE_CONSOLE_FG_LOG 0xffffff00
