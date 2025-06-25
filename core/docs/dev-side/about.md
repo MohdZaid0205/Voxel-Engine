@@ -1,3 +1,6 @@
-# Developer-Side Docuentation
+# Developer-Side Documentation
 
-look at [logging](/dev-side/logging/)
+Welcome to the developer-side documentation.
+
+The following pages are ready:
+- [logging.md](logging.md)

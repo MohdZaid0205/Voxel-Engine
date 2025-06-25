@@ -28,6 +28,13 @@ file(GLOB ENGINE_RESOURCE_FILES
 )
 source_group("Resources" FILES ${ENGINE_RESOURCE_FILES})
 
+file(GLOB ENGINE_DOCUMENTATION_FILES
+    "${CMAKE_SOURCE_DIR}/core/docs/*.md"
+    "${CMAKE_SOURCE_DIR}/core/docs/mkdocs.yml"
+    "${CMAKE_SOURCE_DIR}/core/docs/dev-side/*.md"
+)
+source_group("Documentaion" FILES ${ENGINE_DOCUMENTATION_FILES})
+
 file(GLOB_RECURSE ENGINE_SOURCE
     "${CMAKE_SOURCE_DIR}/core/source/*.cpp"
     "${CMAKE_SOURCE_DIR}/core/include/*.h"
@@ -35,6 +42,7 @@ file(GLOB_RECURSE ENGINE_SOURCE
 )
 
 add_library(Engine SHARED ${ENGINE_SOURCE})
+target_sources(Engine PRIVATE ${ENGINE_DOCUMENTATION_FILES})
 target_sources(Engine PRIVATE ${ENGINE_RESOURCE_FILES})
 target_include_directories(Engine PUBLIC "${CMAKE_SOURCE_DIR}/core/include")
 target_compile_definitions(Engine PRIVATE -DBUILD_CORE -DBUILD_PLATFORM_WIN)
