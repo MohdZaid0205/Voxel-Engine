@@ -15,6 +15,20 @@
 
 namespace Core {
 
+    /*
+    * So `size_t` could have been used for supporting both x86 and x64, but it ends up messing up when you secifcally need
+    * to use 64 bits, there are workarounds for this however, it may be considered in future for this project.
+    * 
+    * --------------------------------------------------------------------------------------------------+
+    * we can make allocate_int( <bytes> ); to control how many bytes are needed                         |
+    * this may use 2 32bit ints to store a 64 bit int if needed                                         |
+    * this is jyst a workaround, just noted this down for future self                        ¯\_(")_/¯  |
+    * --------------------------------------------------------------------------------------------------+
+    * 
+    * TODO: impliment cross-architecture support (x86 & x64), XIntXX may become redundant remeber to make changes
+    *       to all file that uses such.                                                         
+    */
+
     // Fundamental types -------------------------------------------------------------------------------+
     using Byte = char;                      //< 1-byte signed value, general-purpose small data         |
     using uByte = unsigned char;            //< 1-byte unsigned value, for raw data or byte-level access|
