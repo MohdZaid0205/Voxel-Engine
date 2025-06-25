@@ -1,5 +1,3 @@
-# .github/workflows/deploy-docs.yml
-
 name: Deploy MkDocs to GitHub Pages
 
 on:
@@ -7,7 +5,7 @@ on:
     branches: [master]
 
 permissions:
-  contents: write  # Needed for pushing to gh-pages
+  contents: write
 
 jobs:
   deploy:
@@ -18,7 +16,7 @@ jobs:
       with:
         submodules: recursive
         fetch-depth: 0
-        token: ${{ secrets.GITHUB_TOKEN }}  # Auth for submodules if needed
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup Python
       uses: actions/setup-python@v5
@@ -26,9 +24,9 @@ jobs:
         python-version: 3.x
 
     - name: Install dependencies
-      run: pip install mkdocs mkdocs-terminal
+      run: pip install mkdocs mkdocs-material
 
-    - name: Build site
+    - name: Build MkDocs site
       run: mkdocs build --config-file core/mkdocs.yml --site-dir site
 
     - name: Deploy to GitHub Pages
