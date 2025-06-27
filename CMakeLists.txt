@@ -35,12 +35,19 @@ set(STRUCT_ARC_OUT_DIR "${CMAKE_BINARY_DIR}/lib")
 set(STRUCT_LIB_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
 set(STRUCT_RUN_OUT_DIR "${CMAKE_BINARY_DIR}/bin")
 
+file(GLOB STRUCT_INLINE_FILES 
+    "${CMAKE_SOURCE_DIR}/structures/include/*.tpp"
+    "${CMAKE_SOURCE_DIR}/structures/include/*.inl"
+)
+source_group("Template Files" FILES ${STRUCT_INLINE_FILES})
+
 file(GLOB_RECURSE STRUCT_SOURCE
     "${CMAKE_SOURCE_DIR}/structures/source/*.cpp"
     "${CMAKE_SOURCE_DIR}/structures/include/*.h"
 )
 
 add_library(Structures STATIC "${STRUCT_SOURCE}")
+target_sources(Structures PRIVATE ${STRUCT_INLINE_FILES})
 target_include_directories(Structures PUBLIC "${CMAKE_SOURCE_DIR}/structures/include")
 set_target_properties(Structures PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${STRUCT_ARC_OUT_DIR})
 set_target_properties(Structures PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${STRUCT_LIB_OUT_DIR})
@@ -68,14 +75,14 @@ file(GLOB ENGINE_RESOURCE_FILES
     "${CMAKE_SOURCE_DIR}/core/resources/images/*"
     "${CMAKE_SOURCE_DIR}/core/resources/shaders/*"
 )
-source_group("Resources" FILES ${ENGINE_RESOURCE_FILES})
+source_group("Resources Files" FILES ${ENGINE_RESOURCE_FILES})
 
 file(GLOB ENGINE_DOCUMENTATION_FILES
     "${CMAKE_SOURCE_DIR}/core/docs/*.md"
     "${CMAKE_SOURCE_DIR}/core/docs/mkdocs.yml"
     "${CMAKE_SOURCE_DIR}/core/docs/dev-side/*.md"
 )
-source_group("Documentaion" FILES ${ENGINE_DOCUMENTATION_FILES})
+source_group("Documentaion Files" FILES ${ENGINE_DOCUMENTATION_FILES})
 
 file(GLOB_RECURSE ENGINE_SOURCE
     "${CMAKE_SOURCE_DIR}/core/source/*.cpp"
