@@ -111,3 +111,39 @@ void Structures::DynamicArray<T>::remove(int at){
 	__c_length--;
 }
 
+template<typename T>
+int Structures::BinarySearch(StaticArray<T>* _array, T _for) {
+	int __r = _array->getSize() - 1;
+	int __l = 0;
+
+	while (__r >= __l) {
+		int __p = (__r + __l) / 2;
+		if ((*_array)[__p] < _for)
+			__l = __p + 1;
+		else if ((*_array)[__p] > _for)
+			__r = __p - 1;
+		else
+			return __p;
+	}
+
+	return -1;
+}
+
+template<typename T>
+int Structures::BinarySearch(StaticArray<T>* _array, T _for, int(*comparision)(T, T)) {
+	int __r = _array->getSize() - 1;
+	int __l = 0;
+
+	while (__r >= __l) {
+		int __p = (__r + __l) / 2;
+		int __c = comparision((*_array)[__p], _for);
+		if (__c == -1)
+			__l = __p + 1;
+		else if (__c == 1)
+			__r = __p - 1;
+		else
+			return __p;
+	}
+
+	return -1;
+}

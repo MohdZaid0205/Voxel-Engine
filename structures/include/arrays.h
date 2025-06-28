@@ -21,7 +21,7 @@ namespace Structures{
 
 	// StaticArray Implementation
 	template <typename T> class StaticArray {
-	protected:
+	public:
 		T* __container;							// To store elements in heap allocated array.
 		int __c_length;							// To maintain information about length of array.
 	public:
@@ -63,6 +63,10 @@ namespace Structures{
 	template<typename T> DynamicArray<T> staticToDynamic(StaticArray<T>&);	// staticArray -> dynamicArray				|
 	template<typename T> StaticArray<T> dynamicToStatic(DynamicArray<T>&);	// dynamicArray -> staticArray				|
 	// -----------------------------------------------------------------------------------------------------------------+
+
+	template<typename T> int BinarySearch(StaticArray<T>* _array, T _for);
+	template<typename T> int BinarySearch(StaticArray<T>* _array, T _for, int (*comparision)(T,T));
+
 }
 
 #include "arrays.inl"

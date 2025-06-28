@@ -3,6 +3,13 @@
 
 using namespace Structures;
 
+// Comparison function for ascending order
+int CompareAscending(int a, int b) {
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
+}
+
 
 TEST(StaticArrayTest, ConstructorInitializesSize) {
     StaticArray<int> arr(5);
@@ -83,3 +90,43 @@ TEST(DynamicArrayTest, ConvertDynamicToStatic) {
     EXPECT_EQ(sarr.getSize(), 2);
     EXPECT_EQ(sarr[1], 99);
 }
+
+// ----------- BinarySearch Tests -------------
+TEST(BinarySearchTest, FindElementsInMiddle) {
+    StaticArray<int> arr(5);
+    arr[0] = 2;
+    arr[1] = 4;
+    arr[2] = 6;
+    arr[3] = 8;
+    arr[4] = 10;
+
+    EXPECT_EQ(BinarySearch(&arr, 6, CompareAscending), 2);
+    EXPECT_EQ(BinarySearch(&arr, 2, CompareAscending), 0);
+    EXPECT_EQ(BinarySearch(&arr, 10, CompareAscending), 4);
+}
+
+TEST(BinarySearchTest, ElementNotFound) {
+    StaticArray<int> arr(4);
+    arr[0] = 1;
+    arr[1] = 3;
+    arr[2] = 5;
+    arr[3] = 7;
+
+    EXPECT_EQ(BinarySearch(&arr, 2, CompareAscending), -1);
+    EXPECT_EQ(BinarySearch(&arr, 0, CompareAscending), -1);
+    EXPECT_EQ(BinarySearch(&arr, 9, CompareAscending), -1);
+}
+
+TEST(BinarySearchTest, EmptyArrayReturnsMinusOne) {
+    StaticArray<int> arr(0);
+    EXPECT_EQ(BinarySearch(&arr, 100, CompareAscending), -1);
+}
+
+TEST(BinarySearchTest, SingleElementArray) {
+    StaticArray<int> arr(1);
+    arr[0] = 99;
+
+    EXPECT_EQ(BinarySearch(&arr, 99, CompareAscending), 0);
+    EXPECT_EQ(BinarySearch(&arr, 100, CompareAscending), -1);
+}
+
