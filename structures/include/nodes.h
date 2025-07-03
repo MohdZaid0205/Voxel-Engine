@@ -68,8 +68,8 @@ namespace Structures {
     // unidorectional Liked list implimentaion
     template<typename T> class uLinkedList {
     private:
-        uN* __head;         // Store head of linked list
-        uN* __tail;         // Store tail (not madatory but is there for perfoemance in some cases).
+        uN<T>* __head;         // Store head of linked list
+        uN<T>* __tail;         // Store tail (not madatory but is there for perfoemance in some cases).
         int __size;         // Specifically for converson to other promitive types.
 
     public:
@@ -88,7 +88,7 @@ namespace Structures {
 
         void insert(T item, int index);     // insert an item to specified index.
         T& remove(int index);                // remove element form specified index.
-        uN& get(int index);                 // get element at specified index.
+        uN<T>& get(int index);                 // get element at specified index.
     };
 
     // TODO: impliment type conversions from Linked List to an array and from an array to Linked List
