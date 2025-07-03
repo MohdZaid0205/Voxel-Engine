@@ -28,8 +28,6 @@ namespace Structures {
         uNode* getNext() { return __next; }
         void setItem(Type* item) { __item = item; }
         void setNext(uNode* next) { __next = next; }
-    public:
-        friend 
     };
 
     // bi-directional Node Implementation
@@ -67,12 +65,16 @@ namespace Structures {
     template<typename T> class uLinkedList;
     template<typename T> class bLinkedList;
 
-
+    // unidorectional Liked list implimentaion
     template<typename T> class uLinkedList {
     private:
         uN* __head;         // Store head of linked list
         uN* __tail;         // Store tail (not madatory but is there for perfoemance in some cases).
         int __size;         // Specifically for converson to other promitive types.
+
+    public:
+        uLinkedList() : __head(nullptr), __tail(nullptr), __size(0) {}
+
     public:
 
         // attach<DIRECTION> and detach<DIRECTION> is there only for special purposes like to make stack and queue.
@@ -81,11 +83,11 @@ namespace Structures {
 
         void attachL(T item);       // to attach a node to left of the linked list. { visually: |new| -> |head| -> |...| -> |tail| }
         void attachR(T item);       // to attach a node to right of the linked list. { visually: |head| -> |...| -> |tail| -> |new| }
-        T detachL();        // to detach left most and move head to next. { returns: head, moves to next element to head and detaches previous. }
-        T detachR();        // to detach right most node. { returns: tail, no need to previous of tail becomes new tail. }
+        T& detachL();        // to detach left most and move head to next. { returns: head, moves to next element to head and detaches previous. }
+        T& detachR();        // to detach right most node. { returns: tail, no need to previous of tail becomes new tail. }
 
         void insert(T item, int index);     // insert an item to specified index.
-        T remove(int index);                // remove element form specified index.
+        T& remove(int index);                // remove element form specified index.
         uN& get(int index);                 // get element at specified index.
     };
 
