@@ -28,9 +28,9 @@ namespace Structures {
         };
     public:
         Type* getItem() { return __item; }
-        uNode* getNext() { return __next; }
+        uNode<Type>* getNext() { return __next; }
         void setItem(Type* item) { __item = item; }
-        void setNext(uNode* next) { __next = next; }
+        void setNext(uNode<Type>* next) { __next = next; }
     };
 
     // bi-directional Node Implementation
@@ -53,11 +53,11 @@ namespace Structures {
         }
     public:
         Type* getItem() { return __item; }
-        uNode* getNext() { return __next; }
-        uNode* getPrev() { return __prev; }
+        uNode<Type>* getNext() { return __next; }
+        uNode<Type>* getPrev() { return __prev; }
         void setItem(Type* item) { __item = item; }
-        void setNext(uNode* next) { __next = next; }
-        void setPrev(uNode* prev) { __prev = prev; }
+        void setNext(uNode<Type>* next) { __next = next; }
+        void setPrev(uNode<Type>* prev) { __prev = prev; }
     };
 
     // One may use this for unideirectional or bidirectional Liked List as follows, i dont feel the need to make a linked

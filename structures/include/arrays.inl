@@ -25,7 +25,7 @@ template<typename T>
 T& Structures::StaticArray<T>::operator[](int __idx){
 	if (__idx >= 0 && __idx <= __c_length)
 		return __container[__idx];
-	throw IndexOutOfRange("Index out of range");
+	throw Exceptions::IndexOutOfRange("Index out of range");
 }
 
 
@@ -53,7 +53,7 @@ template<typename T>
 T& Structures::DynamicArray<T>::operator[](int __idx){
 	if (__idx >= 0 && __idx <= __c_length)
 		return __container[__idx];
-	throw IndexOutOfRange("Index out of range");
+	throw Exceptions::IndexOutOfRange("Index out of range");
 }
 
 template<typename T>
@@ -82,7 +82,7 @@ void Structures::DynamicArray<T>::insert(T element, int at){
 template<typename T>
 void Structures::DynamicArray<T>::remove(){
 	if (__c_length == 0)
-		throw ElementNotFound("Cannot delete element from an empty array.");
+		throw Exceptions::ElementNotFound("Cannot delete element from an empty array.");
 
 	T* __resized = new T[__c_length - 1];
 	for (int i = 0; i < __c_length - 1; i++)
@@ -96,7 +96,7 @@ void Structures::DynamicArray<T>::remove(){
 template<typename T>
 void Structures::DynamicArray<T>::remove(int at){
 	if (at < 0 || at >= __c_length)
-		throw ElementNotFound("Cannot delete element from an empty array.");
+		throw Exceptions::ElementNotFound("Cannot delete element from an empty array.");
 
 	T* __resized = new T[__c_length - 1];
 
