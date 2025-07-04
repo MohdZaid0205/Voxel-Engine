@@ -1,6 +1,9 @@
 #ifndef STRUCTURES_NODES_H
 #define STRUCTURES_NODES_H
 
+#include <exception>
+#include "arrays.h"     // to include exceptions and for conversions of type A->B.
+
 namespace Structures {
 
     template<typename Type> class uNode;        // uni-directional
@@ -68,9 +71,9 @@ namespace Structures {
     // unidorectional Liked list implimentaion
     template<typename T> class uLinkedList {
     private:
-        uN<T>* __head;         // Store head of linked list
-        uN<T>* __tail;         // Store tail (not madatory but is there for perfoemance in some cases).
-        int __size;         // Specifically for converson to other promitive types.
+        uN<T>* __head;          // Store head of linked list
+        uN<T>* __tail;          // Store tail (not madatory but is there for perfoemance in some cases).
+        int __size;             // Specifically for converson to other promitive types.
 
     public:
         uLinkedList() : __head(nullptr), __tail(nullptr), __size(0) {}
@@ -86,9 +89,9 @@ namespace Structures {
         T& detachL();        // to detach left most and move head to next. { returns: head, moves to next element to head and detaches previous. }
         T& detachR();        // to detach right most node. { returns: tail, no need to previous of tail becomes new tail. }
 
-        void insert(T item, int index);     // insert an item to specified index.
-        T& remove(int index);                // remove element form specified index.
-        uN<T>& get(int index);                 // get element at specified index.
+        void insert(T item, int index);         // insert an item to specified index.
+        T& remove(int index);                   // remove element form specified index.
+        uN<T>& get(int index);                  // get element at specified index.
     };
 
     // TODO: impliment type conversions from Linked List to an array and from an array to Linked List
