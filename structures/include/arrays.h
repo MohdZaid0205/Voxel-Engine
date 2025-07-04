@@ -1,7 +1,30 @@
 #ifndef STRUCTURES_ARRAY_H
 #define STRUCTURES_ARRAY_H
 
+#include <exception>
+
 namespace Structures{
+
+	namespace Exceptions {
+
+		// Index out of Range exception.
+		class IndexOutOfRange : public std::exception {
+		private:
+			const char* __message;
+		public:
+			IndexOutOfRange(const char* message);
+			const char* what() noexcept;
+		};
+
+		// Element Not Found exception
+		class ElementNotFound : public std::exception {
+		private:
+			const char* __message;
+		public:
+			ElementNotFound(const char* message);
+			const char* what() noexcept;
+		};
+	}
 
 	/*
 	* This file contains implimentation for StaticArray and DynamicArray, this may aswell include multidimentional support.
