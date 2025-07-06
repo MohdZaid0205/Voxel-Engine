@@ -2,8 +2,8 @@
 #define STRUCTURES_DEFINES_H
 
 #define TEMPLATED_T template<typename T>
-#define ENF_EXCEPTION Structures::ElementNotFound("Cannot remove element from empty LL.")
-#define IOR_EXCEPTION Structures::IndexOutOfRange("Cannot find specifed `_index` in LL.")
+#define ENF_EXCEPTION Structures::ElementNotFound("Cannot remove element from empty STRUCTURE.")
+#define IOR_EXCEPTION Structures::IndexOutOfRange("Cannot find specifed `_index` in STRUCTURE.")
 #define INCREMENT __size++
 #define DECREMENT __size--
 #define ZERO_ 0

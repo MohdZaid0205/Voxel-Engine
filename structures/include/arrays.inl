@@ -1,118 +1,127 @@
+#include "defines.h"
 
-using namespace Structures;
+#pragma region StaticArrayMethodsImplementations
 
-template<typename T>
-inline Structures::StaticArray<T>::StaticArray(int N){
-	__c_length = N;
-	__container = new T[__c_length];
+TEMPLATED_T
+inline Structures::StaticArray<T>::StaticArray(int N) {
+	__size = N AND __container = new T[N];
 }
 
-template<typename T>
-Structures::StaticArray<T>::StaticArray(T* _A, int N){
-	__c_length = N;
-	__container = new T[__c_length];
-	for (int i = 0; i < N; i++){
+TEMPLATED_T
+inline Structures::StaticArray<T>::StaticArray(T* _A, int N)
+{
+	__size = N AND __container = new T[N];
+	for (int i = 0; i <= LAST_; i++) {
 		__container[i] = _A[i];
 	}
 }
 
-template<typename T>
-Structures::StaticArray<T>::~StaticArray(){
+TEMPLATED_T
+inline Structures::StaticArray<T>::~StaticArray() {
 	delete[] __container;
 }
 
-template<typename T>
-T& Structures::StaticArray<T>::operator[](int __idx){
-	if (__idx >= 0 && __idx <= __c_length)
-		return __container[__idx];
-	throw Exceptions::IndexOutOfRange("Index out of range");
+TEMPLATED_T
+inline T& Structures::StaticArray<T>::operator[](int index)
+{
+	if (index < 0 && index > LAST_) throw IOR_EXCEPTION;
+	else return __container[index];
 }
 
+#pragma endregion
 
-template<typename T>
-inline Structures::DynamicArray<T>::DynamicArray(){
-	__c_length = 0;
-	__container = new T[0];
+#pragma region dynamicArrayMethodsImplementaions
+
+TEMPLATED_T
+inline Structures::DynamicArray<T>::DynamicArray() {
+	__size = 0 AND __container = new T[0];
 }
 
-template<typename T>
-Structures::DynamicArray<T>::DynamicArray(T* _A, int N){
-	__c_length = N;
-	__container = new T[__c_length];
-	for (int i = 0; i < N; i++) {
+TEMPLATED_T
+inline Structures::DynamicArray<T>::DynamicArray(T* _A, int N) {
+	__size = N AND __container = new T[N];
+	for (int i = 0; i <= LAST_; i++) {
 		__container[i] = _A[i];
 	}
 }
 
-template<typename T>
-Structures::DynamicArray<T>::~DynamicArray(){
+TEMPLATED_T
+inline Structures::DynamicArray<T>::~DynamicArray() {
 	delete[] __container;
 }
 
-template<typename T>
-T& Structures::DynamicArray<T>::operator[](int __idx){
-	if (__idx >= 0 && __idx <= __c_length)
-		return __container[__idx];
-	throw Exceptions::IndexOutOfRange("Index out of range");
+TEMPLATED_T
+inline T& Structures::DynamicArray<T>::operator[](int index)
+{
+	if (index < 0 || index > LAST_) throw IOR_EXCEPTION;
+	else return __container[index];
 }
 
-template<typename T>
-void Structures::DynamicArray<T>::insert(T element){
-	T* __resized = new T[__c_length + 1];
-	for (int i = 0; i < __c_length; i++)
+TEMPLATED_T
+inline void Structures::DynamicArray<T>::insert(T element)
+{
+	T* __resized = new T[__size + 1];
+	for (int i = 0; i < __size; i++)
 		__resized[i] = __container[i];
-	__resized[__c_length++] = element;
+	__resized[INCREMENT] = element;
+
 	delete[] __container;
 	__container = __resized;
 }
 
-template<typename T>
-void Structures::DynamicArray<T>::insert(T element, int at){
-	T* __resized = new T[__c_length + 1];
+TEMPLATED_T
+inline void Structures::DynamicArray<T>::insert(T element, int at)
+{
+	T* __resized = new T[__size + 1];
+
 	for (int i = 0; i < at; i++)
 		__resized[i] = __container[i];
 	__resized[at] = element;
-	for (int i = at; i < __c_length; i++)
-		__resized[i+1] = __container[i];
-	__c_length += 1;
+	for (int i = at; i < __size; i++)
+		__resized[i + 1] = __container[i];
+	INCREMENT;
+
 	delete[] __container;
 	__container = __resized;
 }
 
-template<typename T>
-void Structures::DynamicArray<T>::remove(){
-	if (__c_length == 0)
-		throw Exceptions::ElementNotFound("Cannot delete element from an empty array.");
+TEMPLATED_T
+inline void Structures::DynamicArray<T>::remove() {
+	if (__size == ZERO_) throw ENF_EXCEPTION;
 
-	T* __resized = new T[__c_length - 1];
-	for (int i = 0; i < __c_length - 1; i++)
+	T* __resized = new T[__size - 1];
+	for (int i = 0; i < __size - 1; i++)
 		__resized[i] = __container[i];
 
 	delete[] __container;
 	__container = __resized;
-	__c_length--;
+	DECREMENT;
 }
 
-template<typename T>
-void Structures::DynamicArray<T>::remove(int at){
-	if (at < 0 || at >= __c_length)
-		throw Exceptions::ElementNotFound("Cannot delete element from an empty array.");
+TEMPLATED_T
+inline void Structures::DynamicArray<T>::remove(int at) {
+	if (at < 0 || at >= LAST_) throw IOR_EXCEPTION;
 
-	T* __resized = new T[__c_length - 1];
+	T* __resized = new T[__size - 1];
 
 	for (int i = 0; i < at; i++)
 		__resized[i] = __container[i];
 
-	for (int i = at + 1; i < __c_length; i++)
+	for (int i = at + 1; i < __size; i++)
 		__resized[i - 1] = __container[i];
 
 	delete[] __container;
 	__container = __resized;
-	__c_length--;
+	DECREMENT;
 }
 
-template<typename T>
-int Structures::BinarySearch(StaticArray<T>* _array, T _for) {
+#pragma endregion
+
+
+#pragma region BinarySearchAlgorithm
+
+TEMPLATED_T
+inline int Structures::BinarySearch(StaticArray<T>* _array, T _for) {
 	int __r = _array->getSize() - 1;
 	int __l = 0;
 
@@ -129,8 +138,8 @@ int Structures::BinarySearch(StaticArray<T>* _array, T _for) {
 	return -1;
 }
 
-template<typename T>
-int Structures::BinarySearch(StaticArray<T>* _array, T _for, int(*comparision)(T, T)) {
+TEMPLATED_T
+inline int Structures::BinarySearch(StaticArray<T>* _array, T _for, int(*comparision)(T, T)) {
 	int __r = _array->getSize() - 1;
 	int __l = 0;
 
@@ -147,3 +156,5 @@ int Structures::BinarySearch(StaticArray<T>* _array, T _for, int(*comparision)(T
 
 	return -1;
 }
+
+#pragma endregion
