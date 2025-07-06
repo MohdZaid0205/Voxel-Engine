@@ -1,14 +1,4 @@
-#include "nodes.h"
-
-#define TEMPLATED_T template<typename T>
-#define ENF_EXCEPTION Exceptions::ElementNotFound("Cannot remove element from empty LL.")
-#define IOR_EXCEPTION Exceptions::IndexOutOfRange("Cannot find specifed `_index` in LL.")
-#define INCREMENT __size++
-#define DECREMENT __size--
-#define ZERO_ 0
-#define LAST_ __size - 1
-#define AND ;
-#define EXIT return
+#include "defines.h"
 
 #pragma region uLinkedListMethods
 
@@ -46,7 +36,7 @@ inline T& Structures::uLinkedList<T>::detachR()
 	__tail->setItem(nullptr); delete __tail;
 	__tail = __parent;
 	DECREMENT;
-	return __returnValue;
+	return *__returnValue;
 }
 
 TEMPLATED_T
@@ -65,13 +55,13 @@ inline T& Structures::uLinkedList<T>::detachL()
 	__head = __next;
 	DECREMENT;
 
-	return __returnValue;
+	return *__returnValue;
 }
 
 TEMPLATED_T
 inline void Structures::uLinkedList<T>::insert(T item, int index)
 {
-	if (__size > index) throw IOR_EXCEPTION;
+	if (index >= __size) throw IOR_EXCEPTION;
 	if (index == ZERO_) attachL(item) AND EXIT;
 	if (index == LAST_) attachR(item) AND EXIT;
 
@@ -105,20 +95,20 @@ inline T& Structures::uLinkedList<T>::remove(int index)
 	delete __removable;
 	DECREMENT;
 
-	return __returnValue;
+	return *__returnValue;
 }
 
 TEMPLATED_T
-inline uN<T>& Structures::uLinkedList<T>::get(int index)
+inline Structures::uN<T>& Structures::uLinkedList<T>::get(int index)
 {
-	if (__size > index) throw IOR_EXCEPTION;
+	if (index >= __size) throw IOR_EXCEPTION;
 
 	uN<T>* __returnable = __head;
-	for (int i = 0; i < index - 1; i++) {
+	for (int i = 0; i < index; i++) {
 		__returnable = __returnable->getNext();
 	}
 
-	return __returnable;
+	return *__returnable;
 }
 
 #pragma endregion
@@ -160,7 +150,7 @@ inline T& Structures::bLinkedList<T>::detachR()
 	__tail->setNext(nullptr);
 	DECREMENT;
 
-	return __returnValue;
+	return *__returnValue;
 }
 
 TEMPLATED_T
@@ -178,13 +168,13 @@ inline T& Structures::bLinkedList<T>::detachL()
 	__head = __next;
 	DECREMENT;
 
-	return __returnValue;
+	return *__returnValue;
 }
 
 TEMPLATED_T
 inline void Structures::bLinkedList<T>::insert(T item, int index)
 {
-	if (__size > index) throw IOR_EXCEPTION;
+	if (index >= __size) throw IOR_EXCEPTION;
 	if (index == ZERO_) attachL(item) AND EXIT;
 	if (index == LAST_) attachR(item) AND EXIT;
 
@@ -239,18 +229,18 @@ inline T& Structures::bLinkedList<T>::remove(int index)
 	__parent->setNext(__child);
 	DECREMENT;
 
-	return __returnValue;
+	return *__returnValue;
 }
 
 TEMPLATED_T
-inline bN<T>& Structures::bLinkedList<T>::get(int index)
+inline Structures::bN<T>& Structures::bLinkedList<T>::get(int index)
 {
 	if (index >= __size) throw IOR_EXCEPTION;
 	if (index == ZERO_) return __head;
 	if (index == LAST_) return __tail;
 
 	bN<T>* __parent;
-	if (index < size / 2) {
+	if (index < __size / 2) {
 		__parent = __head;
 		for (int i = 0; i < index; i++) {
 			__parent = __parent->getNext();
@@ -263,7 +253,7 @@ inline bN<T>& Structures::bLinkedList<T>::get(int index)
 		}
 	}
 
-	return __parent->getNext();
+	return *(__parent->getNext());
 }
 
 #pragma endregion

@@ -1,8 +1,7 @@
 #ifndef STRUCTURES_NODES_H
 #define STRUCTURES_NODES_H
 
-#include <exception>
-#include "arrays.h"     // to include exceptions and for conversions of type A->B.
+#include "exceptions.h"     // to include exceptions
 
 namespace Structures {
 
