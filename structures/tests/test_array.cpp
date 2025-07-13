@@ -3,6 +3,9 @@
 
 using namespace Structures;
 
+namespace StaticAndDynamicArrayTests
+{
+
 // Comparison function for ascending order
 int CompareAscending(int a, int b) {
     if (a < b) return -1;
@@ -130,3 +133,4 @@ TEST(BinarySearchTest, SingleElementArray) {
     EXPECT_EQ(BinarySearch(&arr, 100, CompareAscending), -1);
 }
 
+}

@@ -1,5 +1,8 @@
 #include "defines.h"
 
+#define LAST_ __size - 1
+#define ZERO_ 0
+
 #pragma region StaticArrayMethodsImplementations
 
 TEMPLATED_T
@@ -63,7 +66,7 @@ inline void Structures::DynamicArray<T>::insert(T element)
 	T* __resized = new T[__size + 1];
 	for (int i = 0; i < __size; i++)
 		__resized[i] = __container[i];
-	__resized[INCREMENT] = element;
+	__resized[INCREMENT(__size)] = element;
 
 	delete[] __container;
 	__container = __resized;
@@ -79,7 +82,7 @@ inline void Structures::DynamicArray<T>::insert(T element, int at)
 	__resized[at] = element;
 	for (int i = at; i < __size; i++)
 		__resized[i + 1] = __container[i];
-	INCREMENT;
+	INCREMENT(__size);
 
 	delete[] __container;
 	__container = __resized;
@@ -95,7 +98,7 @@ inline void Structures::DynamicArray<T>::remove() {
 
 	delete[] __container;
 	__container = __resized;
-	DECREMENT;
+	DECREMENT(__size);
 }
 
 TEMPLATED_T
@@ -112,7 +115,7 @@ inline void Structures::DynamicArray<T>::remove(int at) {
 
 	delete[] __container;
 	__container = __resized;
-	DECREMENT;
+	DECREMENT(__size);
 }
 
 #pragma endregion
