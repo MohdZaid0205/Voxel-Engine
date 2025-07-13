@@ -17,15 +17,20 @@ inline Structures::Shared<T>::Shared(T object)
 TEMPLATED_T
 inline Structures::Shared<T>::Shared(T* point)
 {
-	PTR_ALLOC(__container,*point);
-	PTR_ALLOC(references,int(1));
-	PTR_DELOC(point);
+	if(point){
+		PTR_ALLOC(__container,T(*point));
+		PTR_ALLOC(references,int(1));
+	}
+	else {
+		PTR_NULLI(__container);
+		PTR_ALLOC(references,int(0));
+	}
 }
 
 TEMPLATED_T
 inline Structures::Shared<T>::~Shared()
 {
-	DECREMENT(*references);
+	DECREMENT((*references));
 	if(references > 0) 
 		EXIT;
 	PTR_DELOC(__container);
@@ -39,23 +44,25 @@ inline Structures::Shared<T>::Shared(const Shared<T>& other)
 {
 	__container = other.__container;
 	references  = other.references;
-	INCREMENT(*references);
+	INCREMENT((*references));
 }
 
 TEMPLATED_T
 inline Structures::Shared<T>& Structures::Shared<T>::operator=(const Shared<T>& other)
 {
-	if (this == other) return *this;
+	if (this == &other) return *this;
 	__container = other.__container;
 	references  = other.references;
-	INCREMENT(*references);
+	INCREMENT((*references));
 	return *this;
 }
 
 TEMPLATED_T
 inline T& Structures::Shared<T>::operator*() const
 {
-	return *__container;
+	if (__container)
+		return *__container;
+	throw std::runtime_error("cannot dereference null pointer");
 }
 
 TEMPLATED_T

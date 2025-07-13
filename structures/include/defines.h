@@ -11,11 +11,12 @@
 #pragma endregion
 
 #pragma region standardUtility
-	#define INCREMENT(x) (x)++
-	#define DECREMENT(x) (x)--
-	#define PTR_NULLI(x) (x) = nullptr
-	#define PTR_ALLOC(x, y) (x) = new (y)
-	#define PTR_DELOC(x) delete (x)
+	#define INCREMENT(x) x++
+	#define DECREMENT(x) x--
+	#define PTR_NULLI(x) x = nullptr
+	#define PTR_ALLOC(x, y) x = new y
+	#define PTR_EQUAL(x, y) x = y
+	#define PTR_DELOC(x) delete x
 #pragma endregion
 
 #pragma region standardQuality
