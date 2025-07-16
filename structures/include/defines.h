@@ -6,6 +6,7 @@
 #pragma endregion
 
 #pragma region standardExceptions
+	#define MAV_EXCEPTION Structures::MemoryAccessViolation("Dealing with NULL pointer Perhaps.")
 	#define ENF_EXCEPTION Structures::ElementNotFound("Cannot remove element from empty STRUCTURE.")
 	#define IOR_EXCEPTION Structures::IndexOutOfRange("Cannot find specifed `_index` in STRUCTURE.")
 #pragma endregion

@@ -1,4 +1,5 @@
 #include "defines.h"
+#include "exceptions.h"
 
 TEMPLATED_T
 inline Structures::Shared<T>::Shared()
@@ -31,7 +32,7 @@ TEMPLATED_T
 inline Structures::Shared<T>::~Shared()
 {
 	DECREMENT((*references));
-	if(references > 0) 
+	if(*references > 0) 
 		EXIT;
 	PTR_DELOC(__container);
 	PTR_NULLI(__container);
@@ -62,7 +63,7 @@ inline T& Structures::Shared<T>::operator*() const
 {
 	if (__container)
 		return *__container;
-	throw std::runtime_error("cannot dereference null pointer");
+	throw MAV_EXCEPTION;
 }
 
 TEMPLATED_T

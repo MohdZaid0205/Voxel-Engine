@@ -1,5 +1,27 @@
 #include "exceptions.h"
 
+#pragma region MemoryAccessViolationMethods
+
+/*
+* @brief constructor for MemoryAccessViolation exception
+*/
+Structures::MemoryAccessViolation::MemoryAccessViolation(const char* message)
+{
+	__message = message;
+}
+
+/*
+* @brief returns exception message for MemoryAccessViolation
+*/
+const char* Structures::MemoryAccessViolation::what()
+{
+	return __message;
+}
+
+#pragma endregion
+
+#pragma region IndexOutOfRangeMethods
+
 /*
 * @brief constructor for IndexOutOfRange exception
 */

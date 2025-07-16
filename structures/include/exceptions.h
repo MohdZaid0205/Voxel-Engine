@@ -5,6 +5,33 @@
 
 namespace Structures {
 
+#pragma region MemoryAccessViolationImplementation
+/*
+* @brief *Memory Access Violation* exception
+*
+* @details
+* Raised when an operation tries to access memory not allocated to process or using nullpointer as
+* valid memory and trying to derefernce it.
+* 
+* @par Usage
+* @code
+* int* pointer = nullptr;
+* int value = *pointer;
+* 
+* // rather check as follows
+* if (pointer) int value = *pointer;
+* else throw MemoryAccessVoilation("cannot deal with nullptr");
+* @endcode
+*/
+class MemoryAccessViolation: public std::exception {
+private:
+	const char* __message;      // store message for exception
+public:
+	MemoryAccessViolation(const char* message);    // initialize message
+	const char* what();                      // return exception message
+};
+#pragma endregion
+
 #pragma region IndexOutOfRangeImplementation
     /*
     * @brief *Index Out of Range* exception
