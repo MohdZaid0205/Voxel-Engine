@@ -37,7 +37,7 @@ inline Structures::Shared<T>::~Shared()
 		EXIT;
 	PTR_DELOC(__container);
 	PTR_NULLI(__container);
-	PTR_DELOC(references);
+	//PTR_DELOC(references);
 	PTR_NULLI(references);
 }
 
@@ -53,6 +53,7 @@ TEMPLATED_T
 inline Structures::Shared<T>& Structures::Shared<T>::operator=(const Shared<T>& other)
 {
 	if (this == &other) return *this;
+	DECREMENT((*references));
 	__container = other.__container;
 	references  = other.references;
 	INCREMENT((*references));
