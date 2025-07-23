@@ -39,22 +39,22 @@ namespace Structures {
     *
     *  connect it in a manner as : [NODE] -> [NEXT] -> |nullptr|
     */
-    template<typename Type> class uNode {
+    template<typename T> class uNode {
     private:
-        Type* __item;                           // store pointer to the element.
-		Shared<uNode<Type>> __next;             // store pointer to next node.
+        T* __item;                           // store pointer to the element.
+		Shared<uNode<T>> __next;             // store pointer to next node.
     public:
-        uNode()										: __item(nullptr), __next(nullptr) {}
-        uNode(Type* item)							: __item(item)   , __next(nullptr) {}
-		uNode(Type* item,Shared<uNode<Type>> next)	: __item(item)	 , __next(next)    {}
+        uNode()									: __item(nullptr), __next(nullptr) {}
+        uNode(T* item)							: __item(item)   , __next(nullptr) {}
+		uNode(T* item,Shared<uNode<T>> next)	: __item(item)	 , __next(next)    {}
 		~uNode() {
 			delete __item;		// delete the item stored
         };
     public:
-        Type* getItem() { return __item; }
-		Shared<uNode<Type>> getNext() { return __next; }
-        void setItem(Type* item) { __item = item; }
-		void setNext(Shared<uNode<Type>> next) { __next = next; }
+        T* getItem() { return __item; }
+		Shared<uNode<T>> getNext() { return __next; }
+        void setItem(T* item) { __item = item; }
+		void setNext(Shared<uNode<T>> next) { __next = next; }
     };
 #pragma endregion
 
@@ -77,30 +77,30 @@ namespace Structures {
     *
     * connect it in a manner as : |nullptr| <- [PREV] <=> [NODE] <=> [NEXT] -> |nullptr|
     */
-    template<typename Type> class bNode {
+    template<typename T> class bNode {
     private:
-        Type* __item;                           // store pointer to the element.
-        bNode* __prev;                          // store pointer to previous node.
-        bNode* __next;                          // store pointer to next node.
+        T* __item;									// store pointer to the element.
+		Shared<bNode<T>> __prev;						// store pointer to previous node.
+		Shared<bNode<T>> __next;						// store pointer to next node.
     public:
-        bNode()                                                 : __item(nullptr), __next(nullptr), __prev(nullptr) {}
-        bNode(Type* item)                                       : __item(item)   , __next(nullptr), __prev(nullptr) {}
-        bNode(Type* item, bNode<Type>* next)                    : __item(item)   , __next(next)   , __prev(nullptr) {}
-        bNode(Type* item, bNode<Type>* next, bNode<Type>* prev) : __item(item)   , __next(next)   , __prev(prev)    {}
+        bNode()														: __item(nullptr), __next(nullptr), __prev(nullptr) {}
+        bNode(T* item)												: __item(item)   , __next(nullptr), __prev(nullptr) {}
+		bNode(T* item, Shared<bNode<T>> next)						: __item(item)   , __next(next)   , __prev(nullptr) {}
+        bNode(T* item, Shared<bNode<T>> next, Shared<bNode<T>> prev): __item(item)   , __next(next)   , __prev(prev)    {}
         ~bNode() {
             delete __item;                      // delete the item stored.
-            delete __next;                      // trigger delete for next node.
+            //delete __next;                    // trigger delete for next node.
             // we do not delete previous node as current node does not own previous node (its the opposite).
             // I however am un aware of how this is done prooperly, so this is subjected to change in future.
             // delete __prev;                   // uncomment this line to delete previous node too.
         }
     public:
-        Type* getItem() { return __item; }
-        bNode<Type>* getNext() { return __next; }
-        bNode<Type>* getPrev() { return __prev; }
-        void setItem(Type* item) { __item = item; }
-        void setNext(bNode<Type>* next) { __next = next; }
-        void setPrev(bNode<Type>* prev) { __prev = prev; }
+        T* getItem() { return __item; }
+		Shared<bNode<T>> getNext() { return __next; }
+		Shared<bNode<T>> getPrev() { return __prev; }
+        void setItem(T* item) { __item = item; }
+        void setNext(Shared<bNode<T>> next) { __next = next; }
+        void setPrev(Shared<bNode<T>> prev) { __prev = prev; }
     };
 #pragma endregion
 
