@@ -11,7 +11,7 @@ inline void Structures::uLinkedList<T>::attachR(T item)
 		__tail->setNext(new Structures::uNode<T>(item));
 		__tail = __tail->getNext();
 	}
-	INCREMENT;
+	INCREMENT(__size);
 }
 
 TEMPLATED_T
@@ -19,7 +19,7 @@ inline void Structures::uLinkedList<T>::attachL(T item)
 {
 	__head = new Structures::uNode<T>(item, __head);
 	if (__size == ZERO_) __tail = __head;
-	INCREMENT;
+	INCREMENT(__size);
 }
 
 TEMPLATED_T
@@ -35,7 +35,7 @@ inline T& Structures::uLinkedList<T>::detachR()
 
 	__tail->setItem(nullptr); delete __tail;
 	__tail = __parent;
-	DECREMENT;
+	DECREMENT(__size);
 	return *__returnValue;
 }
 
@@ -53,7 +53,7 @@ inline T& Structures::uLinkedList<T>::detachL()
 	if (__next == nullptr) __tail = nullptr;
 
 	__head = __next;
-	DECREMENT;
+	DECREMENT(__size);
 
 	return *__returnValue;
 }
@@ -71,7 +71,7 @@ inline void Structures::uLinkedList<T>::insert(T item, int index)
 	}
 
 	__parent->setNext(new uN<T>(item, __parent->getNext()));
-	INCREMENT;
+	INCREMENT(__size);
 }
 
 TEMPLATED_T
@@ -93,7 +93,7 @@ inline T& Structures::uLinkedList<T>::remove(int index)
 	__removable->setItem(nullptr);
 
 	delete __removable;
-	DECREMENT;
+	DECREMENT(__size);
 
 	return *__returnValue;
 }
@@ -124,7 +124,7 @@ inline void Structures::bLinkedList<T>::attachR(T item)
 		__tail->setNext(new Structures::bNode<T>(item, nullptr, __tail));
 		__tail = __tail->getNext();
 	}
-	INCREMENT;
+	INCREMENT(__size);
 }
 
 TEMPLATED_T
@@ -133,7 +133,7 @@ inline void Structures::bLinkedList<T>::attachL(T item)
 	bN<T>* __item = new Structures::bNode<T>(item, __head, nullptr);
 	if (__size == ZERO_) __tail = __head = __item;
 	else __head->setPrev(__item) AND __head = __item;
-	INCREMENT;
+	INCREMENT(__size);
 }
 
 TEMPLATED_T
@@ -148,7 +148,7 @@ inline T& Structures::bLinkedList<T>::detachR()
 
 	delete __tail->getNext();
 	__tail->setNext(nullptr);
-	DECREMENT;
+	DECREMENT(__size);
 
 	return *__returnValue;
 }
@@ -166,7 +166,7 @@ inline T& Structures::bLinkedList<T>::detachL()
 
 	delete __head;
 	__head = __next;
-	DECREMENT;
+	DECREMENT(__size);
 
 	return *__returnValue;
 }
@@ -179,7 +179,7 @@ inline void Structures::bLinkedList<T>::insert(T item, int index)
 	if (index == LAST_) attachR(item) AND EXIT;
 
 	bN<T>* __parent;
-	if (index < size / 2) {
+	if (index < __size / 2) {
 		__parent = __head;
 		for (int i = 0; i < index; i++) {
 			__parent = __parent->getNext();
@@ -195,7 +195,7 @@ inline void Structures::bLinkedList<T>::insert(T item, int index)
 	__parent->setNext(new bN<T>(item, __parent->getNext(), __parent));
 	__parent->getNext()->getNext()->setPrev(__parent->getNext());
 
-	INCREMENT;
+	INCREMENT(__size);
 }
 
 TEMPLATED_T
@@ -206,7 +206,7 @@ inline T& Structures::bLinkedList<T>::remove(int index)
 	if (index == LAST_) return detachR();
 
 	bN<T>* __parent;
-	if (index < size / 2) {
+	if (index < __size / 2) {
 		__parent = __head;
 		for (int i = 0; i < index; i++) {
 			__parent = __parent->getNext();
@@ -227,7 +227,7 @@ inline T& Structures::bLinkedList<T>::remove(int index)
 	delete __parent->getNext();
 	__child->setPrev(__parent);
 	__parent->setNext(__child);
-	DECREMENT;
+	DECREMENT(__size);
 
 	return *__returnValue;
 }

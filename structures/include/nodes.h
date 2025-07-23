@@ -2,6 +2,7 @@
 #define STRUCTURES_NODES_H
 
 #include "exceptions.h"     // to include exceptions
+#include "memory.h"
 
 namespace Structures {
 
@@ -41,20 +42,19 @@ namespace Structures {
     template<typename Type> class uNode {
     private:
         Type* __item;                           // store pointer to the element.
-        uNode* __next;                          // store pointer to next node.
+		Shared<uNode<Type>> __next;             // store pointer to next node.
     public:
-        uNode()                                 : __item(nullptr), __next(nullptr) {}
-        uNode(Type* item)                       : __item(item)   , __next(nullptr) {}
-        uNode(Type* item, uNode<Type>* next)    : __item(item)   , __next(next)    {}
-        ~uNode() {
-            delete __item;                      // delete the item stored.
-            delete __next;                      // trigger delete for next node.
+        uNode()										: __item(nullptr), __next(nullptr) {}
+        uNode(Type* item)							: __item(item)   , __next(nullptr) {}
+		uNode(Type* item,Shared<uNode<Type>> next)	: __item(item)	 , __next(next)    {}
+		~uNode() {
+			delete __item;		// delete the item stored
         };
     public:
         Type* getItem() { return __item; }
-        uNode<Type>* getNext() { return __next; }
+		Shared<uNode<Type>> getNext() { return __next; }
         void setItem(Type* item) { __item = item; }
-        void setNext(uNode<Type>* next) { __next = next; }
+		void setNext(Shared<uNode<Type>> next) { __next = next; }
     };
 #pragma endregion
 
