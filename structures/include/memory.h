@@ -37,6 +37,8 @@ namespace Structures{
 	public:
 		T& operator*() const;   // Dereference operator: access the underlying object
 		T* operator->() const;  // Arrow operator: access members of the underlying object
+	public:
+		bool operator==(Shared<T>& other);
 	};
 #pragma endregion
 

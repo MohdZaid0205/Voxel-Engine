@@ -1,5 +1,6 @@
 #include "defines.h"
 #include "exceptions.h"
+#include "memory.h"
 
 TEMPLATED_T
 inline Structures::Shared<T>::Shared()
@@ -70,4 +71,12 @@ TEMPLATED_T
 inline T* Structures::Shared<T>::operator->() const
 {
 	return __container;
+}
+
+template<typename T>
+inline bool Structures::Shared<T>::operator==(Shared<T>& other)
+{
+	if(__container == other.__container)
+		return true;
+	return false;
 }
