@@ -7,7 +7,7 @@ namespace memoryManagementTests{
 
 TEST(SharedPointerTests, DefaultInitilisationSetsToNull){
 	Shared<float> nullcontained = Shared<float>();
-	ASSERT_THROW(*(nullcontained),std::runtime_error);
+	ASSERT_THROW(*(nullcontained),Structures::MemoryAccessViolation);
 }
 
 TEST(SharedPointerTests, ConstructFromValueCopyToHeap) {
