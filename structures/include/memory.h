@@ -1,6 +1,10 @@
 #ifndef STRUCTURES_MEMORY_H
 #define STRUCTURES_MEMORY_H
 
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#include <cstdlib>
+
 namespace Structures{
 	
 #pragma region basicInformation

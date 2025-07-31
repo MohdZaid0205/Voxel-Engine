@@ -6,7 +6,7 @@ TEMPLATED_T
 inline Structures::Shared<T>::Shared()
 {
 	PTR_NULLI(__container);
-	PTR_ALLOC(references,int(0));
+	PTR_ALLOC(references,int(1));
 }
 
 TEMPLATED_T
@@ -19,14 +19,11 @@ inline Structures::Shared<T>::Shared(T object)
 TEMPLATED_T
 inline Structures::Shared<T>::Shared(T* point)
 {
-	if(point){
-		PTR_ALLOC(__container,T(*point));
-		PTR_ALLOC(references,int(1));
-	}
-	else {
+	if(point)
+		__container = point;
+	else 
 		PTR_NULLI(__container);
-		PTR_ALLOC(references,int(0));
-	}
+	PTR_ALLOC(references,int(1));
 }
 
 TEMPLATED_T
@@ -37,7 +34,8 @@ inline Structures::Shared<T>::~Shared()
 		EXIT;
 	PTR_DELOC(__container);
 	PTR_NULLI(__container);
-	//PTR_DELOC(references);
+	if (references)
+		PTR_DELOC(references);
 	PTR_NULLI(references);
 }
 
