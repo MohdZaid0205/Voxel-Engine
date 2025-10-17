@@ -1,15 +1,28 @@
 #ifndef COMMON_PLATFORM_H
 #define COMMON_PLATFORM_H
 
-// TODO: Add support for linux, implementation
+// TODO: Add support for linux, implementation. (halted for linux implementation).
 #if defined(BUILD_PLATFORM_WIN)
-    #ifdef BUILD_COMMON
+    
+	// build common api for current context, it may be used to export by common package but for
+	// importing by Engine, structures and also byuser defined projects.
+	#ifdef BUILD_COMMON
         #define COMMON_API __declspec(dllexport)
     #else
         #define COMMON_API __declspec(dllimport)
     #endif
+	
+	// build engine api for engine solution, (this may move to engine/platform.h not yet decided
+	// but following part is necessary for engine to be used as shared lib.
+	#ifdef BUILD_ENGINE
+		#define ENGINE_API __declspec(dllexport)
+	#else
+		#define ENGINE_API __declspec(dllimport)
+	#endif
+	
 #else
     #define COMMON_API
+    #define ENGINE_API
 #endif
 
 #include "pch.h"
