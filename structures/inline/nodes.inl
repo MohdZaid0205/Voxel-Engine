@@ -1,5 +1,7 @@
 #include "defines.h"
 
+#define LAST_ __size - 1
+
 #pragma region uLinkedListMethods
 
 TEMPLATED_T

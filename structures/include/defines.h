@@ -25,4 +25,16 @@
 	#define EXIT return
 #pragma endregion
 
+#pragma region definedConsts
+	#define ZERO_32 0
+	#define ZERO_64 0LL
+
+#ifdef STRUCTURE_ARCH_x64
+	#define ZERO_ ZERO_64
+#else
+	#define ZERO_ ZERO_32
+#endif
+
+#pragma endregion
+
 #endif

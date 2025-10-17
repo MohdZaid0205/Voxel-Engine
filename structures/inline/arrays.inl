@@ -1,8 +1,5 @@
 #include "defines.h"
 
-#define LAST_ __size - 1
-#define ZERO_ 0
-
 #pragma region StaticArrayMethodsImplementations
 
 TEMPLATED_T
@@ -14,7 +11,7 @@ TEMPLATED_T
 inline Structures::StaticArray<T>::StaticArray(T* _A, int N)
 {
 	__size = N AND __container = new T[N];
-	for (int i = 0; i <= LAST_; i++) {
+	for (int i = 0; i <= __size-1; i++) {
 		__container[i] = _A[i];
 	}
 }
@@ -27,7 +24,7 @@ inline Structures::StaticArray<T>::~StaticArray() {
 TEMPLATED_T
 inline T& Structures::StaticArray<T>::operator[](int index)
 {
-	if (index < 0 && index > LAST_) throw IOR_EXCEPTION;
+	if (index < 0 && index > __size - 1) throw IOR_EXCEPTION;
 	else return __container[index];
 }
 
@@ -43,7 +40,7 @@ inline Structures::DynamicArray<T>::DynamicArray() {
 TEMPLATED_T
 inline Structures::DynamicArray<T>::DynamicArray(T* _A, int N) {
 	__size = N AND __container = new T[N];
-	for (int i = 0; i <= LAST_; i++) {
+	for (int i = 0; i <= __size - 1; i++) {
 		__container[i] = _A[i];
 	}
 }
@@ -56,7 +53,7 @@ inline Structures::DynamicArray<T>::~DynamicArray() {
 TEMPLATED_T
 inline T& Structures::DynamicArray<T>::operator[](int index)
 {
-	if (index < 0 || index > LAST_) throw IOR_EXCEPTION;
+	if (index < 0 || index > __size - 1) throw IOR_EXCEPTION;
 	else return __container[index];
 }
 
@@ -103,7 +100,7 @@ inline void Structures::DynamicArray<T>::remove() {
 
 TEMPLATED_T
 inline void Structures::DynamicArray<T>::remove(int at) {
-	if (at < 0 || at >= LAST_) throw IOR_EXCEPTION;
+	if (at < 0 || at >= __size - 1) throw IOR_EXCEPTION;
 
 	T* __resized = new T[__size - 1];
 
