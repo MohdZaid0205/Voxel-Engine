@@ -1,7 +1,7 @@
 
 # Logger System Documentation (For Contributors)
 
-This document provides in-depth technical documentation of the `Core::Console` logging system. It is intended for **contributors** who want to extend, maintain, or understand the internal workings of the logger.
+This document provides in-depth technical documentation of the `Common::Console` logging system. It is intended for **contributors** who want to extend, maintain, or understand the internal workings of the logger.
 
 ---
 
@@ -25,7 +25,7 @@ The logging system supports two orthogonal mechanisms: **Levels** and **Prioriti
 
 TODO: impliment log level behaviour.
 
-### 🔹 Levels (`Core::Console::LogLevel`)
+### 🔹 Levels (`Common::Console::LogLevel`)
 
 Levels categorize the **type or purpose** of log messages:
 
@@ -38,7 +38,7 @@ Levels categorize the **type or purpose** of log messages:
 
 These levels are useful for filtering and consistent formatting.
 
-### 🔹 Priorities (`Core::Console::LogPriority`)
+### 🔹 Priorities (`Common::Console::LogPriority`)
 
 Priorities indicate the **severity** of a message:
 
@@ -132,7 +132,7 @@ std::cout << "Warning: "_B << "Overheating detected!" << std::endl;
 To introduce a new log level:
 
 1. Add a new value in `enum LogLevel`
-2. Define corresponding macros (`CORE_CONSOLE_BA_XXX`, `FG`, `BG`, `XX`)
+2. Define corresponding macros (`COMMON_CONSOLE_BA_XXX`, `FG`, `BG`, `XX`)
 3. Implement a new `LogXXX()` wrapper (optional)
 4. Add formatting logic if needed
 
@@ -150,7 +150,7 @@ To introduce a new log level:
 
 - All output uses `std::cout`; redirecting logs to a file or stream may require refactoring `__recurse_output`.
 - Colors assume terminal support for ANSI codes.
-- You can disable or override styles with `CORE_CONSOLE_DISABLED`.
+- You can disable or override styles with `COMMON_CONSOLE_DISABLED`.
 
 Contributions are welcome. Please follow the format and style conventions outlined above when extending the system.
 
