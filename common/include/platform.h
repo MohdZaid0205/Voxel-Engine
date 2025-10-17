@@ -1,19 +1,34 @@
-#ifndef CORE_PLATFORM_H
-#define CORE_PLATFORM_H
+#ifndef COMMON_PLATFORM_H
+#define COMMON_PLATFORM_H
 
+// TODO: Add support for linux, implementation
 #if defined(BUILD_PLATFORM_WIN)
-    #ifdef BUILD_CORE
-        #define CORE_API __declspec(dllexport)
+    #ifdef BUILD_COMMON
+        #define COMMON_API __declspec(dllexport)
     #else
-        #define CORE_API __declspec(dllimport)
+        #define COMMON_API __declspec(dllimport)
     #endif
 #else
-    #define CORE_API
+    #define COMMON_API
 #endif
 
 #include "pch.h"
 
-namespace Core {
+namespace Common {
+
+    /*
+    * So `size_t` could have been used for supporting both x86 and x64, but it ends up messing up when you secifcally need
+    * to use 64 bits, there are workarounds for this however, it may be considered in future for this project.
+    * 
+    * --------------------------------------------------------------------------------------------------+
+    * we can make allocate_int( <bytes> ); to control how many bytes are needed                         |
+    * this may use 2 32bit ints to store a 64 bit int if needed                                         |
+    * this is jyst a workaround, just noted this down for future self                        ¯\_(")_/¯  |
+    * --------------------------------------------------------------------------------------------------+
+    * 
+    * TODO: impliment cross-architecture support (x86 & x64), XIntXX may become redundant remeber to make changes
+    *       to all file that uses such.                                                         
+    */
 
     // Fundamental types -------------------------------------------------------------------------------+
     using Byte = char;                      //< 1-byte signed value, general-purpose small data         |
@@ -46,5 +61,7 @@ namespace Core {
     using String = std::string;             //< Wrap around inbuilt definition of string                |
     //--------------------------------------------------------------------------------------------------+
 };
+
+#include "platform.inl"
 
 #endif

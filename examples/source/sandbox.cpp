@@ -1,10 +1,11 @@
 #include <iostream>
 #include "engine.h"
+#include "common.h"
 
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-using namespace Core;
+using namespace Common;
 
 #define MAIN_WIN_H 600
 #define MAIN_WIN_W 800
@@ -178,7 +179,7 @@ int main(int argc, char** argv){
            if (glfwWindowShouldClose(mainWin)) {
                mainWindowIsOpen = false;
                glfwDestroyWindow(mainWin);
-               Console::Log("Destroyed main Window."_D);
+               Console::Log("Destroyed "_D, "main Window"_U);
                continue;
            }
            glfwMakeContextCurrent(mainWin);
@@ -199,7 +200,7 @@ int main(int argc, char** argv){
            if (glfwWindowShouldClose(sideWin)) {
                sideWindowIsOpen = false;
                glfwDestroyWindow(sideWin);
-               Console::Log("Destroyed side Window."_D);
+               Console::Log("Destroyed "_D, "side Window"_U);
                continue;
            }
            glfwMakeContextCurrent(sideWin);
