@@ -133,7 +133,7 @@ set_target_properties       (Engine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set_target_properties       (Engine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${ENGINE_ARC_OUT_DIR})
 set_target_properties       (Engine PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${ENGINE_LIB_OUT_DIR})
 set_target_properties       (Engine PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_RUN_OUT_DIR})
-
+target_compile_definitions  (Common PRIVATE -DBUILD_ENGINE -DBUILD_PLATFORM_WIN)
 
 # TODO: add support for Gtest for structures module, setup and run
 

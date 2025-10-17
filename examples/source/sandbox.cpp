@@ -2,9 +2,6 @@
 #include "engine.h"
 #include "common.h"
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
-
 using namespace Common;
 
 #define MAIN_WIN_H 600
@@ -33,11 +30,6 @@ int main(int argc, char** argv){
    
    //FILE* fragSource = fopen("../core/resources/shders/default.frag", "r");
    //FILE* vertSource = fopen("../core/resources/shders/default.vert", "r");
-
-   glfwInit(); // initialise and instruct versions.
-   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
    GLFWwindow* mainWin;    // make main window 
    GLFWwindow* sideWin;    // make side window
