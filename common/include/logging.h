@@ -70,15 +70,15 @@ namespace Common {
 	template COMMON_API Common::String Common::__get_highlight<Common::Console::MED>(String, Color, Color);
 	template COMMON_API Common::String Common::__get_highlight<Common::Console::HIG>(String, Color, Color);
 	
-	template<typename T, typename... Arg>COMMON_API void __recurse_output(T item, Arg... args);
-	inline COMMON_API void __recurse_output();
+	template<typename T, typename... Arg> void __recurse_output(T item, Arg... args);
+	inline void __recurse_output();
 
 	namespace Console {
-		template<LogPriority P = LOW, typename T, typename... Args> COMMON_API void Log(T msg, Args... args);
-		template<LogPriority P = LOW, typename T, typename... Args> COMMON_API void Info(T msg, Args... args);
-		template<LogPriority P = LOW, typename T, typename... Args> COMMON_API void Debug(T msg, Args... args);
-		template<LogPriority P = LOW, typename T, typename... Args> COMMON_API void Warn(T msg, Args... args);
-		template<LogPriority P = LOW, typename T, typename... Args> COMMON_API void Error(T msg, Args... args);
+		template<LogPriority P = LOW, typename T, typename... Args>  void Log(T msg, Args... args);
+		template<LogPriority P = LOW, typename T, typename... Args>  void Info(T msg, Args... args);
+		template<LogPriority P = LOW, typename T, typename... Args>  void Debug(T msg, Args... args);
+		template<LogPriority P = LOW, typename T, typename... Args>  void Warn(T msg, Args... args);
+		template<LogPriority P = LOW, typename T, typename... Args>  void Error(T msg, Args... args);
 	};
 };
 
