@@ -59,7 +59,7 @@ file(GLOB_RECURSE COMMON_INLINE_FILES "${COMMON_INL_INP_DIR}/*.tpp" "${COMMON_IN
 file(GLOB_RECURSE COMMON_SOURCE_FILES "${COMMON_SRC_INP_DIR}/*.cpp" "${COMMON_INC_INP_DIR}/*.h"  )
 source_group("Inline Files" FILES ${COMMON_INLINE_FILES})
 
-add_library                 (Common STATIC  "${COMMON_SOURCE_FILES}")
+add_library                 (Common SHARED  "${COMMON_SOURCE_FILES}")
 target_sources              (Common PRIVATE "${COMMON_INLINE_FILES}")
 target_include_directories  (Common PUBLIC  "${COMMON_BSE_INP_DIR}" )
 target_include_directories  (Common PUBLIC  "${COMMON_INC_INP_DIR}" )
@@ -133,7 +133,7 @@ set_target_properties       (Engine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set_target_properties       (Engine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${ENGINE_ARC_OUT_DIR})
 set_target_properties       (Engine PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${ENGINE_LIB_OUT_DIR})
 set_target_properties       (Engine PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_RUN_OUT_DIR})
-target_compile_definitions  (Common PRIVATE -DBUILD_ENGINE -DBUILD_PLATFORM_WIN)
+target_compile_definitions  (Engine PRIVATE -DBUILD_ENGINE -DBUILD_PLATFORM_WIN)
 
 # TODO: add support for Gtest for structures module, setup and run
 

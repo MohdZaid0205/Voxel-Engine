@@ -14,17 +14,38 @@ using namespace Common;
 
 const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
+"out vec3 fragmentColor;\n"
 "void main()\n"
 "{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"   gl_Position = vec4(aPos, 1.0);\n"
+"   fragmentColor = aPos + 0.5f;\n"
 "}\0";
 
 const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
+"in vec3 fragmentColor;\n"
 "void main()\n"
 "{\n"
-"   FragColor = vec4(1.0f, 0.5f, 0.5f, 1.0f);\n"
+"   FragColor = vec4(fragmentColor, 1.0f);\n"
 "}\0";
+
+void framebuffer_size_callback(GLFWwindow* window,int width,int height){
+	glfwMakeContextCurrent(window);
+	glViewport(0,0,width,height);
+}
+
+//class application: public Engine::Window{
+//public:
+//	application(uInt32 width,uInt32 height,String title):
+//		Engine::Window(width,height,title){}
+//	bool run() override {
+//		while(!glfwWindowShouldClose(this->getHandle())){
+//			Console::Log("Window currently in process"_D, this->getTitle());
+//		}
+//		Console::Info("Window has been closed"_D, this->getTitle());
+//		return true;
+//	}
+//};
 
 int main(int argc, char** argv){
    
@@ -86,6 +107,11 @@ int main(int argc, char** argv){
 
    glfwMakeContextCurrent(sideWin);
    gladLoadGL();
+
+   //glViewport(0,0,SIDE_WIN_H,SIDE_WIN_H);
+   glfwSetFramebufferSizeCallback(mainWin,framebuffer_size_callback);
+   glfwSetFramebufferSizeCallback(sideWin,framebuffer_size_callback);
+
    // dp some same shit for side window and manage it
    GLuint sideVertBufferObject;
    glGenBuffers(1, &sideVertBufferObject);
@@ -176,7 +202,7 @@ int main(int argc, char** argv){
            }
            glfwMakeContextCurrent(mainWin);
            {
-               glViewport(0, 0, MAIN_WIN_W, MAIN_WIN_H);
+               //glViewport(0, 0, MAIN_WIN_W, MAIN_WIN_H);
                glClearColor(0.5, 0.5, 1, 1);
                glClear(GL_COLOR_BUFFER_BIT);
                glBindVertexArray(mainVertAttributeObject);
@@ -197,8 +223,8 @@ int main(int argc, char** argv){
            }
            glfwMakeContextCurrent(sideWin);
            {
-               glViewport(0, 0, SIDE_WIN_W, SIDE_WIN_H);
-               glClearColor(0.5, 1, 0.5, 1);
+               //glViewport(0, 0, SIDE_WIN_W, SIDE_WIN_H);
+               glClearColor(0, 0, 0, 1);
                glClear(GL_COLOR_BUFFER_BIT);
                glBindVertexArray(sideVertAttributeObject);
                glUseProgram(shaderProgram);
@@ -212,6 +238,9 @@ int main(int argc, char** argv){
        glfwPollEvents();
    }
 
+
+   //application app(300,200,"dshfiudsh f");
+   //app.run();
    glDeleteShader(vertexShader);
    glDeleteShader(fragmentShader);
    glfwTerminate();
