@@ -1,5 +1,16 @@
 #include "window.h"
 
+
+Engine::Window::Window(uInt32 width,uInt32 height,String title)
+{
+	if(!isGLFWInitialised){
+		glfwInit();
+		isGLFWInitialised = true;
+	}
+	__w = width; __h = height; __t = title;
+	__window = glfwCreateWindow(__w,__h,__t.c_str(),NULL,NULL);
+}
+
 Engine::Window::Window(uInt32 width, uInt32 height, String title,
 		enum WindowCallbackType action) : Window(width,height,title)
 {

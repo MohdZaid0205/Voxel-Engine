@@ -2,6 +2,7 @@
 #define VOXEL_ENGINE_WINDOW_H
 
 #include "common.h"
+#include "globals.h"
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
@@ -21,7 +22,7 @@ namespace Engine {
 		NODEFAULT = 0x10,			//> resize the window without any default callback action.
 	};
 
-	class Window {
+	class ENGINE_API Window {
 	private:
 		GLFWwindow* __window;		//> encapsulated GLFWwindow structure pointer.
 		String __t;					//> stores title of window.
@@ -61,12 +62,8 @@ namespace Engine {
 
 }
 
-Engine::Window::Window(uInt32 width,uInt32 height,String title)
-{
-	__w = width; __h = height; __t = title;
-	__window = glfwCreateWindow(__w,__h,__t.c_str(),NULL,NULL);
-}
+//#include "window.inl"
 
-#include "window.inl"
+
 
 #endif
