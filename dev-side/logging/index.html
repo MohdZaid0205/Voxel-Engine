@@ -240,7 +240,7 @@
             <main id="terminal-mkdocs-main-content">
 <section id="mkdocs-terminal-content">
     <h1 id="logger-system-documentation-for-contributors">Logger System Documentation (For Contributors)</h1>
-<p>This document provides in-depth technical documentation of the <code>Core::Console</code> logging system. It is intended for <strong>contributors</strong> who want to extend, maintain, or understand the internal workings of the logger.</p>
+<p>This document provides in-depth technical documentation of the <code>Common::Console</code> logging system. It is intended for <strong>contributors</strong> who want to extend, maintain, or understand the internal workings of the logger.</p>
 <hr />
 <h2 id="overview">Overview</h2>
 <p>The logger is a templated system for structured, color-coded console output. It supports:</p>
@@ -256,7 +256,7 @@
 <h2 id="logging-levels-and-priorities-for-contributors">Logging Levels and Priorities (For Contributors)</h2>
 <p>The logging system supports two orthogonal mechanisms: <strong>Levels</strong> and <strong>Priorities</strong>. As a contributor, it's important to understand their roles to extend or modify the logger consistently.</p>
 <p>TODO: impliment log level behaviour.</p>
-<h3 id="levels-coreconsoleloglevel">🔹 Levels (<code>Core::Console::LogLevel</code>)</h3>
+<h3 id="levels-commonconsoleloglevel">🔹 Levels (<code>Common::Console::LogLevel</code>)</h3>
 <p>Levels categorize the <strong>type or purpose</strong> of log messages:</p>
 <ul>
 <li><code>OFF</code> – Disable logging</li>
@@ -267,7 +267,7 @@
 <li><code>ERR</code> – Errors and failures</li>
 </ul>
 <p>These levels are useful for filtering and consistent formatting.</p>
-<h3 id="priorities-coreconsolelogpriority">🔹 Priorities (<code>Core::Console::LogPriority</code>)</h3>
+<h3 id="priorities-commonconsolelogpriority">🔹 Priorities (<code>Common::Console::LogPriority</code>)</h3>
 <p>Priorities indicate the <strong>severity</strong> of a message:</p>
 <ul>
 <li><code>LOW</code> – Non-urgent (default)</li>
@@ -349,7 +349,7 @@ Core::Console::Error&lt;Core::Console::HIG&gt;(&quot;Critical failure at&quot;, 
 <p>To introduce a new log level:</p>
 <ol>
 <li>Add a new value in <code>enum LogLevel</code></li>
-<li>Define corresponding macros (<code>CORE_CONSOLE_BA_XXX</code>, <code>FG</code>, <code>BG</code>, <code>XX</code>)</li>
+<li>Define corresponding macros (<code>COMMON_CONSOLE_BA_XXX</code>, <code>FG</code>, <code>BG</code>, <code>XX</code>)</li>
 <li>Implement a new <code>LogXXX()</code> wrapper (optional)</li>
 <li>Add formatting logic if needed</li>
 </ol>
@@ -365,7 +365,7 @@ Core::Console::Error&lt;Core::Console::HIG&gt;(&quot;Critical failure at&quot;, 
 <ul>
 <li>All output uses <code>std::cout</code>; redirecting logs to a file or stream may require refactoring <code>__recurse_output</code>.</li>
 <li>Colors assume terminal support for ANSI codes.</li>
-<li>You can disable or override styles with <code>CORE_CONSOLE_DISABLED</code>.</li>
+<li>You can disable or override styles with <code>COMMON_CONSOLE_DISABLED</code>.</li>
 </ul>
 <p>Contributions are welcome. Please follow the format and style conventions outlined above when extending the system.</p>
 <h2 id="future-for-logging-module">Future for Logging Module</h2>
