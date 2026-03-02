@@ -1,11 +1,11 @@
 // define templated -unknown typed classes and functions within header file to avoid liknking exceptions.
 
-template<typename T,typename ... Arg>COMMON_API void Common::__recurse_output(T item,Arg ...args){
+template<typename T,typename ... Arg> void Common::__recurse_output(T item,Arg ...args){
 	std::cout << item << " ";
 	__recurse_output(args...);
 }
 
-inline COMMON_API void Common::__recurse_output(){
+inline void Common::__recurse_output(){
 	std::cout << std::endl;
 }
 
