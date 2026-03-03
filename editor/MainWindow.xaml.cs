@@ -14,7 +14,7 @@ namespace editor
 
         private void OnRenderTick(object sender, EventArgs e)
         {
-            EngineHost.RenderFrame();
+            EngineHost.OnUpdate();
         }
     }
 }
