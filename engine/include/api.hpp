@@ -55,8 +55,28 @@ namespace Engine {
     constexpr u64 u64_MAX = std::numeric_limits<u64>::max();        //                  |
     // ---------------------------------------------------------------------------------+
 
+    // .. (identity element)
+    using id8  = i8;
+    using id16 = i16;
+    using id32 = i32;
+    using id64 = i64;
+    // .. (invalid identity to represent NONE) -----------------------------------------+
+    constexpr id8  id8_INVALID  = 0xff;                             // -1 = NONE        |
+    constexpr id16 id16_INVALID = 0xffff;                           // -1 = NONE        |
+    constexpr id32 id32_INVALID = 0xffff'ffff;                      // -1 = NONE        |
+    constexpr id64 id64_INVALID = 0xffff'ffff'ffff'ffff;            // -1 = NONE        |
+    // ---------------------------------------------------------------------------------+
+
+    // .. (id for general purpose)
+    using idxx = id16;
+    // .. (invalid identity to represent NONE) -----------------------------------------+
+    constexpr idxx idxx_INVALID = id16_INVALID;                     // -1 = NONE        |
+    // ---------------------------------------------------------------------------------+
+
+    // .. (decimal numbers)
     using f32 = float;
     using f64 = double;
 
+    // .. (string)
     using String = std::string;
 }
