@@ -17,6 +17,7 @@
 
 #include <limits>
 #include <cstdint>
+#include <string>
 
 namespace Engine {
     // .. (signed integers)
@@ -54,4 +55,8 @@ namespace Engine {
     constexpr u64 u64_MAX = std::numeric_limits<u64>::max();        //                  |
     // ---------------------------------------------------------------------------------+
 
+    using f32 = float;
+    using f64 = double;
+
+    using String = std::string;
 }

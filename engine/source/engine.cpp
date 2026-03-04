@@ -1,8 +1,7 @@
 #include "engine.hpp"
 
 #include <iostream>
-
-GLFWwindow* screen;
+Engine::Application* app = nullptr;
 
 HWND Engine::OnInitialize(HWND parentHwnd, Engine::i32 width, Engine::i32 height) {
     if (!glfwInit()) {
@@ -16,7 +15,7 @@ HWND Engine::OnInitialize(HWND parentHwnd, Engine::i32 width, Engine::i32 height
     SetParent(glfwHwnd, parentHwnd);
     LONG style = GetWindowLong(glfwHwnd, GWL_STYLE);
     SetWindowLong(glfwHwnd, GWL_STYLE, (style & ~WS_POPUP) | WS_CHILD | WS_VISIBLE);
-    screen = g_Window;
+    app = new Application(g_Window);
     glfwMakeContextCurrent(g_Window);
 
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -29,9 +28,6 @@ void Engine::OnShutdown() {
 }
 
 void Engine::OnUpdate() {
-    if (!screen) return;
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glfwSwapBuffers(screen);
-    glfwPollEvents();
+    if (!app) return;
+    app->renderFrame();
 }

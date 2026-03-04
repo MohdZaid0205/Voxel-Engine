@@ -4,6 +4,18 @@
         xmlns:local="clr-namespace:editor" 
         Title="Voxel Engine Editor" Height="450" Width="800">
     <Grid >
-        <local:EngineHost x:Name="ViewportHost" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Editor" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Rectangle Fill="Gray" Grid.Row="1"/>
+        
+        <local:EngineHost x:Name="ViewportHost" Grid.Row="1" Grid.Column="1"/>
     </Grid>
 </Window>
