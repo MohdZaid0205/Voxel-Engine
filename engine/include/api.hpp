@@ -18,6 +18,8 @@
 #include <limits>
 #include <cstdint>
 #include <string>
+#include <iostream>
+#include <format>
 
 namespace Engine {
     // .. (signed integers)
