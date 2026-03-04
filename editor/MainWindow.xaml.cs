@@ -16,5 +16,10 @@ namespace editor
         {
             EngineHost.OnUpdate();
         }
+
+        private void dummy_Click(object sender, RoutedEventArgs e)
+        {
+            EngineEvents.button_clicked_event_handler(10);
+        }
     }
 }
