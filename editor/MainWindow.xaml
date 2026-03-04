@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock Text="Editor" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Rectangle Fill="Gray" Grid.Row="1"/>
-        
+        <Button Content="Click Me!" Click="dummy_Click" x:Name="dummy" Grid.Column="0" Grid.Row="1"/>
         <local:EngineHost x:Name="ViewportHost" Grid.Row="1" Grid.Column="1"/>
     </Grid>
 </Window>
