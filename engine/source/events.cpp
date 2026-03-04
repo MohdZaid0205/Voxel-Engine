@@ -3,5 +3,5 @@
 
 void Engine::button_clicked_event_handler(i32 id)
 {
-	std::cout << "button clicked id: " << id << std::endl;
+	Console::Debug<Console::MED>("Event Occurred!"_D, "Button was Clicked"_B, "with"_D, "id="_B, id);
 }

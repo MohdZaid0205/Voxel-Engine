@@ -1,6 +1,7 @@
 #pragma once
 
 #include "api.hpp"
+#include "logging.hpp"
 
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
@@ -9,6 +10,7 @@
 #include <windows.h>
 
 namespace Engine {
+
 	class Application {
 	private:
 		GLFWwindow* g_application_window;
@@ -29,4 +31,6 @@ namespace Engine {
 			glfwPollEvents();
 		}
 	};
+
+	// TODO: Instance of application is to be created via sandbox that acts as game
 }

@@ -10,6 +10,9 @@ set(PROJ_DESC DESCRIPTION "")                                       # empty for 
 project(${PROJ_NAME} ${PROJ_DESC} ${PROJ_LANG} ${PROJ_VERS})
 find_package(OpenGL REQUIRED)
 
+set(CMAKE_CXX_STANDARD 20           )
+set(CMAKE_CXX_STANDARD_REQUIRED true)
+
 # to set outpiut directory of binaries both engine and editor
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/bin" CACHE PATH "" FORCE)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/bin" CACHE PATH "" FORCE)
@@ -50,7 +53,7 @@ set(ENGINE_DOX_INP_DIR "${CMAKE_SOURCE_DIR}/engine"             )   # TODO: crea
 set(ENGINE_RES_INP_DIR "${CMAKE_SOURCE_DIR}/engine"             )   # TODO: create resource dir
 
 file(GLOB_RECURSE ENGINE_DOCSRC_FILES "${ENGINE_DOX_INP_DIR}/*.md"   "${ENGINE_DOX_INP_DIR}/*.txt" )
-file(GLOB_RECURSE ENGINE_SOURCE_FILES "${ENGINE_SRC_INP_DIR}/*.cpp"  "${ENGINE_INC_INP_DIR}/*.h"   )
+file(GLOB_RECURSE ENGINE_SOURCE_FILES "${ENGINE_SRC_INP_DIR}/*.cpp"  "${ENGINE_INC_INP_DIR}/*.h*"  )
 file(GLOB_RECURSE ENGINE_RESSRC_FILES "${ENGINE_RES_INP_DIR}/*.vert" "${ENGINE_RES_INP_DIR}/*.frag")
 source_group("Resources Files"      FILES ${ENGINE_RESSRC_FILES})
 source_group("Documentation Files"  FILES ${ENGINE_DOCSRC_FILES})
