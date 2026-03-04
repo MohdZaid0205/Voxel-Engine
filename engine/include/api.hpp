@@ -15,11 +15,24 @@
     #error Voxel Engine only supports WINDOWS for now
 #endif
 
-#include <limits>
-#include <cstdint>
-#include <string>
-#include <iostream>
-#include <format>
+#pragma region std::<includes>
+    #include <limits>
+    #include <cstdint>
+    #include <string>
+    #include <iostream>
+    #include <format>
+    #include <exception>
+    #include <memory>
+#pragma endregion
+#pragma region external::<vendors>
+    #include "glad/glad.h"
+    #include "glfw/glfw3.h"
+
+    #define GLFW_EXPOSE_NATIVE_WIN32
+    #include <GLFW/glfw3native.h>
+    #include <windows.h>
+#pragma endregion
+
 
 namespace Engine {
     // .. (signed integers)
@@ -81,4 +94,8 @@ namespace Engine {
 
     // .. (string)
     using String = std::string;
+
+    // .. (smt ptr)
+    template<typename T> using Unique = std::unique_ptr<T>;
+    template<typename T> using Shared = std::shared_ptr<T>;
 }
