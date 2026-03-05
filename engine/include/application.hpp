@@ -13,7 +13,7 @@ namespace Engine {
 
 	// TODO: Maybe treat Application as a SINGLETON among its inheriting classes,
 	// TODO: Instance of application is to be created via its Child Classes.
-	ENGINE_API Application* CreateApplication();
+	extern Application* CreateApplication();
 
 	class Application {
 	private:
@@ -35,20 +35,20 @@ namespace Engine {
 			RESIZABLE = 0x00,		//> allows window to be resizable by user cations.
 			FIXEDSIZE = 0x01,		//> user actions cannot alter size of window.
 			NODEFAULT = 0x10,		//> resize the window without any default callback.
-		};
+		};							//> REDUNDANT (as of now)
 
 		WindowCallbackFunction application_window_callback;
 	
-	private:
-		Application(String title, u32 w, u32 h);
 	protected:
-		virtual ~Application() = 0;
-	
+		Application(GLFWwindow* window, String title, u32 w, u32 h,
+			WindowCallbackFunction window_on_resize_callback_function);
 	public:
+		virtual ~Application() = 0;
+
 		// I'am aware that using instance(...) for both creation and retreival is bad but
 		// here i am doing this and no one can stop me;
 
-		Application& instance();
+		static Application& instance();
 
 		// [DEPRICATED]
 		// Application& instance(GLFWwindow* window, String title, u32 w, u32 h);
@@ -71,10 +71,9 @@ namespace Engine {
 	public:
 		// all valid setters for private attributes belonging to Application
 
-		// void set_application_title(String new_title);
-		// void set_application_height(u32 new_height);		// only through callbacks
-		// void set_application_widht(u32 new_width);		// only through callbacks
-
+		void set_application_title(String new_title);
+		void set_application_height(u32 new_height);		// only through callbacks
+		void set_application_widht(u32 new_width);			// only through callbacks
 		void set_application_window(GLFWwindow* window);
 		void set_application_window_callback(WindowCallbackFunction function);
 

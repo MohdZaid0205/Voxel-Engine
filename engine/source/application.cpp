@@ -1,17 +1,33 @@
 #include "application.hpp"
 
-Engine::Application::Application(String title, u32 w, u32 h) {
-	application_window = nullptr;
-	application_title = title;
-	application_w = w;
-	application_h = h;
-	application_window_callback = nullptr;
+Engine::Unique<Engine::Application>
+	Engine::Application::application = nullptr;
+
+Engine::Application::Application(GLFWwindow* window, String title, u32 w, u32 h,
+	WindowCallbackFunction window_on_resize_callback_function) {
+	if (!application) {
+		application_window = window;
+		application_title = title;
+		application_w = w;
+		application_h = h;
+		application_window_callback = window_on_resize_callback_function;
+	}
+	else {
+		throw Engine::ApplicationCreationException(
+			"Cannot create new instances of application "
+			"Only ONE instance of application is allowed"
+		);
+	}
+}
+
+Engine::Application::~Application() {
+	// FORMALITY for compilation
 }
 
 Engine::Application& Engine::Application::instance() {
-	if (!application)
-		application.reset(CreateApplication());
-	return *application;
+	if (!Application::application)
+		Application::application.reset(CreateApplication());
+	return *Application::application;
 }
 
 
@@ -29,6 +45,17 @@ Engine::u32 Engine::Application::get_application_height() {
 
 GLFWwindow* Engine::Application::get_application_window() {
 	return application_window;
+}
+
+// TODO: remove setter for title, height and width and cleanup
+void Engine::Application::set_application_title(Engine::String new_title) {
+	application_title = new_title;
+}
+void Engine::Application::set_application_height(Engine::u32 new_height) {
+	application_h = new_height;
+}
+void Engine::Application::set_application_widht(Engine::u32 new_width) {
+	application_w = new_width;
 }
 
 Engine::Application::WindowCallbackFunction 

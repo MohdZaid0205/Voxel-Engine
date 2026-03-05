@@ -25,6 +25,7 @@
     #include <memory>
 #pragma endregion
 #pragma region external::<vendors>
+    #define NOMINMAX
     #include "glad/glad.h"
     #include "glfw/glfw3.h"
 
