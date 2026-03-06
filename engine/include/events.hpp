@@ -161,17 +161,33 @@ namespace Engine {
 
 	#pragma endregion
 
+	class EventDispatcher {
+	private:
+		Event& event;
+	public:
+		EventDispatcher(Event& e) : event(e) {}
+		~EventDispatcher() = default;
+	public:
+		template<typename T, typename F> bool dispatch(F callback) {
+			if (event.get_event_type() == T::get_static_type()) {
+				event.is_handled |= callback(static_cast<T&>(event));
+				return true;
+			}
+			return false;
+		}
+	};
+
 	class Layer {
 	private:
 		String layer_name;
 	public:
 		Layer(String name) : layer_name(name) {}
-		virtual ~Layer() = 0;
+		virtual ~Layer() = default;
 	public:
 		virtual void on_attach() = 0;
 		virtual void on_detach() = 0;
 		virtual void on_update() = 0;
-		virtual void on_handle(Event& e) = 0;
+		virtual void on_event(Event& e) = 0;
 	public:
 		inline const String& get_layer_name() const { return layer_name; }
 	};

@@ -2,6 +2,7 @@
 
 #include "api.hpp"
 #include "logging.hpp"
+#include "events.hpp"
 
 namespace Engine {
 
@@ -20,6 +21,7 @@ namespace Engine {
 		static Unique<Application> application;		//> SINGLETON instance
 
 	private:
+		LayerStack application_layer_stack;	//> LAYER STACK to manage different layers
 		String application_title;			//> TITLE (name/heading) of window
 		u32 application_w;					//> WIDTH of window in number of pixels
 		u32 application_h;					//> HEIGHT of window in number of pixels
@@ -59,6 +61,7 @@ namespace Engine {
 		
 		// all valid getters for private attributes belonging to Application
 		
+		LayerStack& get_application_layer_stack();
 		String get_application_title();
 		u32 get_application_height();
 		u32 get_application_width();
@@ -66,11 +69,12 @@ namespace Engine {
 		WindowCallbackFunction get_application_window_callback();
 
 	public:
-		virtual void run() = 0;		// most important function that runs for each frame
-
+		void run();			// most important function that runs for each frame
+		void on_event(Event& e);
 	public:
 		// all valid setters for private attributes belonging to Application
 
+		// void set_application_layer_stack(LayerStack stack);
 		void set_application_title(String new_title);
 		void set_application_height(u32 new_height);		// only through callbacks
 		void set_application_widht(u32 new_width);			// only through callbacks

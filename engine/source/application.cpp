@@ -11,6 +11,7 @@ Engine::Application::Application(GLFWwindow* window, String title, u32 w, u32 h,
 		application_w = w;
 		application_h = h;
 		application_window_callback = window_on_resize_callback_function;
+		application_layer_stack = LayerStack();
 	}
 	else {
 		throw Engine::ApplicationCreationException(
@@ -30,6 +31,11 @@ Engine::Application& Engine::Application::instance() {
 	return *Application::application;
 }
 
+
+Engine::LayerStack& Engine::Application::get_application_layer_stack()
+{
+	return application_layer_stack;
+}
 
 Engine::String Engine::Application::get_application_title() {
 	return application_title;
@@ -61,6 +67,20 @@ void Engine::Application::set_application_widht(Engine::u32 new_width) {
 Engine::Application::WindowCallbackFunction 
 	Engine::Application::get_application_window_callback() {
 	return application_window_callback;
+}
+
+void Engine::Application::run(){
+	for (Layer* layer : application_layer_stack) {
+		layer->on_update();
+	}
+}
+
+void Engine::Application::on_event(Event& e){
+	for (auto it = application_layer_stack.rbegin(); it != application_layer_stack.rend(); ++it) {
+		(*it)->on_event(e);
+		if (e.is_handled)
+			break;
+	}
 }
 
 void Engine::Application::set_application_window(GLFWwindow* window) {

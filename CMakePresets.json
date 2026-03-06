@@ -2,7 +2,7 @@
   "version": 3,
   "configurePresets": [
     {
-      "name": "windows-default",
+      "name": "windows-default-debug",
       "displayName": "Windows x64 Debug",
       "generator": "Visual Studio 18 2026",
       "architecture": {
@@ -12,6 +12,19 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "windows-default-release",
+      "displayName": "Windows x64 Release",
+      "generator": "Visual Studio 18 2026",
+      "architecture": {
+        "value": "x64",
+        "strategy": "set"
+      },
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
       }
     }
   ]

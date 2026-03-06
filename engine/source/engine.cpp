@@ -11,7 +11,7 @@ bool Engine::Flags::is_window_initialized   = false;
 // Function (temporarily present here)
 // Supposed to be within auto generated api for user application
 Engine::Application* Engine::CreateApplication() {
-    return new Sandbox::SimpleGame(nullptr, "GLFWViewPort", 0, 0);
+    return new Sandbox::SandboxApplication();
 }
 
 // main engine contents
