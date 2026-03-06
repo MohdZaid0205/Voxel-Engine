@@ -97,62 +97,79 @@ inline void Engine::__recurse_output() {
 	std::cout << std::endl;
 }
 
-template<Engine::Console::LogPriority P, typename T, typename ...Args>
-void Engine::Console::Log(T msg, Args ...args) {
-	__recurse_output(
-		__get_banner<P>(
-			ENGINE_CONSOLE_BA_LOG,
-			ENGINE_CONSOLE_FG_LOG,
-			ENGINE_CONSOLE_BG_LOG,
-			ENGINE_CONSOLE_XX_LOG
-		), ":", msg, args...
-	);
-}
+#ifdef _DEBUG
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Log(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_LOG,
+				ENGINE_CONSOLE_FG_LOG,
+				ENGINE_CONSOLE_BG_LOG,
+				ENGINE_CONSOLE_XX_LOG
+			), ":", msg, args...
+		);
+	}
 
-template<Engine::Console::LogPriority P, typename T, typename ...Args>
-void Engine::Console::Info(T msg, Args ...args) {
-	__recurse_output(
-		__get_banner<P>(
-			ENGINE_CONSOLE_BA_INF,
-			ENGINE_CONSOLE_FG_INF,
-			ENGINE_CONSOLE_BG_INF,
-			ENGINE_CONSOLE_XX_INF
-		), ":", msg, args...
-	);
-}
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Info(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_INF,
+				ENGINE_CONSOLE_FG_INF,
+				ENGINE_CONSOLE_BG_INF,
+				ENGINE_CONSOLE_XX_INF
+			), ":", msg, args...
+		);
+	}
 
-template<Engine::Console::LogPriority P, typename T, typename ...Args>
-void Engine::Console::Debug(T msg, Args ...args) {
-	__recurse_output(
-		__get_banner<P>(
-			ENGINE_CONSOLE_BA_DBG,
-			ENGINE_CONSOLE_FG_DBG,
-			ENGINE_CONSOLE_BG_DBG,
-			ENGINE_CONSOLE_XX_DBG
-		), ":", msg, args...
-	);
-}
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Debug(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_DBG,
+				ENGINE_CONSOLE_FG_DBG,
+				ENGINE_CONSOLE_BG_DBG,
+				ENGINE_CONSOLE_XX_DBG
+			), ":", msg, args...
+		);
+	}
 
-template<Engine::Console::LogPriority P, typename T, typename ...Args>
-void Engine::Console::Warn(T msg, Args ...args) {
-	__recurse_output(
-		__get_banner<P>(
-			ENGINE_CONSOLE_BA_WRN,
-			ENGINE_CONSOLE_FG_WRN,
-			ENGINE_CONSOLE_BG_WRN,
-			ENGINE_CONSOLE_XX_WRN
-		), ":", msg, args...
-	);
-}
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Warn(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_WRN,
+				ENGINE_CONSOLE_FG_WRN,
+				ENGINE_CONSOLE_BG_WRN,
+				ENGINE_CONSOLE_XX_WRN
+			), ":", msg, args...
+		);
+	}
 
-template<Engine::Console::LogPriority P, typename T, typename ...Args>
-void Engine::Console::Error(T msg, Args ...args) {
-	__recurse_output(
-		__get_banner<P>(
-			ENGINE_CONSOLE_BA_ERR,
-			ENGINE_CONSOLE_FG_ERR,
-			ENGINE_CONSOLE_BG_ERR,
-			ENGINE_CONSOLE_XX_ERR
-		), ":", msg, args...
-	);
-}
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Error(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_ERR,
+				ENGINE_CONSOLE_FG_ERR,
+				ENGINE_CONSOLE_BG_ERR,
+				ENGINE_CONSOLE_XX_ERR
+			), ":", msg, args...
+		);
+	}
+#else
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Log(T msg, Args ...args) {}
+
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Info(T msg, Args ...args) {}
+
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Debug(T msg, Args ...args) {}
+
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Warn(T msg, Args ...args) {}
+
+	template<Engine::Console::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Error(T msg, Args ...args) {}
+#endif
