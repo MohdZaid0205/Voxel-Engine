@@ -21,6 +21,7 @@ namespace Engine {
 		static Unique<Application> application;		//> SINGLETON instance
 
 	private:
+		std::vector<Unique<Event>> application_deferred_events;
 		LayerStack application_layer_stack;	//> LAYER STACK to manage different layers
 		String application_title;			//> TITLE (name/heading) of window
 		u32 application_w;					//> WIDTH of window in number of pixels
@@ -69,8 +70,10 @@ namespace Engine {
 		WindowCallbackFunction get_application_window_callback();
 
 	public:
-		void run();			// most important function that runs for each frame
+		void run();					// most important function that runs for each frame
 		void on_event(Event& e);
+		void queue_event(Unique<Event> e);
+
 	public:
 		// all valid setters for private attributes belonging to Application
 

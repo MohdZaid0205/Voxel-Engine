@@ -70,6 +70,12 @@ Engine::Application::WindowCallbackFunction
 }
 
 void Engine::Application::run(){
+	for (auto& e : application_deferred_events) {
+		on_event(*e);
+	}
+	
+	application_deferred_events.clear();
+
 	for (Layer* layer : application_layer_stack) {
 		layer->on_update();
 	}
@@ -81,6 +87,10 @@ void Engine::Application::on_event(Event& e){
 		if (e.is_handled)
 			break;
 	}
+}
+
+void Engine::Application::queue_event(Unique<Event> e){
+	application_deferred_events.push_back(std::move(e));
 }
 
 void Engine::Application::set_application_window(GLFWwindow* window) {
