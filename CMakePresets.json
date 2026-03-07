@@ -9,7 +9,7 @@
         "value": "x64",
         "strategy": "set"
       },
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "binaryDir": "${sourceDir}/out/build/Debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
@@ -22,10 +22,22 @@
         "value": "x64",
         "strategy": "set"
       },
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "binaryDir": "${sourceDir}/out/build/Release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-default-debug",
+      "configurePreset": "windows-default-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "windows-default-release",
+      "configurePreset": "windows-default-release",
+      "configuration": "Release"
     }
   ]
 }
