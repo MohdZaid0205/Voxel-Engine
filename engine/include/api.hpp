@@ -25,6 +25,7 @@
     #include <memory>
     #include <vector>
     #include <functional>
+    #include <typeinfo>
 #pragma endregion
 #pragma region external::<vendors>
     #define NOMINMAX
