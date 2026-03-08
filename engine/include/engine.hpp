@@ -58,14 +58,28 @@ namespace Sandbox {
 }
 
 namespace Engine {
-	namespace Flags {
-		extern bool is_glfw_initialized;
-		extern bool is_glad_initialized;
-		extern bool is_window_initialized;
+
+	namespace Startup {
+		
+		namespace Flags {
+			extern bool is_glfw_initialized;
+			extern bool is_glad_initialized;
+			extern bool is_window_initialized;
+		}
+
+		Attempt::Status init_glfw();
+		Attempt::Status init_glad();
+
+		// INIT WINDOW routine is differs among editor viewport and game
+		// Attempt::Status init_window();
 	}
 
+#ifndef VOXEL_GAME_DISTRIBUTION
 	ENGINE_API bool IsInitialized();
 	ENGINE_API HWND OnInitialize(HWND parentHwnd, int width, int height);
 	ENGINE_API void OnShutdown();
 	ENGINE_API void OnUpdate();
+#else
+	#error "Not yet implemented VOXEL_GAME_DISTRIBUTION"
+#endif
 }

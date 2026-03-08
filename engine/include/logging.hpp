@@ -211,19 +211,19 @@ Engine::Attempt::Result<P>::Result(Status status) : m_Status(status) {}
 
 template<Engine::LogPriority P> template<typename T, typename... Args>
 Engine::Attempt::Result<P>& Engine::Attempt::Result<P>::pass(T msg, Args... args) {
-	if (m_Status == Status::PASS) Engine::Console::Info<P>("[ATTEMPT]:"_B, msg, args...);
+	if (m_Status == Status::PASS) Engine::Console::Info<P>("[ ATTEMPT ]:"_D, msg, args...);
 	return *this;
 }
 
 template<Engine::LogPriority P> template<typename T, typename... Args>
 Engine::Attempt::Result<P>& Engine::Attempt::Result<P>::warn(T msg, Args... args) {
-	if (m_Status == Status::WARN) Engine::Console::Warn<P>("[ATTEMPT]:"_B, msg, args...);
+	if (m_Status == Status::WARN) Engine::Console::Warn<P>("[ ATTEMPT ]:"_D, msg, args...);
 	return *this;
 }
 
 template<Engine::LogPriority P> template<typename T, typename... Args>
 Engine::Attempt::Result<P>& Engine::Attempt::Result<P>::fail(T msg, Args... args) {
-	if (m_Status == Status::FAIL) Engine::Console::Error<P>("[ATTEMPT]:"_B, msg, args...);
+	if (m_Status == Status::FAIL) Engine::Console::Error<P>("[ ATTEMPT ]:"_D, msg, args...);
 	return *this;
 }
 
@@ -237,7 +237,7 @@ Engine::Attempt::Builder<P, Func>::Builder(Func f) : m_Func(f) {}
 
 template<Engine::LogPriority P, typename Func> template<typename T, typename... Args>
 Engine::Attempt::Result<P> Engine::Attempt::Builder<P, Func>::does(T msg, Args... args) {
-	Engine::Console::Log<P>("[ATTEMPT]:"_B, msg, args...);
+	Engine::Console::Log<P>("[ ATTEMPT ] (to) :"_D, msg, args...);
 
 	Status final_status = Status::FAIL;
 
@@ -256,11 +256,11 @@ Engine::Attempt::Result<P> Engine::Attempt::Builder<P, Func>::does(T msg, Args..
 		}
 	}
 	catch (const std::exception& e) {
-		Engine::Console::Error<P>("[ATTEMPT]:"_B, e.what());
+		Engine::Console::Error<P>("[A TTEMPT ]:"_D, e.what());
 		final_status = Status::FAIL;
 	}
 	catch (...) {
-		Engine::Console::Error<P>("[ATTEMPT]:"_B, "Resulted in unknown Exception");
+		Engine::Console::Error<P>("[ ATTEMPT ]:"_D, "Resulted in unknown Exception");
 		final_status = Status::FAIL;
 	}
 
