@@ -97,6 +97,12 @@ Engine::Attempt::Status Engine::Startup::init_glad(){
         Application::instance().run();
     }
 
+    void Engine::onEditorButtonClicked(id32 button_id){
+        // assuming instant event rather than deferred
+        Engine::Event* e = new Engine::EditorButtonClickedEvent(button_id);
+        Engine::Application::instance().on_event(*e);
+    }
+
 #else
 
 #endif

@@ -19,7 +19,7 @@ namespace editor
 
         private void dummy_Click(object sender, RoutedEventArgs e)
         {
-            EngineEvents.button_clicked_event_handler(10);
+            EngineEvents.onEditorButtonClicked(10);
         }
     }
 }

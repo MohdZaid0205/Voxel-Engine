@@ -17,14 +17,21 @@ namespace Engine {
 		// ... MOUSE EVENTS
 		MouseButtonPressed, 
 		MouseButtonReleased, 
-		MouseMoved, MouseScrolled
+		MouseMoved, MouseScrolled,
+
+#ifndef VOXEL_GAME_DISTRIBUTION
+		// ... EDITOR EVENTS
+		EditorWindowPaused,
+		EditorButtonClicked,
+#endif
+
 	};
 
 	class Event {
 	public:
 		bool is_handled = false;
 	public:
-		virtual ~Event() = 0;
+		virtual ~Event() = default;
 		virtual EventType get_event_type() const = 0;
 	};
 
@@ -38,6 +45,11 @@ namespace Engine {
 	class MouseButtonReleasedEvent;		// Transmitted when any button has been released
 	class MouseMovedEvent;				// Transmitted when mouse moves
 	class MouseScrolledEvent;			// Transmitted when scrollwheel up or down
+
+#ifndef VOXEL_GAME_DISTRIBUTION
+	class EditorWindowPausedEvent;			// Editor Transmitted to pause rendering
+	class EditorButtonClickedEvent;			// Editor Transmitted a button was clicked
+#endif
 
 	#pragma region EventTypesImplementation
 
@@ -158,6 +170,31 @@ namespace Engine {
 				f32 get_y_position() { return y_offset; }
 			};
 		#pragma endregion
+
+#ifndef VOXEL_GAME_DISTRIBUTION
+		#pragma region Editor[...]Events
+			class EditorWindowPausedEvent : public Event {
+			public:
+				EditorWindowPausedEvent() = default;
+				~EditorWindowPausedEvent() override = default;
+			public:
+				GET_EVENT_TYPE(EventType::EditorWindowPaused);
+				GET_STATIC_TYPE(EventType::EditorWindowPaused);
+			};
+			class EditorButtonClickedEvent : public Event {
+			private:
+				id32 button_id;
+			public:
+				EditorButtonClickedEvent(id32 b) : button_id(b) {}
+				~EditorButtonClickedEvent() override = default;
+			public:
+				GET_EVENT_TYPE(EventType::EditorButtonClicked);
+				GET_STATIC_TYPE(EventType::EditorButtonClicked);
+			public:
+				id32 get_button_id() { return button_id; }
+			};
+		#pragma endregion
+#endif
 
 	#pragma endregion
 

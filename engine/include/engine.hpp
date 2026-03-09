@@ -26,6 +26,10 @@ namespace Sandbox {
 			dispatcher.dispatch<Engine::WindowResizedEvent>(
 				std::bind(&SandboxLayer::on_window_resize, this, std::placeholders::_1)
 			);
+
+			dispatcher.dispatch<Engine::EditorButtonClickedEvent>(
+				std::bind(&SandboxLayer::on_editor_button_clicked_event, this, std::placeholders::_1)
+			);
 		}
 
 		void on_update() override {
@@ -40,6 +44,14 @@ namespace Sandbox {
 				"resized: h=", e.get_height(),
 				"w=", e.get_width()
 			);
+			return true;
+		}
+
+		bool on_editor_button_clicked_event(Engine::EditorButtonClickedEvent& e) {
+			Engine::Console::Log(
+				"Button with"_D, "id="_B, e.get_button_id(), "was clicked"_D
+			);
+			e.is_handled = true;
 			return true;
 		}
 	};
@@ -79,6 +91,10 @@ namespace Engine {
 	ENGINE_API HWND OnInitialize(HWND parentHwnd, int width, int height);
 	ENGINE_API void OnShutdown();
 	ENGINE_API void OnUpdate();
+
+	// Event management and passing functions
+	ENGINE_API void onEditorButtonClicked(id32 button_id);
+	ENGINE_API void onEditorMouseMoved(f32 x, f32 y);
 #else
 	#error "Not yet implemented VOXEL_GAME_DISTRIBUTION"
 #endif
