@@ -53,8 +53,8 @@ Engine::u32 Engine::VertexShader::compile(String vertex_path){
 
         return Engine::Attempt::Status::PASS;
     }).does("Compiling VERTEX SHADER path="_B, vertex_path)
-        .pass("vertex shader path="_D, vertex_path, "Has been compile id="_B, identifier)
-        .fail("failed to compile vertex shader path="_D, vertex_path, "due to:"_B, info_log);
+        .pass("vertex shader path="_D, vertex_path, "Has been compile id="_D, identifier)
+        .fail("failed to compile vertex shader path="_D, vertex_path, "due to:"_D, info_log);
 
     compiled[vertex_path] = identifier;
     return identifier;
@@ -94,12 +94,12 @@ Engine::u32 Engine::FragmentShader::compile(String fragment_path) {
         };
 
         return Engine::Attempt::Status::PASS;
-        }).does("Compiling FRAGMENT SHADER path="_B, fragment_path)
-            .pass("fragment shader path="_D, fragment_path, "Has been compile id="_B, identifier)
-            .fail("failed to compile fragment shader path="_D, fragment_path, "due to:"_B, info_log);
+    }).does("Compiling FRAGMENT SHADER path="_B, fragment_path)
+        .pass("fragment shader path="_D, fragment_path, "Has been compile id="_D, identifier)
+        .fail("failed to compile fragment shader path="_D, fragment_path, "due to:"_D, info_log);
 
-        compiled[fragment_path] = identifier;
-        return identifier;
+    compiled[fragment_path] = identifier;
+    return identifier;
 }
 
 Engine::u32 Engine::FragmentShader::compile_or_get(String fragment_path) {
@@ -114,6 +114,56 @@ Engine::u32 Engine::FragmentShader::get(String fragment_path) {
     return 0;
 }
 
-std::map<Engine::u32, std::pair<Engine::u32, Engine::u32>> Engine::ShaderProgram::programs
-    = std::map<Engine::u32, std::pair<Engine::u32, Engine::u32>>();
+std::map<std::pair<Engine::u32, Engine::u32>, Engine::u32> Engine::ShaderProgram::programs
+    = std::map<std::pair<Engine::u32, Engine::u32>, Engine::u32>();
 
+std::map<Engine::String, Engine::u32> Engine::ShaderProgram::named_programs
+    = std::map<Engine::String, Engine::u32>();
+
+Engine::u32 Engine::ShaderProgram::create_program(u32 v_shader, u32 f_shader){
+    Engine::u32 identifier = 0;
+    Engine::i32 status = 0;
+    char info_log[512];
+
+    Engine::Attempt::to<HIG>([&identifier, &status, &info_log, v_shader, f_shader]() {
+        identifier = glCreateProgram();
+        glAttachShader(identifier, v_shader);
+        glAttachShader(identifier, f_shader);
+        glLinkProgram(identifier);
+        glGetProgramiv(identifier, GL_LINK_STATUS, &status);
+        if (!status) {
+            glGetProgramInfoLog(identifier, 512, NULL, info_log);
+            return Engine::Attempt::Status::FAIL;
+        }
+        return Engine::Attempt::Status::PASS;
+    }).does("Creating PROGRAM using v_shader="_B, v_shader, "& f_shader="_B, f_shader)
+        .pass("Creation for PROGRAM finished using v_shader="_D, v_shader, "& f_shader="_D, f_shader)
+        .fail("Failed to create program due to:"_D, info_log);
+    programs[std::pair<Engine::u32, Engine::u32>(v_shader, f_shader)] = identifier;
+    return identifier;
+}
+
+Engine::u32 Engine::ShaderProgram::create_fragment_default_vertex(u32 f_shader){
+    return Engine::ShaderProgram::create_program(0, f_shader);
+}
+
+Engine::u32 Engine::ShaderProgram::create_vertex_default_fragment(u32 v_shader){
+    return Engine::ShaderProgram::create_program(v_shader, 0);
+}
+
+void Engine::ShaderProgram::name_program(String name, u32 id){
+    named_programs[name] = id;
+}
+
+Engine::u32 Engine::ShaderProgram::get(u32 v_shader, u32 f_shader){
+    auto which = std::pair(v_shader, f_shader);
+    if (programs.find(which) != programs.end() && programs[which] != 0)
+        return programs[which];
+    return 0;
+}
+
+Engine::u32 Engine::ShaderProgram::get(String name){
+    if (named_programs.find(name) != named_programs.end() && named_programs[name] != 0)
+        return named_programs[name];
+    return 0;
+}

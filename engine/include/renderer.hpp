@@ -27,15 +27,15 @@ namespace Engine {
 
 	class ShaderProgram {
 	private:
-		static std::map<u32, std::pair<u32, u32>> programs;
+		static std::map<std::pair<u32, u32>, u32> programs;
 		static std::map<String, u32> named_programs;
 	public:
-		static u32 create_program(u32 vertex_shader, u32 fragment_shader);
+		static u32 create_program(u32 v_shader, u32 f_shader);
 		static u32 create_fragment_default_vertex(u32 f_shader);
 		static u32 create_vertex_default_fragment(u32 v_shader);
-		static u32 name_program(String name, u32 id);
+		static void name_program(String name, u32 id);
 	public:
-		static u32 get(u32 id);
+		static u32 get(u32 v_shader, u32 f_shader);
 		static u32 get(String name);
 	};
 
