@@ -4,7 +4,7 @@ Engine::String Engine::read_shader(String path){
     Engine::String shader_code;
     Engine::String due;
 
-    Engine::Attempt::to<MED>([path, &shader_code, &due]() {
+    Engine::Attempt::to<LOW>([path, &shader_code, &due]() {
 
         try {
             std::ifstream shader_file;
@@ -38,7 +38,7 @@ Engine::u32 Engine::VertexShader::compile(String vertex_path){
     Engine::i32 status = 0;
     char info_log[512];
 
-    Engine::Attempt::to<HIG>([vertex_path ,&identifier, &status, &info_log]() {
+    Engine::Attempt::to<MED>([vertex_path ,&identifier, &status, &info_log]() {
         Engine::String vertex_string = Engine::read_shader(vertex_path);
         const char* vertex_code = vertex_string.c_str();
         identifier = glCreateShader(GL_VERTEX_SHADER);
@@ -80,7 +80,7 @@ Engine::u32 Engine::FragmentShader::compile(String fragment_path) {
     Engine::i32 status = 0;
     char info_log[512];
 
-    Engine::Attempt::to<HIG>([fragment_path, &identifier, &status, &info_log]() {
+    Engine::Attempt::to<MED>([fragment_path, &identifier, &status, &info_log]() {
         Engine::String fragment_string = Engine::read_shader(fragment_path);
         const char* fragment_code = fragment_string.c_str();
         identifier = glCreateShader(GL_FRAGMENT_SHADER);
@@ -120,12 +120,18 @@ std::map<std::pair<Engine::u32, Engine::u32>, Engine::u32> Engine::ShaderProgram
 std::map<Engine::String, Engine::u32> Engine::ShaderProgram::named_programs
     = std::map<Engine::String, Engine::u32>();
 
+Engine::u32 Engine::ShaderProgram::create_program(String v_path, String f_path){
+    Engine::u32 v_shader = Engine::VertexShader::compile_or_get(v_path);
+    Engine::u32 f_shader = Engine::FragmentShader::compile_or_get(f_path);
+    return Engine::ShaderProgram::create_program(v_shader, f_shader);
+}
+
 Engine::u32 Engine::ShaderProgram::create_program(u32 v_shader, u32 f_shader){
     Engine::u32 identifier = 0;
     Engine::i32 status = 0;
     char info_log[512];
 
-    Engine::Attempt::to<HIG>([&identifier, &status, &info_log, v_shader, f_shader]() {
+    Engine::Attempt::to<MED>([&identifier, &status, &info_log, v_shader, f_shader]() {
         identifier = glCreateProgram();
         glAttachShader(identifier, v_shader);
         glAttachShader(identifier, f_shader);

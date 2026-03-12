@@ -30,6 +30,7 @@ namespace Engine {
 		static std::map<std::pair<u32, u32>, u32> programs;
 		static std::map<String, u32> named_programs;
 	public:
+		static u32 create_program(String v_path, String f_path);
 		static u32 create_program(u32 v_shader, u32 f_shader);
 		static u32 create_fragment_default_vertex(u32 f_shader);
 		static u32 create_vertex_default_fragment(u32 v_shader);
