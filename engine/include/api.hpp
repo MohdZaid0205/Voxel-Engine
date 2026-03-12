@@ -26,6 +26,10 @@
     #include <vector>
     #include <functional>
     #include <typeinfo>
+    #include <map>
+    #include <set>
+    #include <fstream>
+    #include <sstream>
 #pragma endregion
 #pragma region external::<vendors>
     #define NOMINMAX
