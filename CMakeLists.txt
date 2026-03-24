@@ -83,16 +83,24 @@ set(EDITOR_XML_INP_DIR "${CMAKE_SOURCE_DIR}/editor"             )
 set(EDITOR_SRC_INP_DIR "${CMAKE_SOURCE_DIR}/editor"             )
 set(EDITOR_DOX_INP_DIR "${CMAKE_SOURCE_DIR}/editor"             )   # TODO: create documentaion
 set(EDITOR_RES_INP_DIR "${CMAKE_SOURCE_DIR}/editor"             )   # TODO: create resource dir
+set(EDITOR_APP_INP_DIR "${CMAKE_SOURCE_DIR}/editor/App.xaml"    )
 
 # [ EDITOR ]:
 file(GLOB_RECURSE EDITOR_SOURCE_FILES "${EDITOR_SRC_INP_DIR}/*.cs"   "${EDITOR_SRC_INP_DIR}/*.cs*"   )
 file(GLOB_RECURSE EDITOR_WPF_UI_FILES "${EDITOR_XML_INP_DIR}/*.xaml" "${EDITOR_XML_INP_DIR}/*.xaml.*")
+file(GLOB_RECURSE EDITOR_WPF_RS_FILES CONFIGURE_DEPENDS "${EDITOR_XML_INP_DIR}/*.png"  "${EDITOR_XML_INP_DIR}/*.svg"   )
 
 add_executable       (Editor "${EDITOR_SOURCE_FILES}")
 target_sources       (Editor PRIVATE "${EDITOR_WPF_UI_FILES}")
+target_sources       (Editor PRIVATE "${EDITOR_WPF_RS_FILES}")
 
-set_target_properties(Editor PROPERTIES VS_GLOBAL_UseWPF "true"                 )
-set_target_properties(Editor PROPERTIES DOTNET_SDK "Microsoft.NET.Sdk"          )
-set_target_properties(Editor PROPERTIES DOTNET_TARGET_FRAMEWORK "net8.0-windows")
+set_property(TARGET Editor PROPERTY VS_PACKAGE_REFERENCES "SharpVectors_1.8.4"        )
+set_target_properties(Editor PROPERTIES VS_GLOBAL_EnableDefaultNoneItems "False"      )
+set_target_properties(Editor PROPERTIES VS_GLOBAL_UseWPF "True"                       )
+set_target_properties(Editor PROPERTIES DOTNET_SDK "Microsoft.NET.Sdk"                )
+set_target_properties(Editor PROPERTIES DOTNET_TARGET_FRAMEWORK "net8.0-windows"      )
+set_source_files_properties(${EDITOR_WPF_UI_FILES} PROPERTIES VS_XAML_TYPE "Page"     )
+set_source_files_properties(${EDITOR_APP_INP_DIR}  PROPERTIES VS_XAML_TYPE "ApplicationDefinition")
+set_source_files_properties(${EDITOR_WPF_RS_FILES} PROPERTIES VS_TOOL_OVERRIDE "Resource" )
 
 add_dependencies    (Editor Engine)
