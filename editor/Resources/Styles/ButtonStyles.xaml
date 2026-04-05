@@ -1,0 +1,383 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  ButtonStyle.Primary                                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <Style x:Key="ButtonStyle.Primary" TargetType="Button">
+        <Setter Property="Foreground"              Value="{DynamicResource brush_text_primary}"/>
+        <Setter Property="FontFamily"              Value="Segoe UI"/>
+        <Setter Property="FontSize"                Value="13"/>
+        <Setter Property="FontWeight"              Value="Regular"/>
+        <Setter Property="Padding"                 Value="14,8"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+        <Setter Property="Cursor"                  Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels"     Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{DynamicResource brush_bg_elevated}"
+                            BorderBrush="{DynamicResource brush_bg_elevated}"
+                            BorderThickness="2"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background"  Value="{DynamicResource brush_bg_hover}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_border_strong}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background"  Value="{DynamicResource brush_bg_hover}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_accent}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource brush_accent}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  ButtonStyle.Secondary                                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <Style x:Key="ButtonStyle.Secondary" TargetType="Button">
+        <Setter Property="Foreground"              Value="{DynamicResource brush_text_primary}"/>
+        <Setter Property="FontFamily"              Value="Segoe UI"/>
+        <Setter Property="FontSize"                Value="13"/>
+        <Setter Property="FontWeight"              Value="Regular"/>
+        <Setter Property="Padding"                 Value="14,8"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+        <Setter Property="Cursor"                  Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels"     Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{DynamicResource brush_bg_elevated}"
+                            BorderBrush="{DynamicResource brush_bg_elevated}"
+                            BorderThickness="2"
+                            CornerRadius="0"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background"  Value="{DynamicResource brush_bg_hover}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_border_strong}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background"  Value="{DynamicResource brush_bg_hover}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_accent}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  ButtonStyle.Accent  (gradient fill)                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <Style x:Key="ButtonStyle.Accent" TargetType="Button">
+        <Setter Property="Foreground"              Value="{DynamicResource brush_text_on_accent}"/>
+        <Setter Property="FontFamily"              Value="Segoe UI"/>
+        <Setter Property="FontSize"                Value="13"/>
+        <Setter Property="FontWeight"              Value="SemiBold"/>
+        <Setter Property="Padding"                 Value="14,8"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+        <Setter Property="Cursor"                  Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels"     Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{DynamicResource brush_accent_gradient}"
+                            BorderThickness="0"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.70"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  ButtonStyle.Danger                                    -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <Style x:Key="ButtonStyle.Danger" TargetType="Button">
+        <Setter Property="Foreground"              Value="{DynamicResource brush_danger}"/>
+        <Setter Property="FontFamily"              Value="Segoe UI"/>
+        <Setter Property="FontSize"                Value="13"/>
+        <Setter Property="FontWeight"              Value="Medium"/>
+        <Setter Property="Padding"                 Value="14,7"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+        <Setter Property="Cursor"                  Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels"     Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{DynamicResource brush_bg_elevated}"
+                            BorderBrush="{DynamicResource brush_danger}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource brush_danger_dim}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_danger}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource brush_danger}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource brush_text_on_accent}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  ButtonStyle.Success                                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <Style x:Key="ButtonStyle.Success" TargetType="Button">
+        <Setter Property="Foreground"              Value="{DynamicResource brush_success}"/>
+        <Setter Property="FontFamily"              Value="Segoe UI"/>
+        <Setter Property="FontSize"                Value="13"/>
+        <Setter Property="FontWeight"              Value="Medium"/>
+        <Setter Property="Padding"                 Value="14,7"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+        <Setter Property="Cursor"                  Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels"     Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{DynamicResource brush_bg_elevated}"
+                            BorderBrush="{DynamicResource brush_success}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource brush_success_dim}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_success}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource brush_success}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource brush_text_on_accent}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  ButtonStyle.Icon                                      -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <Style x:Key="ButtonStyle.Icon" TargetType="Button">
+        <Setter Property="Foreground"              Value="{DynamicResource brush_text_secondary}"/>
+        <Setter Property="Background"              Value="Transparent"/>
+        <Setter Property="Padding"                 Value="6"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+        <Setter Property="Cursor"                  Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels"     Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        SnapsToDevicePixels="True">
+
+                        <Rectangle Margin="{TemplateBinding Padding}"
+                               Fill="{TemplateBinding Foreground}"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" 
+                                         Visual="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background"  Value="{DynamicResource brush_bg_elevated}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_border_default}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource brush_accent_hover}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background"  Value="{DynamicResource brush_accent_dim}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_accent}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource brush_accent}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  ToggleButtonStyle.Primary                             -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <Style x:Key="ToggleButtonStyle.Primary" TargetType="ToggleButton">
+        <Setter Property="Foreground"              Value="{DynamicResource brush_text_secondary}"/>
+        <Setter Property="FontFamily"              Value="Segoe UI"/>
+        <Setter Property="FontSize"                Value="13"/>
+        <Setter Property="FontWeight"              Value="Medium"/>
+        <Setter Property="Padding"                 Value="14,7"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+        <Setter Property="Cursor"                  Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels"     Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="Bd"
+                            Background="{DynamicResource brush_bg_elevated}"
+                            BorderBrush="{DynamicResource brush_border_default}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_border_strong}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Bd" Property="Background"  Value="{DynamicResource brush_accent_dim}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource brush_accent}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource brush_accent}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  RadioButtonStyle.Primary                              -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <Style TargetType="RadioButton" x:Key="RadioButtonStyle.Primary">
+        <Setter Property="Foreground"              Value="{DynamicResource brush_text_primary}"/>
+        <Setter Property="FontFamily"              Value="Segoe UI"/>
+        <Setter Property="FontSize"                Value="13"/>
+        <Setter Property="Margin"                  Value="0,5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+        <Setter Property="Cursor"                  Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels"     Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" Width="18" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Ellipse x:Name="outerRing"
+                                     Stroke="{DynamicResource brush_border_default}"
+                                     StrokeThickness="1.5"
+                                     Fill="{DynamicResource brush_bg_elevated}"/>
+                            <Ellipse x:Name="innerDot"
+                                     Fill="{DynamicResource brush_accent}"
+                                     Width="8" Height="8"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Opacity="0"/>
+                        </Grid>
+                        <ContentPresenter Grid.Column="1" Margin="10,0,0,0"
+                                          VerticalAlignment="Center"
+                                          RecognizesAccessKey="True"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="outerRing" Property="Stroke" Value="{DynamicResource brush_border_strong}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="outerRing" Property="Stroke" Value="{DynamicResource brush_accent}"/>
+                            <Setter TargetName="innerDot"  Property="Opacity" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
