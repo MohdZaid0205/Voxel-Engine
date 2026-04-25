@@ -1,0 +1,81 @@
+﻿<Window x:Class="Editor.Screens.CreateNewProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Editor"
+        xmlns:controls="clr-namespace:Editor.Resources.Controls"
+        Icon="/editor/Resources/Icons/app-icon.png"
+        mc:Ignorable="d"
+        Background="{DynamicResource brush_bg_base}"
+        Title="CreateNewProject" Height="200" Width="600">
+    
+    <Grid Background="{DynamicResource brush_bg_surface}" Margin="15">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
+            <Label Content="Project Name" Foreground="{DynamicResource brush_text_primary}" Background="{DynamicResource brush_bg_elevated}"
+                   Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="center" Margin="2,2,2,0"
+                   BorderBrush="{DynamicResource brush_border_strong}" BorderThickness="0"/>
+            <Label Content="Project Path" Foreground="{DynamicResource brush_text_primary}" Background="{DynamicResource brush_bg_elevated}"
+                   Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="center" Margin="2,2,2,0"
+                   BorderBrush="{DynamicResource brush_border_strong}" BorderThickness="0"/>
+        </StackPanel>
+
+        <GridSplitter Grid.Column="1" Grid.Row="0"
+                  Width="3" 
+                  HorizontalAlignment="Center" 
+                  VerticalAlignment="Stretch" 
+                  ResizeDirection="Columns" 
+                  ResizeBehavior="PreviousAndNext"
+                  Background="Transparent" />
+
+        <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0">
+            
+            <TextBox x:Name="projectNameTextBox" Tag="UnNamedProject" Height="25" BorderThickness="2" Margin="0,2,2,0"
+                     FontSize="13" Style="{DynamicResource TextBoxStyle.Secondary}" Padding="5,0"/>
+
+            <Grid Margin="0,2,2,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="projectPathTextBox" Grid.Column="0" Tag="someDefault/Path" Height="26" BorderThickness="2"
+                        FontSize="13" Style="{DynamicResource TextBoxStyle.Secondary}" Padding="5,0"/>
+
+                <Button x:Name="projectPathSelectionButton" Grid.Column="1" Click="projectPathSelectionButton_Click"
+                        Style="{DynamicResource ButtonStyle.Secondary}" Padding="4,0" >
+                    <Image Source="{DynamicResource folder-icon}" Width="20"/>
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button x:Name="CreateNewProjectCancelButton" Content="Cancel" Padding="0" Margin="2,2,1,2"
+                    Click="projectPathSelectionButton_Click"
+                    Style="{DynamicResource ButtonStyle.Secondary}" Grid.Column="0"/>
+            <Button x:Name="CreateNewProjectCreateButton" Content="Create" Padding="0" Margin="1,2,2,2"
+                    Click="CreateNewProjectCreateButton_Click"
+                    Style="{DynamicResource ButtonStyle.Secondary}" Grid.Column="1"/>
+        </Grid>
+        
+    </Grid>
+</Window>
