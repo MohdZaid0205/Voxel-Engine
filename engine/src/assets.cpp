@@ -59,7 +59,7 @@ void Engine::AssetManager::configure_base(File::path base) {
 				AssetManager::_folders[t].push_back(folder);
 				return Attempt::Status::PASS;
 			}
-			catch (File::filesystem_error& err) {
+			catch (RuntimeError& err) {
 				return Attempt::Status::FAIL;
 			}
 
@@ -69,10 +69,10 @@ void Engine::AssetManager::configure_base(File::path base) {
 		// attemp and logs
 		auto attemptSetupFolder = [base, setupFolder](enum AssetType) {
 			Attempt::to<HIG>([base, setupFolder]() { return setupFolder(Font); })
-				.does("Register Asset Folder:" + assetTypeAsString(Font) + "s")
-				.fail("Failed to register Folder:" + assetTypeAsString(Font) + "s")
-				.pass("Registered Folder:" + assetTypeAsString(Font) + "s")
-				.warn("Unexpected behaviour Folder:" + assetTypeAsString(Font) + "s")
+				.does("Register Asset Folder:"_D + assetTypeAsString(Font) + "s")
+				.fail("Failed to register Folder:"_D + assetTypeAsString(Font) + "s")
+				.pass("Registered Folder:"_D + assetTypeAsString(Font) + "s")
+				.warn("Unexpected behaviour Folder:"_D + assetTypeAsString(Font) + "s")
 			;
 		};
 
@@ -86,7 +86,7 @@ void Engine::AssetManager::configure_base(File::path base) {
 		attemptSetupFolder(Texture);
 		attemptSetupFolder(Voxel);
 
-		// copy presets to the defined folders
+		// TODO: copy presets to the defined folders
 		// ...
 
 		AssetManager::configure_save();
@@ -96,3 +96,50 @@ void Engine::AssetManager::configure_base(File::path base) {
 	}
 }
 
+void Engine::AssetManager::configure_save() {
+
+	// Save Folder informations
+	auto writeHeading = [](FileOutput& to, String heading) {
+		if (to.is_open()) {
+			to << heading << '\n';
+		}
+	};
+
+	// Save data to configuration
+	auto writeValue = [](FileOutput& to, enum AssetType t, File::path path) {
+		if (to.is_open()) {
+			to << assetTypeAsString(t) << " : " << path;
+		}
+	};
+
+	auto attemptWritingConfig = [writeHeading, writeValue]() {
+		try {
+			FileOutput config_file = FileOutput(_config, std::ios::out | std::ios::trunc);
+
+			// iterate over folder types and save the required information
+			writeHeading(config_file, "FOLDERS");
+			for (auto& val : _folders) {
+				for (auto& path : val.second) {
+					writeValue(config_file, val.first, path);
+				}
+			}
+
+			// TODO: maybe do somethign about the files
+			// ...
+
+			return Attempt::Status::PASS;
+		}
+		catch (RuntimeError& err) {
+			return Attempt::Status::FAIL;
+		}
+
+		return Attempt::Status::WARN;
+	};
+
+	Attempt::to<HIG>(attemptWritingConfig)
+		.does("Write"_D, ASSET_CONFIGURATION_FILE_NAME, "at:"_D, _config)
+		.pass("File Written:"_D, _config, "Configuration stored!"_D)
+		.fail("File Write Failed for:"_D, _config, "store failed!"_D)
+		.warn("File Write Resulted in unexpected behaviour:", _config)
+	;
+}
