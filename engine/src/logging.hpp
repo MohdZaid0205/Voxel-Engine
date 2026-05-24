@@ -256,7 +256,7 @@ Engine::Attempt::Result<P> Engine::Attempt::Builder<P, Func>::does(T msg, Args..
 		}
 	}
 	catch (const std::exception& e) {
-		Engine::Console::Error<P>("[A TTEMPT ]:"_D, e.what());
+		Engine::Console::Error<P>("[ ATTEMPT ]:"_D, e.what());
 		final_status = Status::FAIL;
 	}
 	catch (...) {

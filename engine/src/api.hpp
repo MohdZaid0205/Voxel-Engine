@@ -30,6 +30,8 @@
     #include <set>
     #include <fstream>
     #include <sstream>
+    #include <optional>
+    #include <filesystem>
 #pragma endregion
 #pragma region external::<vendors>
     #define NOMINMAX
@@ -100,10 +102,17 @@ namespace Engine {
     using f32 = float;
     using f64 = double;
 
+    // .. stdlib
     // .. (string)
     using String = std::string;
-
     // .. (smt ptr)
     template<typename T> using Unique = std::unique_ptr<T>;
     template<typename T> using Shared = std::shared_ptr<T>;
+    // .. (optional)
+    template<typename T> using Optional = std::optional<T>;
+    // .. (exceptions)
+    using Exception = std::exception;
+    using RuntimeError = std::runtime_error;
+    // .. (file)
+    namespace File = std::filesystem;
 }
