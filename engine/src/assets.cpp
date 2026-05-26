@@ -3,6 +3,8 @@
 // dependencies
 #include "logging.hpp"
 
+// FUNCTIONS IMPLEMENTATIONS
+
 Engine::String Engine::assetTypeAsString(enum AssetType t) {
 	switch (t)
 	{
@@ -55,9 +57,14 @@ std::unordered_map<enum Engine::AssetType, std::vector<Engine::File::path>> Engi
 	= std::unordered_map<enum Engine::AssetType, std::vector<Engine::File::path>>();
 
 // ALLOCATE STATIC DATA
+std::unordered_map<enum Engine::AssetType, Engine::Unique<Engine::IAssetLoader>> Engine::AssetManager::_loaders
+= std::unordered_map<enum Engine::AssetType, Engine::Unique<Engine::IAssetLoader>>();
+
+// ALLOCATE STATIC DATA
 std::unordered_map<Engine::File::path, Engine::Shared<void>> _laoded
 	= std::unordered_map<Engine::File::path, Engine::Shared<void>>();
 
+// CLASSES IMPLEMENTATION
 
 void Engine::AssetManager::configure_base(File::path base) {
 	AssetManager::_config = base/ASSET_CONFIGURATION_FILE_NAME;
@@ -213,6 +220,17 @@ void Engine::AssetManager::configure_load() {
 }
 
 Engine::Optional<Engine::Shared<void>> Engine::AssetManager::load_asset(File::path path){
-	// .. check load type and then laod data directly
-	// .. need more information here like how to load
+	Shared<void> data;
+	bool done = false;
+
+	for (auto& ldr : _loaders) {
+		if (ldr.second->works(path)) {
+			if (done)
+				throw AssetNotLoadedError(path, "Multiple loaders work with specified path, cannot choose one!");
+
+			data = ldr.second->load(path);
+			done = true;
+		}
+	}
+	return data;
 }

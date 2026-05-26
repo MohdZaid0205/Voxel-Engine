@@ -20,18 +20,34 @@ namespace Engine {
 	String assetTypeAsString(enum AssetType t);
 	enum AssetType assetStringAsType(String s);
 
-	// ASSET MANAGER
+	// ASSET MANAGER and ASSET LOLADER INTERFACE
 	// Asset manager holds reponsibility of locating, indexing and veryfying assets
 	// during runtime of the engine by creating specialized resource locator as per
 	// its location in physical disk
+
+	class IAssetLoader {
+	public:
+		virtual ~IAssetLoader() = default;
+	public:
+
+		// Does specified loader work with particular path
+		virtual bool works(File::path with) = 0;
+
+		// Load the actual data by using overriden function
+		virtual Shared<void> load(File::path path) = 0;
+	};
 
 	class AssetManager {
 	private:
 		static File::path _config;
 		static std::unordered_map<enum AssetType, std::vector<File::path>> _folders;
+		static std::unordered_map<enum AssetType, Unique<IAssetLoader>> _loaders;
 		static std::unordered_map<File::path, Shared<void>> _laoded;
 	public:
 		
+		// attach an asset loader for future loading prefrences
+		static void attach_loader(enum AssetType t, IAssetLoader loader);
+
 		// load and return the specified asset if not already loaded
 		static Optional<Shared<void>> load_asset(File::path path);
 		static Optional<Shared<void>> load_asset(enum AssetType t, String name);
@@ -81,7 +97,7 @@ namespace Engine {
 	private:
 		String _message;
 	public:
-		AssetNotLoadedError(String path, String reason);
+		AssetNotLoadedError(File::path path, String reason);
 		AssetNotLoadedError(std::vector<String> paths, String reason);
 		AssetNotLoadedError(enum AssetType t, String path, String reason);
 	public:
