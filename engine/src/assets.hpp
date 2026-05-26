@@ -18,6 +18,7 @@ namespace Engine {
 	};
 
 	String assetTypeAsString(enum AssetType t);
+	enum AssetType assetStringAsType(String s);
 
 	// ASSET MANAGER
 	// Asset manager holds reponsibility of locating, indexing and veryfying assets

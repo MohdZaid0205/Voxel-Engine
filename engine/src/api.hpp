@@ -114,5 +114,7 @@ namespace Engine {
     using Exception = std::exception;
     using RuntimeError = std::runtime_error;
     // .. (file)
-    namespace File = std::filesystem;
+    namespace File   = std::filesystem;
+    using FileInput  = std::ifstream;
+    using FileOutput = std::ofstream;
 }

@@ -31,6 +31,22 @@ Engine::String Engine::assetTypeAsString(enum AssetType t) {
 	}
 }
 
+#define COMPARE_AND_RETURN(w) if (s.compare(#w)) return w;
+
+enum Engine::AssetType Engine::assetStringAsType(String s) {
+	COMPARE_AND_RETURN(Config);
+	COMPARE_AND_RETURN(Font);
+	COMPARE_AND_RETURN(Icon);
+	COMPARE_AND_RETURN(Script);
+	COMPARE_AND_RETURN(Shader);
+	COMPARE_AND_RETURN(Sound);
+	COMPARE_AND_RETURN(Image);
+	COMPARE_AND_RETURN(Texture);
+	COMPARE_AND_RETURN(Voxel);
+	COMPARE_AND_RETURN(Unknown);
+	return Unknown;
+}
+
 // ALLOCATE STATIC DATA
 Engine::File::path Engine::AssetManager::_config;
 
@@ -67,12 +83,12 @@ void Engine::AssetManager::configure_base(File::path base) {
 		};
 
 		// attemp and logs
-		auto attemptSetupFolder = [base, setupFolder](enum AssetType) {
-			Attempt::to<HIG>([base, setupFolder]() { return setupFolder(Font); })
-				.does("Register Asset Folder:"_D + assetTypeAsString(Font) + "s")
-				.fail("Failed to register Folder:"_D + assetTypeAsString(Font) + "s")
-				.pass("Registered Folder:"_D + assetTypeAsString(Font) + "s")
-				.warn("Unexpected behaviour Folder:"_D + assetTypeAsString(Font) + "s")
+		auto attemptSetupFolder = [base, setupFolder](enum AssetType t) {
+			Attempt::to<HIG>([base, setupFolder, t]() { return setupFolder(t); })
+				.does("Register Asset Folder:"_D		+ assetTypeAsString(t) + "s")
+				.fail("Failed to register Folder:"_D	+ assetTypeAsString(t) + "s")
+				.pass("Registered Folder:"_D			+ assetTypeAsString(t) + "s")
+				.warn("Unexpected behaviour Folder:"_D	+ assetTypeAsString(t) + "s")
 			;
 		};
 
@@ -99,16 +115,16 @@ void Engine::AssetManager::configure_base(File::path base) {
 void Engine::AssetManager::configure_save() {
 
 	// Save Folder informations
-	auto writeHeading = [](FileOutput& to, String heading) {
-		if (to.is_open()) {
-			to << heading << '\n';
+	auto writeHeading = [](FileOutput& file, String heading) {
+		if (file.is_open()) {
+			file << heading << '\n';
 		}
 	};
 
 	// Save data to configuration
-	auto writeValue = [](FileOutput& to, enum AssetType t, File::path path) {
-		if (to.is_open()) {
-			to << assetTypeAsString(t) << " : " << path;
+	auto writeValue = [](FileOutput& file, enum AssetType t, File::path path) {
+		if (file.is_open()) {
+			file << assetTypeAsString(t) << " : " << path;
 		}
 	};
 
@@ -117,7 +133,7 @@ void Engine::AssetManager::configure_save() {
 			FileOutput config_file = FileOutput(_config, std::ios::out | std::ios::trunc);
 
 			// iterate over folder types and save the required information
-			writeHeading(config_file, "FOLDERS");
+			writeHeading(config_file, "!FOLDERS");
 			for (auto& val : _folders) {
 				for (auto& path : val.second) {
 					writeValue(config_file, val.first, path);
@@ -126,6 +142,9 @@ void Engine::AssetManager::configure_save() {
 
 			// TODO: maybe do somethign about the files
 			// ...
+
+			// Write Ending heading
+			writeHeading(config_file, "!END");
 
 			return Attempt::Status::PASS;
 		}
@@ -142,4 +161,58 @@ void Engine::AssetManager::configure_save() {
 		.fail("File Write Failed for:"_D, _config, "store failed!"_D)
 		.warn("File Write Resulted in unexpected behaviour:", _config)
 	;
+}
+
+void Engine::AssetManager::configure_load() {
+	
+	// Read Heading
+	auto loadHeading = [](FileInput& file) {
+		String heading;
+		if (file.is_open()) {
+			file >> heading;
+		}
+		return heading;
+	};
+
+	// Read Contents
+	auto loadFolderConfig = [](FileInput& file) {
+		String type;
+		char seperate;
+		File::path path;
+
+		if (file.is_open()) {
+			std::streampos p = file.tellg();
+			file >> type;
+			if (type[0] == '!') {
+				file.seekg(p);
+				return false;
+			}
+			else
+				file >> seperate >> path;
+		}
+		_folders[assetStringAsType(type)].push_back(path);
+		return true;
+	};
+
+	// .. (other Config loader)
+
+	// .. (load reqiored config)
+	bool loading = true;
+	FileInput src = FileInput(_config);
+	while (loading) {
+		String heading = loadHeading(src);
+		if (heading == "!END") {
+			loading = false;
+		} else if (heading == "!FOLDERS") {
+			while (loadFolderConfig(src)) {}
+		}
+		else {
+			// do nothing
+		}
+	}
+}
+
+Engine::Optional<Engine::Shared<void>> Engine::AssetManager::load_asset(File::path path){
+	// .. check load type and then laod data directly
+	// .. need more information here like how to load
 }
