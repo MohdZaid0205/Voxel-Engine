@@ -42,7 +42,7 @@ namespace Engine {
 		static File::path _config;
 		static std::unordered_map<enum AssetType, std::vector<File::path>> _folders;
 		static std::unordered_map<enum AssetType, Unique<IAssetLoader>> _loaders;
-		static std::unordered_map<File::path, Shared<void>> _laoded;
+		static std::unordered_map<File::path, Shared<void>> _loaded;
 	public:
 		
 		// attach an asset loader for future loading prefrences

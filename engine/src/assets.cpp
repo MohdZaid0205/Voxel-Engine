@@ -61,7 +61,7 @@ std::unordered_map<enum Engine::AssetType, Engine::Unique<Engine::IAssetLoader>>
 = std::unordered_map<enum Engine::AssetType, Engine::Unique<Engine::IAssetLoader>>();
 
 // ALLOCATE STATIC DATA
-std::unordered_map<Engine::File::path, Engine::Shared<void>> _laoded
+std::unordered_map<Engine::File::path, Engine::Shared<void>> _loaded
 	= std::unordered_map<Engine::File::path, Engine::Shared<void>>();
 
 // CLASSES IMPLEMENTATION
@@ -232,5 +232,7 @@ Engine::Optional<Engine::Shared<void>> Engine::AssetManager::load_asset(File::pa
 			done = true;
 		}
 	}
+
+	_loaded[path] = data;
 	return data;
 }
