@@ -46,15 +46,17 @@ namespace Engine {
 	public:
 		
 		// attach an asset loader for future loading prefrences
-		static void attach_loader(enum AssetType t, IAssetLoader loader);
+		static void attach_loader(enum AssetType t, Unique<IAssetLoader> loader);
 
 		// load and return the specified asset if not already loaded
 		static Optional<Shared<void>> load_asset(File::path path);
 		static Optional<Shared<void>> load_asset(enum AssetType t, String name);
+		static Optional<Shared<void>> load_asset(enum AssetType t, File::path path);
 
 		// retrive the specified asset if already loaded, doesnt load
 		static Optional<Shared<void>> find_asset(File::path path);
 		static Optional<Shared<void>> find_asset(enum AssetType t, String name);
+		static Optional<Shared<void>> find_asset(enum AssetType t, File::path path);
 		
 		// remove cached element for specified path/file name from laoded
 		static void remove_asset(File::path path);

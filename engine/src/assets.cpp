@@ -61,10 +61,14 @@ std::unordered_map<enum Engine::AssetType, Engine::Unique<Engine::IAssetLoader>>
 = std::unordered_map<enum Engine::AssetType, Engine::Unique<Engine::IAssetLoader>>();
 
 // ALLOCATE STATIC DATA
-std::unordered_map<Engine::File::path, Engine::Shared<void>> _loaded
+std::unordered_map<Engine::File::path, Engine::Shared<void>> Engine::AssetManager::_loaded
 	= std::unordered_map<Engine::File::path, Engine::Shared<void>>();
 
 // CLASSES IMPLEMENTATION
+
+void Engine::AssetManager::attach_loader(enum AssetType t, Unique<IAssetLoader> loader) {
+	_loaders[t] = std::move(loader);
+}
 
 void Engine::AssetManager::configure_base(File::path base) {
 	AssetManager::_config = base/ASSET_CONFIGURATION_FILE_NAME;
@@ -220,6 +224,10 @@ void Engine::AssetManager::configure_load() {
 }
 
 Engine::Optional<Engine::Shared<void>> Engine::AssetManager::load_asset(File::path path){
+	
+	if (!File::exists(path))
+		throw AssetNotFoundError(path);
+	
 	Shared<void> data;
 	bool done = false;
 
@@ -235,4 +243,110 @@ Engine::Optional<Engine::Shared<void>> Engine::AssetManager::load_asset(File::pa
 
 	_loaded[path] = data;
 	return data;
+}
+
+Engine::Optional<Engine::Shared<void>> Engine::AssetManager::load_asset(enum AssetType t, String name) {
+	std::vector<File::path> searched;
+	for (const auto& folder : _folders[t]) {
+		File::path potential_path = folder / name;
+		searched.push_back(potential_path);
+		if (File::exists(potential_path)) {
+			return load_asset(potential_path);
+		}
+	}
+	throw AssetNotFoundError(searched);
+	return std::nullopt;
+}
+
+Engine::Optional<Engine::Shared<void>> Engine::AssetManager::load_asset(enum AssetType t, File::path path) {
+	
+	if (!File::exists(path))
+		throw AssetNotFoundError(path);
+
+	if (!_loaders[t]->works(path))
+		return std::nullopt;
+
+	return _loaders[t]->load(path);
+}
+
+Engine::Optional<Engine::Shared<void>> Engine::AssetManager::find_asset(File::path path) {
+	auto it = _loaded.find(path);
+	if (it != _loaded.end()) {
+		return it->second;
+	}
+	return std::nullopt;
+}
+
+Engine::Optional<Engine::Shared<void>> Engine::AssetManager::find_asset(enum AssetType t, String name) {
+	for (const auto& folder : _folders[t]) {
+		File::path potential_path = folder / name;
+		auto it = _loaded.find(potential_path);
+		if (it != _loaded.end()) {
+			return it->second;
+		}
+	}
+	return std::nullopt;
+}
+
+Engine::Optional<Engine::Shared<void>> Engine::AssetManager::find_asset(enum AssetType t, File::path path) {
+	for (const auto& folder : _folders[t]) {
+		File::path potential_path = folder / path;
+		auto it = _loaded.find(potential_path);
+		if (it != _loaded.end()) {
+			return it->second;
+		}
+	}
+	return std::nullopt;
+}
+
+void Engine::AssetManager::remove_asset(File::path path) {
+	_loaded.erase(path);
+}
+
+void Engine::AssetManager::remove_asset(enum AssetType t, String name) {
+	for (const auto& folder : _folders[t]) {
+		File::path potential_path = folder / name;
+		_loaded.erase(potential_path);
+	}
+}
+
+void Engine::AssetManager::register_asset(File::path path, enum AssetType t) {
+	_folders[t].push_back(path.parent_path());
+}
+
+void Engine::AssetManager::register_folder(File::path path, enum AssetType t) {
+	_folders[t].push_back(path);
+}
+
+void Engine::AssetManager::clear() {
+	_loaded.clear();
+}
+
+// EXCEPTIONS
+
+Engine::AssetNotFoundError::AssetNotFoundError(File::path path) : RuntimeError("") {
+	_message = std::format("Asset not found at: {}", path.string());
+}
+
+Engine::AssetNotFoundError::AssetNotFoundError(std::vector<File::path> paths) : RuntimeError("") {
+	_message = "Asset not found in any of the following paths:\n";
+	for (const auto& p : paths) {
+		_message += p.string() + "\n";
+	}
+}
+
+Engine::AssetNotFoundError::AssetNotFoundError(enum AssetType t, String name) : RuntimeError("") {
+	_message = std::format("Asset '{}' of type '{}' not found.", name, assetTypeAsString(t));
+}
+
+Engine::AssetNotLoadedError::AssetNotLoadedError(File::path path, String reason) : RuntimeError("") {
+	_message = std::format("Asset at '{}' failed to load. Reason: {}", path.string(), reason);
+}
+
+Engine::AssetNotLoadedError::AssetNotLoadedError(std::vector<String> paths, String reason) : RuntimeError("") {
+	_message = std::format("Asset failed to load from multiple paths. Reason: {}", reason);
+}
+
+Engine::AssetNotLoadedError::AssetNotLoadedError(enum AssetType t, String path, String reason) : RuntimeError("") {
+	_message = std::format("Asset '{}' of type '{}' failed to load. Reason: {}", path, assetTypeAsString(t), reason);
 }
