@@ -72,7 +72,7 @@ template<typename T>inline Engine::Expected<Engine::Shared<T>>
 Engine::AssetRegistry<T>::load(idxx identifier) {
 	auto it = _loaded.find(identifier);
 	if (it == _loaded.end()) {
-		return std::unexpected(Engine::AssetNotLoadedError("Asset identifier exists but data is null/missing."));
+		return std::unexpected(Engine::AssetNotLoadedError(Engine::String("Asset identifier exists but data is null/missing.")));
 	}
 
 	return it->second;
