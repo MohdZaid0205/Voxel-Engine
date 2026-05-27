@@ -70,11 +70,11 @@ namespace Engine {
 	inline void __recurse_output();
 
 	namespace Console {
-		template<LogPriority P = LOW, typename T, typename... Args>  void Log(T msg, Args... args);
-		template<LogPriority P = LOW, typename T, typename... Args>  void Info(T msg, Args... args);
-		template<LogPriority P = LOW, typename T, typename... Args>  void Debug(T msg, Args... args);
-		template<LogPriority P = LOW, typename T, typename... Args>  void Warn(T msg, Args... args);
-		template<LogPriority P = LOW, typename T, typename... Args>  void Error(T msg, Args... args);
+		template<LogPriority P = HIG, typename T, typename... Args>  void Log(T msg, Args... args);
+		template<LogPriority P = HIG, typename T, typename... Args>  void Info(T msg, Args... args);
+		template<LogPriority P = HIG, typename T, typename... Args>  void Debug(T msg, Args... args);
+		template<LogPriority P = HIG, typename T, typename... Args>  void Warn(T msg, Args... args);
+		template<LogPriority P = HIG, typename T, typename... Args>  void Error(T msg, Args... args);
 	};
 };
 
