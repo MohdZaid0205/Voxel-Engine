@@ -18,7 +18,7 @@ namespace Engine {
 	namespace Attempt {
 
 		struct Status {
-			enum { WARNING, ERROR, RECOVERABLE_WARNING, RECOVERABLE_ERROR } type;
+			enum { Warning, Error, Recoverable_Warning, Recoverable_Error } type;
 			String name;		// .. NAME of WARNING/ERROR
 			String mess;		// .. associated MESSAGE
 		};

@@ -97,7 +97,7 @@ Engine::Attempt::Runner<Func, Args...>::execute(const String& context) {
 	else {
 		const auto& err = _result.error();
 
-		if (err.type == Status::WARNING || err.type == Status::RECOVERABLE_WARNING) {
+		if (err.type == Status::Warning || err.type == Status::Recoverable_Warning) {
 			_warn_log();
 			Engine::Console::Warn("[A] ->"_D, err.name);
 			if (!err.mess.empty()) { Engine::Console::Warn("[A] ->"_D, err.mess); }
@@ -108,7 +108,7 @@ Engine::Attempt::Runner<Func, Args...>::execute(const String& context) {
 			if (!err.mess.empty()) { Engine::Console::Error("[A] ->"_D, err.mess); }
 		}
 
-		if (err.type == Status::RECOVERABLE_ERROR || err.type == Status::RECOVERABLE_WARNING) {
+		if (err.type == Status::Recoverable_Error || err.type == Status::Recoverable_Warning) {
 			if (!_rest(err.name)) {
 				Engine::Console::Error("[A] ->"_D, "RecoveryHookFailed"_B);
 				Engine::Console::Error("[A] ->"_D, "The system failed to restore its previous state."_D);
