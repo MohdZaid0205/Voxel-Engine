@@ -51,48 +51,61 @@ enum Engine::AssetType Engine::assetStringAsType(String s) {
 
 // EXCEPTIONS/ERRORS/WARNINGS
 
-Engine::Attempt::Status Engine::AssetNotFoundError(String message){
-	return Attempt::Status{
-		Attempt::Status::Error,
-		"AssetNotFoundError", message
-	};
+Engine::Attempt::Status Engine::AssetRegisterationFailed(String message) {
+    return Attempt::makeRecoverableError("AssetRegistrationFailed", message);
 }
 
-Engine::Attempt::Status Engine::AssetNotFoundError(File::path path){
-	return Engine::AssetNotFoundError(
-		(String)"Could not find specified Asset at path:" + path.string()
-	);
+Engine::Attempt::Status Engine::AssetRegisterationFailed(File::path path, String due) {
+    return Attempt::makeRecoverableError("AssetRegistrationFailed",
+        "Failed to register '" + path.string() + "': " + due);
 }
 
-Engine::Attempt::Status Engine::AssetNotFoundError(std::vector<File::path> paths){
-	String all_paths = "";
-	for (auto& path : paths) {
-		all_paths += path.string();
-	}
-	return Engine::AssetNotFoundError(
-		(String)"Could not find specified Asset at:" + all_paths
-	);
+Engine::Attempt::Status Engine::AssetRemovalFailed(String message) {
+    return Attempt::makeRecoverableError("AssetRemovalFailed", message);
 }
 
-Engine::Attempt::Status Engine::AssetNotLoadedError(String message){
-	return Attempt::Status{
-		Attempt::Status::Error,
-		"AssetNotLoadedError", message
-	};
+Engine::Attempt::Status Engine::AssetRemovalFailed(File::path path, String due) {
+    return Attempt::makeRecoverableError("AssetRemovalFailed",
+        "Failed to remove '" + path.string() + "': " + due);
+}
+
+Engine::Attempt::Status Engine::AssetRemovalFailed(idxx identifier, String due) {
+    return Attempt::makeRecoverableError("AssetRemovalFailed",
+        "Failed to remove ID [" + std::to_string(identifier) + "]: " + due);
+}
+
+Engine::Attempt::Status Engine::AssetNotFoundError(String message) {
+    return Attempt::makeRecoverableError("AssetNotFoundError", message);
+}
+
+Engine::Attempt::Status Engine::AssetNotFoundError(File::path path) {
+    return Attempt::makeRecoverableError("AssetNotFoundError",
+        "Could not find asset at path: " + path.string());
+}
+
+Engine::Attempt::Status Engine::AssetNotFoundError(std::vector<File::path> paths) {
+    std::ostringstream oss;
+    oss << "Could not find assets at paths: ";
+    for (size_t i = 0; i < paths.size(); ++i) {
+        oss << paths[i].string() << (i < paths.size() - 1 ? ", " : "");
+    }
+    return Attempt::makeRecoverableError("AssetNotFoundError", oss.str());
+}
+
+Engine::Attempt::Status Engine::AssetNotLoadedError(String message) {
+    return Attempt::makeRecoverableError("AssetNotLoadedError", message);
 }
 
 Engine::Attempt::Status Engine::AssetNotLoadedError(File::path path) {
-	return Engine::AssetNotLoadedError(
-		(String)"Could not find specified Asset at path:" + path.string()
-	);
+    return Attempt::makeRecoverableError("AssetNotLoadedError",
+        "Asset not loaded at path: " + path.string());
 }
 
 Engine::Attempt::Status Engine::AssetNotLoadedError(std::vector<File::path> paths) {
-	String all_paths = "";
-	for (auto& path : paths) {
-		all_paths += path.string();
-	}
-	return Engine::AssetNotLoadedError(
-		(String)"Could not find specified Asset at:" + all_paths
-	);
+    std::ostringstream oss;
+    oss << "Assets not loaded at paths: ";
+    for (size_t i = 0; i < paths.size(); ++i) {
+        oss << paths[i].string() << (i < paths.size() - 1 ? ", " : "");
+    }
+    return Attempt::makeRecoverableError("AssetNotLoadedError", oss.str());
 }

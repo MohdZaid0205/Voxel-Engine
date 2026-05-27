@@ -35,6 +35,7 @@
     #include <expected>
     #include <utility>
     #include <tuple>
+    #include <typeindex>
 #pragma endregion
 #pragma region external::<vendors>
     #define NOMINMAX

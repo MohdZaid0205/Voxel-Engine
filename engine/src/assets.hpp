@@ -21,10 +21,11 @@ namespace Engine {
 	String assetTypeAsString(enum AssetType t);
 	enum AssetType assetStringAsType(String s);
 
-	// ASSET MANAGER and ASSET LOLADER INTERFACE ---------------------------------------+
-	// Asset manager holds reponsibility of locating, indexing and veryfying assets		|
-	// during runtime of the engine by creating specialized resource locator as per		|
-	// its location in physical disk													|
+	// ASSET REGISTERY -----------------------------------------------------------------+
+	// asset registery is responosible for holding shared reference of registered data	|
+	// these data are often accessed everytime and cannot be loaded multiple times in	|
+	// order to save performance issues, this is solely for maintaining lifecycle of	|
+	// assets at runtime																|
 	// ---------------------------------------------------------------------------------+
 	
 	class IAssetRegistery {
@@ -32,8 +33,6 @@ namespace Engine {
 		virtual ~IAssetRegistery() = default;
 		virtual void clear() = 0;
 	};
-
-	// ASSET REGISTERY
 
 	template<typename T>
 	class AssetRegistry:public IAssetRegistery {
@@ -54,17 +53,36 @@ namespace Engine {
 		void clear() override;
 	};
 
+	// ASSET REGISTERATION PROBLEMS
 	Attempt::Status AssetRegisterationFailed(String message);
 	Attempt::Status AssetRegisterationFailed(File::path path, String due);
 
+	// ASSET REMOVAL PROBLEMS
 	Attempt::Status AssetRemovalFailed(String message);
 	Attempt::Status AssetRemovalFailed(File::path path, String due);
 	Attempt::Status AssetRemovalFailed(idxx identifier, String due);
 
-	// ASSET MANAGER
+	// ASSET MANAGER and ASSET LOLADER INTERFACE ---------------------------------------+
+	// Asset manager holds reponsibility of locating, indexing and veryfying assets		|
+	// during runtime of the engine by creating specialized resource locator as per		|
+	// its location in physical disk													|
+	// ---------------------------------------------------------------------------------+
 
-	// ASSET CONFIGURATION FILE NAME
-	#define ASSET_CONFIGURATION_FILE_NAME "assets.config"
+	class AssetManager {
+	private:
+		std::unordered_map<std::type_index, std::unique_ptr<IAssetRegistery>> _registries;
+	private:
+		template<typename T> AssetRegistry<T>* getRegistry();
+	public:
+		template<typename T> Expected<idxx> store(File::path path, Shared<T> data);
+		template<typename T> Expected<void> remove(File::path path);
+		template<typename T> Expected<void> remove(idxx identifier);
+	public:
+		template<typename T> Expected<Shared<T>> load(File::path path);
+		template<typename T> Expected<Shared<T>> load(idxx identifier);
+	public:
+		void clearAll();
+	};
 	
 	// ASSET NOT FOUND ERROR
 	Attempt::Status AssetNotFoundError(String message);
@@ -76,3 +94,5 @@ namespace Engine {
 	Attempt::Status AssetNotLoadedError(File::path path);
 	Attempt::Status AssetNotLoadedError(std::vector<File::path> paths);
 }
+
+#include "assets.inl"
