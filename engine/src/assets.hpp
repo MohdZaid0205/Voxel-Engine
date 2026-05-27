@@ -1,6 +1,7 @@
 #pragma once
 
 #include "api.hpp"
+#include "exceptions.hpp"
 
 namespace Engine {
 
@@ -20,91 +21,58 @@ namespace Engine {
 	String assetTypeAsString(enum AssetType t);
 	enum AssetType assetStringAsType(String s);
 
-	// ASSET MANAGER and ASSET LOLADER INTERFACE
-	// Asset manager holds reponsibility of locating, indexing and veryfying assets
-	// during runtime of the engine by creating specialized resource locator as per
-	// its location in physical disk
-
-	class IAssetLoader {
+	// ASSET MANAGER and ASSET LOLADER INTERFACE ---------------------------------------+
+	// Asset manager holds reponsibility of locating, indexing and veryfying assets		|
+	// during runtime of the engine by creating specialized resource locator as per		|
+	// its location in physical disk													|
+	// ---------------------------------------------------------------------------------+
+	
+	class IAssetRegistery {
 	public:
-		virtual ~IAssetLoader() = default;
-	public:
-
-		// Does specified loader work with particular path
-		virtual bool works(File::path with) = 0;
-
-		// Load the actual data by using overriden function
-		virtual Shared<void> load(File::path path) = 0;
+		virtual ~IAssetRegistery() = default;
+		virtual void clear() = 0;
 	};
 
-	class AssetManager {
+	// ASSET REGISTERY
+
+	template<typename T>
+	class AssetRegistry:public IAssetRegistery {
 	private:
-		static File::path _config;
-		static std::unordered_map<enum AssetType, std::vector<File::path>> _folders;
-		static std::unordered_map<enum AssetType, Unique<IAssetLoader>> _loaders;
-		static std::unordered_map<File::path, Shared<void>> _loaded;
+		idxx				__loads_identifier__ = 0;
+		std::vector<idxx>	__empty_identifier__;
+	private:
+		std::unordered_map<idxx, Shared<T>>	 _loaded;
+		std::unordered_map<File::path, idxx> _locate;
 	public:
-		
-		// attach an asset loader for future loading prefrences
-		static void attach_loader(enum AssetType t, Unique<IAssetLoader> loader);
-
-		// load and return the specified asset if not already loaded
-		static Optional<Shared<void>> load_asset(File::path path);
-		static Optional<Shared<void>> load_asset(enum AssetType t, String name);
-		static Optional<Shared<void>> load_asset(enum AssetType t, File::path path);
-
-		// retrive the specified asset if already loaded, doesnt load
-		static Optional<Shared<void>> find_asset(File::path path);
-		static Optional<Shared<void>> find_asset(enum AssetType t, String name);
-		static Optional<Shared<void>> find_asset(enum AssetType t, File::path path);
-		
-		// remove cached element for specified path/file name from laoded
-		static void remove_asset(File::path path);
-		static void remove_asset(enum AssetType t, String name);
-
-		// register specific path as specified asset type (for convieneince)
-		static void register_asset(File::path path, enum AssetType t);
-		static void register_folder(File::path path, enum AssetType t);
-
-		// clear cache (only the _laoded counts as cache)
-		static void clear();
-
-		// configure Asset manager with base directory path
-		static void configure_base(File::path base);
-		static void configure_load();
-		static void configure_save();
+		Expected<idxx> store(File::path path, Shared<T> data);
+		Expected<void> remove(File::path path);
+		Expected<void> remove(idxx identifier);
+	public:
+		Expected<Shared<T>> load(File::path path);
+		Expected<Shared<T>> load(idxx identifier);
+	public:
+		void clear() override;
 	};
+
+	Attempt::Status AssetRegisterationFailed(String message);
+	Attempt::Status AssetRegisterationFailed(File::path path, String due);
+
+	Attempt::Status AssetRemovalFailed(String message);
+	Attempt::Status AssetRemovalFailed(File::path path, String due);
+	Attempt::Status AssetRemovalFailed(idxx identifier, String due);
+
+	// ASSET MANAGER
 
 	// ASSET CONFIGURATION FILE NAME
 	#define ASSET_CONFIGURATION_FILE_NAME "assets.config"
+	
+	// ASSET NOT FOUND ERROR
+	Attempt::Status AssetNotFoundError(String message);
+	Attempt::Status AssetNotFoundError(File::path path);
+	Attempt::Status AssetNotFoundError(std::vector<File::path> paths);
 
-	// ASSET RELATED RUNTIME ERRORS/EXCEPTIONS
-
-	// asset wasnt fount at given locaton
-	class AssetNotFoundError : public RuntimeError {
-	private:
-		String _message;
-	public:
-		AssetNotFoundError(File::path path);
-		AssetNotFoundError(std::vector<File::path> paths);
-		AssetNotFoundError(enum AssetType t, String path);
-	public:
-		const char* what() const noexcept override {
-			return _message.c_str();
-		}
-	};
-
-	// asset wasnt properly loaded due to some reason
-	class AssetNotLoadedError :public RuntimeError {
-	private:
-		String _message;
-	public:
-		AssetNotLoadedError(File::path path, String reason);
-		AssetNotLoadedError(std::vector<String> paths, String reason);
-		AssetNotLoadedError(enum AssetType t, String path, String reason);
-	public:
-		const char* what() const noexcept override {
-			return _message.c_str();
-		}
-	};
+	// ASSET NOT LOADED ERROR
+	Attempt::Status AssetNotLoadedError(String message);
+	Attempt::Status AssetNotLoadedError(File::path path);
+	Attempt::Status AssetNotLoadedError(std::vector<File::path> paths);
 }

@@ -30,7 +30,6 @@ namespace Engine {
 		struct Status makeRecoverableError		(String name, String message);
 
 		// expected output from an attemptable function
-		template<typename T> using Expected = std::expected<T, Status>;
 
 
 		// RUNNER ----------------------------------------------------------------------+
@@ -79,6 +78,8 @@ namespace Engine {
 		template<typename Func, typename... Args>
 		Runner<std::decay_t<Func>, std::decay_t<Args>...> to(Func&& func, Args&&... args);
 	};
+
+	template<typename T> using Expected = std::expected<T, Attempt::Status>;
 }
 
 #include "exceptions.inl"
