@@ -9,6 +9,7 @@ set(PROJ_DESC DESCRIPTION "")                                       # empty for 
 
 project(${PROJ_NAME} ${PROJ_DESC} ${PROJ_LANG} ${PROJ_VERS})
 find_package(OpenGL REQUIRED)
+enable_testing()
 include(GoogleTest)
 
 set(CMAKE_CXX_STANDARD 23           )
@@ -95,9 +96,9 @@ target_link_libraries       (EngineTests PRIVATE Engine                 )
 target_link_libraries       (EngineTests PRIVATE gtest gtest_main       )
 target_include_directories  (EngineTests PUBLIC  "${ENGINE_BSE_INP_DIR}")
 target_include_directories  (EngineTests PUBLIC  "${ENGINE_INC_INP_DIR}")
+target_compile_definitions  (EngineTests PRIVATE -DBUILD_PLATFORM_WIN   )
 set_target_properties       (EngineTests PROPERTIES FOLDER "GTEST"      )
 gtest_discover_tests        (EngineTests)
-enable_testing()
 
 # [ EDITOR ]:
 file(GLOB_RECURSE EDITOR_SOURCE_FILES "${EDITOR_SRC_INP_DIR}/*.cs"   "${EDITOR_SRC_INP_DIR}/*.cs*"   )
