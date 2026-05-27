@@ -30,6 +30,12 @@
     #include <set>
     #include <fstream>
     #include <sstream>
+    #include <optional>
+    #include <filesystem>
+    #include <expected>
+    #include <utility>
+    #include <tuple>
+    #include <typeindex>
 #pragma endregion
 #pragma region external::<vendors>
     #define NOMINMAX
@@ -96,14 +102,24 @@ namespace Engine {
     constexpr idxx idxx_INVALID = id16_INVALID;                     // -1 = NONE        |
     // ---------------------------------------------------------------------------------+
 
-    // .. (decimal numbers)
-    using f32 = float;
-    using f64 = double;
+    // .. (decimal numbers) ------------------------------------------------------------+
+    using f32 = float;                                              // 32bit            |
+    using f64 = double;                                             // 64bit            |
+    // ---------------------------------------------------------------------------------+
 
-    // .. (string)
-    using String = std::string;
-
-    // .. (smt ptr)
-    template<typename T> using Unique = std::unique_ptr<T>;
-    template<typename T> using Shared = std::shared_ptr<T>;
+    // .. stdlib -----------------------------------------------------------------------+
+    // .. (string)----------------------------------------------------------------------+
+    using String = std::string;                                     // string           |
+    // .. (smt ptr) --------------------------------------------------------------------+
+    template<typename T> using Unique = std::unique_ptr<T>;         // unique           |
+    template<typename T> using Shared = std::shared_ptr<T>;         // shared           |
+    // .. (optional) -------------------------------------------------------------------+
+    template<typename T> using Optional = std::optional<T>;         // optional         |
+    // .. (file) -----------------------------------------------------------------------+
+    namespace File   = std::filesystem;                             //                  |
+    using FileInput  = std::ifstream;                               //                  |
+    using FileOutput = std::ofstream;                               //                  |
+    // .. (exceptions) -----------------------------------------------------------------+
+    //template <typename T, typename E> using Expected = std::expected<T, E>;  //       |
+    // ---------------------------------------------------------------------------------+
 }

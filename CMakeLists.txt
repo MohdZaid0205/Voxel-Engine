@@ -9,9 +9,10 @@ set(PROJ_DESC DESCRIPTION "")                                       # empty for 
 
 project(${PROJ_NAME} ${PROJ_DESC} ${PROJ_LANG} ${PROJ_VERS})
 find_package(OpenGL REQUIRED)
+enable_testing()
 include(GoogleTest)
 
-set(CMAKE_CXX_STANDARD 20           )
+set(CMAKE_CXX_STANDARD 23           )
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 # to set outpiut directory of binaries both engine and editor
@@ -55,13 +56,14 @@ set(ENGINE_RES_INP_DIR "${CMAKE_SOURCE_DIR}/engine"             )   # TODO: crea
 set(ENGINE_TST_INP_DIR "${CMAKE_SOURCE_DIR}/engine/test"        )
 
 file(GLOB_RECURSE ENGINE_DOCSRC_FILES "${ENGINE_DOX_INP_DIR}/*.md"   "${ENGINE_DOX_INP_DIR}/*.txt" )
-file(GLOB_RECURSE ENGINE_SOURCE_FILES "${ENGINE_SRC_INP_DIR}/*.cpp"  "${ENGINE_INC_INP_DIR}/*.h*"  )
+file(GLOB_RECURSE ENGINE_SOURCE_FILES "${ENGINE_SRC_INP_DIR}/*.cpp"  "${ENGINE_INC_INP_DIR}/*.h*"  "${ENGINE_INC_INP_DIR}/*.i*"  )
 file(GLOB_RECURSE ENGINE_RESSRC_FILES "${ENGINE_RES_INP_DIR}/*.vert" "${ENGINE_RES_INP_DIR}/*.frag")
 file(GLOB_RECURSE ENGINE_GTESTS_FILES "${ENGINE_TST_INP_DIR}/*.cpp"  "${ENGINE_TST_INP_DIR}/*.h*"  )
 source_group("Resources Files"      FILES ${ENGINE_RESSRC_FILES})
 source_group("Documentation Files"  FILES ${ENGINE_DOCSRC_FILES})
 
 add_library                 (Engine SHARED  "${ENGINE_SOURCE_FILES}")
+# add_executable                 (Engine  "${ENGINE_SOURCE_FILES}")
 target_sources              (Engine PRIVATE "${GLAD_SOURCE_FILES}"  )
 target_sources              (Engine PRIVATE "${ENGINE_DOCSRC_FILES}")
 target_sources              (Engine PRIVATE "${ENGINE_RESSRC_FILES}") 
@@ -94,9 +96,9 @@ target_link_libraries       (EngineTests PRIVATE Engine                 )
 target_link_libraries       (EngineTests PRIVATE gtest gtest_main       )
 target_include_directories  (EngineTests PUBLIC  "${ENGINE_BSE_INP_DIR}")
 target_include_directories  (EngineTests PUBLIC  "${ENGINE_INC_INP_DIR}")
+target_compile_definitions  (EngineTests PRIVATE -DBUILD_PLATFORM_WIN   )
 set_target_properties       (EngineTests PROPERTIES FOLDER "GTEST"      )
 gtest_discover_tests        (EngineTests)
-enable_testing()
 
 # [ EDITOR ]:
 file(GLOB_RECURSE EDITOR_SOURCE_FILES "${EDITOR_SRC_INP_DIR}/*.cs"   "${EDITOR_SRC_INP_DIR}/*.cs*"   )
