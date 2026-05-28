@@ -1,0 +1,9 @@
+namespace Editor
+{
+    public static class EditorConfig 
+    {
+        public const string SOURCE_DIRECTORY = "@SOURCE_DIRECTORY_PATH@";
+        public const string ENGINE_DIRECTORY = "@ENGINE_DIRECTORY_PATH@";
+        public const string EDITOR_DIRECTORY = "@EDITOR_DIRECTORY_PATH@";
+    }
+}

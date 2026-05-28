@@ -49,21 +49,21 @@ source_group("Vendor Files" FILES ${GLAD_SOURCE_FILES})             #           
 
 # [ ENGINE ]:
 set(ENGINE_BSE_INP_DIR "${CMAKE_SOURCE_DIR}/engine"             )
-set(ENGINE_INC_INP_DIR "${CMAKE_SOURCE_DIR}/engine/src"         )
+set(ENGINE_INC_INP_DIR "${CMAKE_SOURCE_DIR}/engine/inc"         )
 set(ENGINE_SRC_INP_DIR "${CMAKE_SOURCE_DIR}/engine/src"         )
 set(ENGINE_DOX_INP_DIR "${CMAKE_SOURCE_DIR}/engine"             )   # TODO: create documentaion
 set(ENGINE_RES_INP_DIR "${CMAKE_SOURCE_DIR}/engine"             )   # TODO: create resource dir
 set(ENGINE_TST_INP_DIR "${CMAKE_SOURCE_DIR}/engine/test"        )
 
 file(GLOB_RECURSE ENGINE_DOCSRC_FILES "${ENGINE_DOX_INP_DIR}/*.md"   "${ENGINE_DOX_INP_DIR}/*.txt" )
-file(GLOB_RECURSE ENGINE_SOURCE_FILES "${ENGINE_SRC_INP_DIR}/*.cpp"  "${ENGINE_INC_INP_DIR}/*.h*"  "${ENGINE_INC_INP_DIR}/*.i*"  )
+file(GLOB_RECURSE ENGINE_SOURCE_FILES "${ENGINE_SRC_INP_DIR}/*.cpp"  "${ENGINE_INC_INP_DIR}/*.h*"  )
 file(GLOB_RECURSE ENGINE_RESSRC_FILES "${ENGINE_RES_INP_DIR}/*.vert" "${ENGINE_RES_INP_DIR}/*.frag")
 file(GLOB_RECURSE ENGINE_GTESTS_FILES "${ENGINE_TST_INP_DIR}/*.cpp"  "${ENGINE_TST_INP_DIR}/*.h*"  )
 source_group("Resources Files"      FILES ${ENGINE_RESSRC_FILES})
 source_group("Documentation Files"  FILES ${ENGINE_DOCSRC_FILES})
 
-add_library                 (Engine SHARED  "${ENGINE_SOURCE_FILES}")
-# add_executable                 (Engine  "${ENGINE_SOURCE_FILES}")
+# add_library                 (Engine SHARED  "${ENGINE_SOURCE_FILES}")
+add_executable                 (Engine  "${ENGINE_SOURCE_FILES}")
 target_sources              (Engine PRIVATE "${GLAD_SOURCE_FILES}"  )
 target_sources              (Engine PRIVATE "${ENGINE_DOCSRC_FILES}")
 target_sources              (Engine PRIVATE "${ENGINE_RESSRC_FILES}") 
@@ -83,31 +83,42 @@ target_compile_definitions  (Engine PRIVATE -DBUILD_ENGINE -DBUILD_PLATFORM_WIN)
 set_target_properties(Engine PROPERTIES VS_GLOBAL_ResolveNuGetPackages "false" )
 
 
+# [ TESTS ]:
+# add_executable(EngineTests "${ENGINE_GTESTS_FILES}")
+# target_link_libraries       (EngineTests PRIVATE Engine                 )
+# target_link_libraries       (EngineTests PRIVATE gtest gtest_main       )
+# target_include_directories  (EngineTests PUBLIC  "${ENGINE_BSE_INP_DIR}")
+# target_include_directories  (EngineTests PUBLIC  "${ENGINE_INC_INP_DIR}")
+# target_compile_definitions  (EngineTests PRIVATE -DBUILD_PLATFORM_WIN   )
+# set_target_properties       (EngineTests PROPERTIES FOLDER "GTEST"      )
+# gtest_discover_tests        (EngineTests)
+
+
 set(EDITOR_BSE_INP_DIR "${CMAKE_SOURCE_DIR}/editor"             )
 set(EDITOR_XML_INP_DIR "${CMAKE_SOURCE_DIR}/editor"             )
 set(EDITOR_SRC_INP_DIR "${CMAKE_SOURCE_DIR}/editor"             )
 set(EDITOR_DOX_INP_DIR "${CMAKE_SOURCE_DIR}/editor"             )   # TODO: create documentaion
 set(EDITOR_RES_INP_DIR "${CMAKE_SOURCE_DIR}/editor"             )   # TODO: create resource dir
-set(EDITOR_APP_INP_DIR "${CMAKE_SOURCE_DIR}/editor/App.xaml"    )
-
-# [ TESTS ]:
-add_executable(EngineTests "${ENGINE_GTESTS_FILES}")
-target_link_libraries       (EngineTests PRIVATE Engine                 )
-target_link_libraries       (EngineTests PRIVATE gtest gtest_main       )
-target_include_directories  (EngineTests PUBLIC  "${ENGINE_BSE_INP_DIR}")
-target_include_directories  (EngineTests PUBLIC  "${ENGINE_INC_INP_DIR}")
-target_compile_definitions  (EngineTests PRIVATE -DBUILD_PLATFORM_WIN   )
-set_target_properties       (EngineTests PROPERTIES FOLDER "GTEST"      )
-gtest_discover_tests        (EngineTests)
+set(EDITOR_APP_INP_FIL "${CMAKE_SOURCE_DIR}/editor/App.xaml"    )
+set(EDITOR_APP_CON_FIL "${CMAKE_SOURCE_DIR}/editor/App.cs.in"   )
 
 # [ EDITOR ]:
 file(GLOB_RECURSE EDITOR_SOURCE_FILES "${EDITOR_SRC_INP_DIR}/*.cs"   "${EDITOR_SRC_INP_DIR}/*.cs*"   )
 file(GLOB_RECURSE EDITOR_WPF_UI_FILES "${EDITOR_XML_INP_DIR}/*.xaml" "${EDITOR_XML_INP_DIR}/*.xaml.*")
 file(GLOB_RECURSE EDITOR_WPF_RS_FILES CONFIGURE_DEPENDS "${EDITOR_XML_INP_DIR}/*.png"  "${EDITOR_XML_INP_DIR}/*.svg"   )
 
+# GENERATE CONFIG
+file(REAL_PATH "${CMAKE_SOURCE_DIR}"    SOURCE_DIRECTORY_PATH       )
+file(REAL_PATH "${ENGINE_BSE_INP_DIR}"  ENGINE_DIRECTORY_PATH       )
+file(REAL_PATH "${EDITOR_BSE_INP_DIR}"  EDITOR_DIRECTORY_PATH       )
+
+set(GENERATED_CONF_FILE "${CMAKE_CURRENT_BINARY_DIR}/App.cs"        )
+configure_file(${EDITOR_APP_CON_FIL} "${GENERATED_CONF_FILE}" @ONLY )
+
 add_executable       (Editor "${EDITOR_SOURCE_FILES}")
 target_sources       (Editor PRIVATE "${EDITOR_WPF_UI_FILES}")
 target_sources       (Editor PRIVATE "${EDITOR_WPF_RS_FILES}")
+target_sources       (Editor PRIVATE "${GENERATED_CONF_FILE}")
 
 set_property(TARGET Editor PROPERTY VS_PACKAGE_REFERENCES "SharpVectors_1.8.4"        )
 set_target_properties(Editor PROPERTIES VS_GLOBAL_EnableDefaultNoneItems "False"      )
@@ -115,7 +126,7 @@ set_target_properties(Editor PROPERTIES VS_GLOBAL_UseWPF "True"                 
 set_target_properties(Editor PROPERTIES DOTNET_SDK "Microsoft.NET.Sdk"                )
 set_target_properties(Editor PROPERTIES DOTNET_TARGET_FRAMEWORK "net8.0-windows"      )
 set_source_files_properties(${EDITOR_WPF_UI_FILES} PROPERTIES VS_XAML_TYPE "Page"     )
-set_source_files_properties(${EDITOR_APP_INP_DIR}  PROPERTIES VS_XAML_TYPE "ApplicationDefinition")
+set_source_files_properties(${EDITOR_APP_INP_FIL}  PROPERTIES VS_XAML_TYPE "ApplicationDefinition")
 set_source_files_properties(${EDITOR_WPF_RS_FILES} PROPERTIES VS_TOOL_OVERRIDE "Resource" )
 
 add_dependencies    (Editor Engine)
