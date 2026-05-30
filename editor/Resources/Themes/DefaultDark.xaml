@@ -1,79 +1,79 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!--  DARK THEME — Material Darker                              -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    
-    <!-- Surfaces -->
-    <SolidColorBrush x:Key="brush_bg_base"         Color="#0D0D0D"/>
-    <SolidColorBrush x:Key="brush_bg_surface"      Color="#141414"/>
-    <SolidColorBrush x:Key="brush_bg_elevated"     Color="#1C1C1C"/>
-    <SolidColorBrush x:Key="brush_bg_overlay"      Color="#252525"/>
-    <SolidColorBrush x:Key="brush_bg_hover"        Color="#2E2E2E"/>
+    <!--  ═══════════════════════════════════════════════════════════  -->
+    <!--  DARK THEME — Material Darker  -->
+    <!--  ═══════════════════════════════════════════════════════════  -->
 
-    <!-- Accent -->
-    <SolidColorBrush x:Key="brush_accent"          Color="#82AAFF"/>
-    <SolidColorBrush x:Key="brush_accent_hover"    Color="#9DBBFF"/>
-    <SolidColorBrush x:Key="brush_accent_pressed"  Color="#6A96F0"/>
-    <SolidColorBrush x:Key="brush_accent_dim"      Color="#1A2640"/>
+    <!--  Surfaces  -->
+    <SolidColorBrush x:Key="brush_bg_base" Color="#0D0D0D" />
+    <SolidColorBrush x:Key="brush_bg_surface" Color="#141414" />
+    <SolidColorBrush x:Key="brush_bg_elevated" Color="#1C1C1C" />
+    <SolidColorBrush x:Key="brush_bg_overlay" Color="#252525" />
+    <SolidColorBrush x:Key="brush_bg_hover" Color="#2E2E2E" />
 
-    <!-- Semantic -->
-    <SolidColorBrush x:Key="brush_danger"          Color="#FF5370"/>
-    <SolidColorBrush x:Key="brush_danger_dim"      Color="#3A1020"/>
-    <SolidColorBrush x:Key="brush_success"         Color="#55FF55"/>
-    <SolidColorBrush x:Key="brush_success_dim"     Color="#0F2B0F"/>
-    <SolidColorBrush x:Key="brush_warning"         Color="#FFCB6B"/>
-    <SolidColorBrush x:Key="brush_warning_dim"     Color="#2B200A"/>
-    <SolidColorBrush x:Key="brush_purple"          Color="#C792EA"/>
-    <SolidColorBrush x:Key="brush_purple_dim"      Color="#220B33"/>
-    <SolidColorBrush x:Key="brush_cyan"            Color="#89DDFF"/>
+    <!--  Accent  -->
+    <SolidColorBrush x:Key="brush_accent" Color="#82AAFF" />
+    <SolidColorBrush x:Key="brush_accent_hover" Color="#9DBBFF" />
+    <SolidColorBrush x:Key="brush_accent_pressed" Color="#6A96F0" />
+    <SolidColorBrush x:Key="brush_accent_dim" Color="#1A2640" />
 
-    <!-- Text -->
-    <SolidColorBrush x:Key="brush_text_primary"    Color="#EEFFFF"/>
-    <SolidColorBrush x:Key="brush_text_secondary"  Color="#A0B4C0"/>
-    <SolidColorBrush x:Key="brush_text_muted"      Color="#546070"/>
-    <SolidColorBrush x:Key="brush_text_on_accent"  Color="#0D0D0D"/>
+    <!--  Semantic  -->
+    <SolidColorBrush x:Key="brush_danger" Color="#FF5370" />
+    <SolidColorBrush x:Key="brush_danger_dim" Color="#3A1020" />
+    <SolidColorBrush x:Key="brush_success" Color="#55FF55" />
+    <SolidColorBrush x:Key="brush_success_dim" Color="#0F2B0F" />
+    <SolidColorBrush x:Key="brush_warning" Color="#FFCB6B" />
+    <SolidColorBrush x:Key="brush_warning_dim" Color="#2B200A" />
+    <SolidColorBrush x:Key="brush_purple" Color="#C792EA" />
+    <SolidColorBrush x:Key="brush_purple_dim" Color="#220B33" />
+    <SolidColorBrush x:Key="brush_cyan" Color="#89DDFF" />
 
-    <!-- Borders -->
-    <SolidColorBrush x:Key="brush_border_subtle"   Color="#1F1F1F"/>
-    <SolidColorBrush x:Key="brush_border_default"  Color="#333333"/>
-    <SolidColorBrush x:Key="brush_border_strong"   Color="#484848"/>
-    <SolidColorBrush x:Key="brush_border_accent"   Color="#82AAFF"/>
+    <!--  Text  -->
+    <SolidColorBrush x:Key="brush_text_primary" Color="#EEFFFF" />
+    <SolidColorBrush x:Key="brush_text_secondary" Color="#A0B4C0" />
+    <SolidColorBrush x:Key="brush_text_muted" Color="#546070" />
+    <SolidColorBrush x:Key="brush_text_on_accent" Color="#0D0D0D" />
 
-    <!-- Accent fill (flat) -->
-    <SolidColorBrush x:Key="brush_accent_gradient"   Color="#82AAFF"/>
-    <SolidColorBrush x:Key="brush_danger_gradient"   Color="#FF5370"/>
-    <SolidColorBrush x:Key="brush_success_gradient"  Color="#55FF55"/>
+    <!--  Borders  -->
+    <SolidColorBrush x:Key="brush_border_subtle" Color="#1F1F1F" />
+    <SolidColorBrush x:Key="brush_border_default" Color="#333333" />
+    <SolidColorBrush x:Key="brush_border_strong" Color="#484848" />
+    <SolidColorBrush x:Key="brush_border_accent" Color="#82AAFF" />
 
-    <!-- Legacy compat aliases -->
-    <SolidColorBrush x:Key="brush_neutral_default_background"  Color="#141414"/>
-    <SolidColorBrush x:Key="brush_neutral_neutral_background"  Color="#1C1C1C"/>
-    <SolidColorBrush x:Key="brush_neutral_accent_background"   Color="#82AAFF"/>
-    <SolidColorBrush x:Key="brush_neutral_accent_hover"        Color="#9DBBFF"/>
-    <SolidColorBrush x:Key="brush_neutral_accent_pressed"      Color="#6A96F0"/>
-    <SolidColorBrush x:Key="brush_neutral_error_background"    Color="#FF5370"/>
-    <SolidColorBrush x:Key="brush_neutral_warning_background"  Color="#FFCB6B"/>
-    <SolidColorBrush x:Key="brush_neutral_fine_background"     Color="#55FF55"/>
-    <SolidColorBrush x:Key="brush_neutral_default_foreground"  Color="#EEFFFF"/>
-    <SolidColorBrush x:Key="brush_neutral_neutral_foreground"  Color="#A0B4C0"/>
-    <SolidColorBrush x:Key="brush_neutral_accent_foreground"   Color="#0D0D0D"/>
-    <SolidColorBrush x:Key="brush_muted_default_background"    Color="#0D0D0D"/>
-    <SolidColorBrush x:Key="brush_muted_neutral_background"    Color="#252525"/>
-    <SolidColorBrush x:Key="brush_muted_accent_background"     Color="#2E2E2E"/>
-    <SolidColorBrush x:Key="brush_muted_default_foreground"    Color="#546070"/>
-    <SolidColorBrush x:Key="brush_muted_neutral_foreground"    Color="#546070"/>
-    <SolidColorBrush x:Key="brush_muted_accent_foreground"     Color="#EEFFFF"/>
-    <SolidColorBrush x:Key="brush_border_focus"                Color="#82AAFF"/>
+    <!--  Accent fill (flat)  -->
+    <SolidColorBrush x:Key="brush_accent_gradient" Color="#82AAFF" />
+    <SolidColorBrush x:Key="brush_danger_gradient" Color="#FF5370" />
+    <SolidColorBrush x:Key="brush_success_gradient" Color="#55FF55" />
 
-    <!-- Theme identity (used by code-behind to determine current theme) -->
+    <!--  Legacy compat aliases  -->
+    <SolidColorBrush x:Key="brush_neutral_default_background" Color="#141414" />
+    <SolidColorBrush x:Key="brush_neutral_neutral_background" Color="#1C1C1C" />
+    <SolidColorBrush x:Key="brush_neutral_accent_background" Color="#82AAFF" />
+    <SolidColorBrush x:Key="brush_neutral_accent_hover" Color="#9DBBFF" />
+    <SolidColorBrush x:Key="brush_neutral_accent_pressed" Color="#6A96F0" />
+    <SolidColorBrush x:Key="brush_neutral_error_background" Color="#FF5370" />
+    <SolidColorBrush x:Key="brush_neutral_warning_background" Color="#FFCB6B" />
+    <SolidColorBrush x:Key="brush_neutral_fine_background" Color="#55FF55" />
+    <SolidColorBrush x:Key="brush_neutral_default_foreground" Color="#EEFFFF" />
+    <SolidColorBrush x:Key="brush_neutral_neutral_foreground" Color="#A0B4C0" />
+    <SolidColorBrush x:Key="brush_neutral_accent_foreground" Color="#0D0D0D" />
+    <SolidColorBrush x:Key="brush_muted_default_background" Color="#0D0D0D" />
+    <SolidColorBrush x:Key="brush_muted_neutral_background" Color="#252525" />
+    <SolidColorBrush x:Key="brush_muted_accent_background" Color="#2E2E2E" />
+    <SolidColorBrush x:Key="brush_muted_default_foreground" Color="#546070" />
+    <SolidColorBrush x:Key="brush_muted_neutral_foreground" Color="#546070" />
+    <SolidColorBrush x:Key="brush_muted_accent_foreground" Color="#EEFFFF" />
+    <SolidColorBrush x:Key="brush_border_focus" Color="#82AAFF" />
+
+    <!--  Theme identity (used by code-behind to determine current theme)  -->
     <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Key="theme_id">dark</sys:String>
-    
-    <!-- Theme related icons list-->
-    <BitmapImage x:Key="add-project-icon" UriSource="/editor/Resources/Icons/add-project-dark.png"/>
-    <BitmapImage x:Key="project-template-icon" UriSource="/editor/Resources/Icons/properties-dark.png"/>
-    <BitmapImage x:Key="empty-project-icon" UriSource="/editor/Resources/Icons/empty-project-dark.png"/>
-    <BitmapImage x:Key="settings-icon" UriSource="/editor/Resources/Icons/settings-dark.png"/>
-    <BitmapImage x:Key="folder-icon" UriSource="/editor/Resources/Icons/folder-dark.png"/>
+
+    <!--  Theme related icons list  -->
+    <BitmapImage x:Key="app-icon" UriSource="/editor/Resources/Icons/app-icon.png" />
+    <BitmapImage x:Key="add-project-icon" UriSource="/editor/Resources/Icons/add-project-dark.png" />
+    <BitmapImage x:Key="project-template-icon" UriSource="/editor/Resources/Icons/properties-dark.png" />
+    <BitmapImage x:Key="empty-project-icon" UriSource="/editor/Resources/Icons/empty-project-dark.png" />
+    <BitmapImage x:Key="settings-icon" UriSource="/editor/Resources/Icons/settings-dark.png" />
+    <BitmapImage x:Key="folder-icon" UriSource="/editor/Resources/Icons/folder-dark.png" />
 
 </ResourceDictionary>
