@@ -40,3 +40,14 @@ namespace Editor.Models
             if (currentContext != null)
             {
                 DestroyCurrentContext();
+            }
+            currentContext = LoadProjectMetadata(path);
+        }
+
+        public static void DestroyCurrentContext()
+        {
+            StoreProjectMetadata(currentContext);
+            currentContext = null;
+        }
+    }
+}
