@@ -86,3 +86,47 @@ namespace Editor.Models
                 # set_target_properties       (Engine PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_RUN_OUT_DIR})
                 target_compile_definitions  (Engine PRIVATE -DBUILD_ENGINE -DBUILD_PLATFORM_WIN)
                 set_target_properties(Engine PROPERTIES VS_GLOBAL_ResolveNuGetPackages "false" )
+                
+                # [GAME]:
+                set(GAME_BSE_INP_DIR "{{voxelsDir}}/"            )
+                set(GAME_SRC_INP_DIR "{{voxelsDir}}/scripts"     )
+                set(GAME_INC_INP_DIR "{{voxelsDir}}/include"     )
+                set(GAME_RES_INP_DIR "{{voxelsDir}}/resources"   )
+
+                file(GLOB_RECURSE GAME_SOURCE_FILES "${GAME_SRC_INP_DIR}/*.cpp"  "${GAME_INC_INP_DIR}/*.h*"  "${ENGINE_INC_INP_DIR}/*.i*"  )
+                file(GLOB_RECURSE GAME_RESSRC_FILES "${GAME_RES_INP_DIR}/*.vert" "${GAME_RES_INP_DIR}/*.frag")
+                # TODO: Add more files as per requirement
+
+                source_group("Resources Files"      FILES ${GAME_RESSRC_FILES})
+
+                add_executable({{projectMetadata.Name}} "${GAME_SOURCE_FILES}")
+                target_include_directories  ({{projectMetadata.Name}} PUBLIC "${GAME_INC_INP_DIR}"  )
+                target_include_directories  ({{projectMetadata.Name}} PUBLIC "${ENGINE_INC_INP_DIR}")
+                set_target_properties       ({{projectMetadata.Name}} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON )
+                target_include_directories  ({{projectMetadata.Name}} PUBLIC "${CMAKE_GLAD__INCLUDE_DIRECTORY}")
+                target_include_directories  ({{projectMetadata.Name}} PUBLIC "${CMAKE_GLFW__INCLUDE_DIRECTORY}")
+                target_compile_definitions  ({{projectMetadata.Name}} PRIVATE -DBUILD_ENGINE -DBUILD_PLATFORM_WIN)
+                target_link_libraries       ({{projectMetadata.Name}} PUBLIC Engine)
+
+                add_dependencies    ({{projectMetadata.Name}} Engine)
+                """;
+            string cmakePath = Path.Combine(projectMetadata.Base, cmakeFile);
+            File.WriteAllText(cmakePath, cmakeData);
+        }
+
+        public void SetupSourceFile()
+        {
+            string sourceDir = Path.Combine(projectMetadata.Base, "scripts");
+            Directory.CreateDirectory(sourceDir);
+            string entrypoint = $$"""
+                #include "entrypoint.hpp"
+                #include "logging.hpp"
+                void run(){
+                    Engine::Console::Log("Hello from {{projectMetadata.Name}}");
+                }
+                """;
+            File.WriteAllText(Path.Combine(sourceDir, "main.cpp"), entrypoint);
+        }
+
+        public void SetupResources()
+        {
