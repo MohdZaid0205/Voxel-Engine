@@ -42,3 +42,47 @@ namespace Editor.Models
                 set(CMAKE_GLAD__SOURCES_DIRECTORY   "{{sourceDir}}/submodules/Glad/src"           )
                 
                 add_subdirectory({{sourceDir}}/submodules/Glfw  ${CMAKE_CURRENT_BINARY_DIR}/glfw_build)          
+                add_subdirectory({{sourceDir}}/submodules/GTest ${CMAKE_CURRENT_BINARY_DIR}/gtest_build)
+
+                # prepare glad source and include files ------------------------------------------------+
+                file(GLOB_RECURSE GLAD_SOURCE_FILES                                 #                   |
+                    "${CMAKE_GLAD__SOURCES_DIRECTORY}/glad.c"                       #                   |
+                    "${CMAKE_GLAD__INCLUDE_DIRECTORY}/glad.h"                       #                   |
+                )                                                                   #                   |
+                source_group("Vendor Files" FILES ${GLAD_SOURCE_FILES})             #                   |
+                # --------------------------------------------------------------------------------------+
+                
+                # [ ENGINE ]:
+                set(ENGINE_BSE_INP_DIR "{{engineDir}}"             )
+                set(ENGINE_INC_INP_DIR "{{engineDir}}/src"         )
+                set(ENGINE_SRC_INP_DIR "{{engineDir}}/src"         )
+                set(ENGINE_DOX_INP_DIR "{{engineDir}}"             )   # TODO: create documentaion
+                set(ENGINE_RES_INP_DIR "{{engineDir}}"             )   # TODO: create resource dir
+                set(ENGINE_TST_INP_DIR "{{engineDir}}/test"        )
+
+                file(GLOB_RECURSE ENGINE_DOCSRC_FILES "${ENGINE_DOX_INP_DIR}/*.md"   "${ENGINE_DOX_INP_DIR}/*.txt" )
+                file(GLOB_RECURSE ENGINE_SOURCE_FILES "${ENGINE_SRC_INP_DIR}/*.cpp"  "${ENGINE_INC_INP_DIR}/*.h*"  "${ENGINE_INC_INP_DIR}/*.i*"  )
+                file(GLOB_RECURSE ENGINE_RESSRC_FILES "${ENGINE_RES_INP_DIR}/*.vert" "${ENGINE_RES_INP_DIR}/*.frag")
+                file(GLOB_RECURSE ENGINE_GTESTS_FILES "${ENGINE_TST_INP_DIR}/*.cpp"  "${ENGINE_TST_INP_DIR}/*.h*"  )
+                source_group("Resources Files"      FILES ${ENGINE_RESSRC_FILES})
+                source_group("Documentation Files"  FILES ${ENGINE_DOCSRC_FILES})
+
+                add_library                 (Engine SHARED  "${ENGINE_SOURCE_FILES}")
+                # add_executable                 (Engine  "${ENGINE_SOURCE_FILES}")
+                target_sources              (Engine PRIVATE "${GLAD_SOURCE_FILES}"  )
+                target_sources              (Engine PRIVATE "${ENGINE_DOCSRC_FILES}")
+                target_sources              (Engine PRIVATE "${ENGINE_RESSRC_FILES}") 
+                target_include_directories  (Engine PUBLIC  "${ENGINE_BSE_INP_DIR}" )
+                target_include_directories  (Engine PUBLIC  "${ENGINE_INC_INP_DIR}" )
+
+                target_link_libraries       (Engine PUBLIC  glfw        ) # explicitly inherit glfw   include directory
+                target_link_libraries       (Engine PUBLIC  OpenGL::GL  ) # explicitly inherit opengl include directory
+                target_include_directories  (Engine PUBLIC "${CMAKE_GLAD__INCLUDE_DIRECTORY}")
+                target_include_directories  (Engine PUBLIC "${CMAKE_GLFW__INCLUDE_DIRECTORY}")
+                set_target_properties       (Engine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON )
+                # following lines may be considerd redundant
+                # set_target_properties       (Engine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${ENGINE_ARC_OUT_DIR})
+                # set_target_properties       (Engine PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${ENGINE_LIB_OUT_DIR})
+                # set_target_properties       (Engine PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_RUN_OUT_DIR})
+                target_compile_definitions  (Engine PRIVATE -DBUILD_ENGINE -DBUILD_PLATFORM_WIN)
+                set_target_properties(Engine PROPERTIES VS_GLOBAL_ResolveNuGetPackages "false" )
