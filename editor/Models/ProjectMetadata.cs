@@ -19,3 +19,8 @@ namespace Editor.Models
         public string? Description { get; set; }
 
         public HashSet<string> IncludedFiles { get; set; }
+        public HashSet<string> ExcludedFiles { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+}
