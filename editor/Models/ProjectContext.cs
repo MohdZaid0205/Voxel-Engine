@@ -26,3 +26,17 @@ namespace Editor.Models
             using FileStream fileStream = File.OpenRead(metadata_file);
             return JsonSerializer.Deserialize<ProjectMetadata>(fileStream);
         }
+
+        public static void StoreProjectMetadata(ProjectMetadata projectMetadata)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string metadata_file = Path.Combine(projectMetadata.Base, "metadata.json");
+            using FileStream fileStream = File.Create(metadata_file);
+            JsonSerializer.Serialize(fileStream, projectMetadata, options);
+        }
+
+        public static void SetupCurrentContext(string path)
+        {
+            if (currentContext != null)
+            {
+                DestroyCurrentContext();
