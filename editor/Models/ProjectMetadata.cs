@@ -12,3 +12,10 @@ namespace Editor.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Author { get; set; }
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? License { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Description { get; set; }
+
+        public HashSet<string> IncludedFiles { get; set; }
