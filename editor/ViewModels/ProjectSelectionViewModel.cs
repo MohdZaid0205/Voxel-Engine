@@ -80,3 +80,44 @@ namespace Editor.ViewModels
             return false;
         }
 
+        private bool CanOpenSelectedProject()
+        {
+            return !String.IsNullOrEmpty(selectedProject?.Base);
+        }
+
+        public void LoadRecentProjects()
+        {
+            if (!File.Exists(__recentProjectFile))
+                return;
+
+            try
+            {
+                string jsonString = File.ReadAllText(__recentProjectFile);
+                var loadedData = JsonSerializer.Deserialize<List<ProjectRecent>>(jsonString);
+
+                if (loadedData != null)
+                {
+                    recentProjects.Clear();
+                    foreach (var project in loadedData)
+                    {
+                        if (Directory.Exists(project.Path))
+                        {
+                            recentProjects.Add(project);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void AddRecentProjects(string name, string path)
+        {
+            ProjectRecent recentModel = new ProjectRecent();
+            recentModel.Name = name;
+            recentModel.Path = path;
+            if (recentProjects.Contains(recentModel))
+            {
+                recentProjects.Remove(recentModel);
