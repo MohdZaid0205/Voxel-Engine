@@ -79,3 +79,29 @@ namespace Editor.ViewModels
 		}
 
 		public DateTime UpdatedAt
+		{
+			get { return newProject.UpdatedAt; }
+			set
+			{
+				newProject.UpdatedAt = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private void Create()
+		{
+			if (newProject != null)
+			{
+				CreatedAt = DateTime.Now;
+				UpdatedAt = DateTime.Now;
+				ProjectContext.CreateProject(newProject);
+				ProjectSelectionViewModel.AddRecentProjects(newProject.Name, newProject.Base);
+			}
+		}
+
+		private bool CanCreate()
+		{
+			return !String.IsNullOrEmpty(newProject.Name) && !String.IsNullOrEmpty(Path);
+		}
+	}
+}
