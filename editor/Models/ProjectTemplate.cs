@@ -130,3 +130,45 @@ namespace Editor.Models
 
         public void SetupResources()
         {
+            string resourceDir = Path.Combine(projectMetadata.Base, "resources");
+            Directory.CreateDirectory(resourceDir);
+            string defaultVertexShader = """
+                #version 330 core
+                layout (location = 0) in vec3 aPos;
+                layout (location = 1) in vec2 aTexCoord;
+
+                out vec2 TexCoord;
+
+                uniform mat4 model;
+                uniform mat4 view;
+                uniform mat4 projection;
+
+                void main()
+                {
+                    gl_Position = projection * view * model * vec4(aPos, 1.0);
+                    TexCoord = aTexCoord;
+                }
+                """;
+            string defaultFragmentShader = """
+                #version 330 core
+                out vec4 FragColor;
+
+                in vec2 TexCoord;
+
+                void main()
+                {
+                    float scale = 10.0; 
+                    vec2 grid = floor(TexCoord * scale);
+                    float checker = mod(grid.x + grid.y, 2.0);
+                    vec3 magenta = vec3(1.0, 0.0, 1.0);
+                    vec3 black = vec3(0.0, 0.0, 0.0);
+                    
+                    vec3 finalColor = mix(magenta, black, checker);
+                    FragColor = vec4(finalColor, 1.0);
+                }
+                """;
+            File.WriteAllText(Path.Combine(resourceDir, "default.frag"), defaultFragmentShader);
+            File.WriteAllText(Path.Combine(resourceDir, "default.vert"), defaultVertexShader);
+        }
+    }
+}
