@@ -39,3 +39,44 @@ namespace Editor.ViewModels
                 if (__selectedRecentProject != value)
                 {
                     __selectedRecentProject = value;
+                    OnPropertyChanged();
+                    selectedProject = ProjectContext.LoadProjectMetadata(
+                        __selectedRecentProject.Path
+                    );
+                }
+            }
+        }
+
+        public ICommand RemoveProjectCommand { get; }
+        public ICommand AddNewProjectCommand { get; }
+        public ICommand OpenSelectedCommand { get; }
+
+        public ProjectSelectionViewModel()
+        {
+            recentProjects = new ObservableCollection<ProjectRecent>();
+            RemoveProjectCommand = new RelayCommand(RemoveProject);
+            AddNewProjectCommand = new RelayCommand(AddNewProject);
+            OpenSelectedCommand = new RelayCommand(
+                execute: () =>
+                {
+                    OpenSelectedProject();
+                },
+                canExecute: CanOpenSelectedProject
+            );
+            LoadRecentProjects();
+            //AddRecentProjects("FirstProject", "some path you know");
+            //AddRecentProjects("SecondProject", "some path you know");
+        }
+
+        public bool OpenSelectedProject()
+        {
+            if (selectedProject != null)
+            {
+                ProjectContext.SetupCurrentContext(selectedProject.Base);
+                VoxleEditorView editorView = new VoxleEditorView();
+                editorView.Show();
+                return true;
+            }
+            return false;
+        }
+
