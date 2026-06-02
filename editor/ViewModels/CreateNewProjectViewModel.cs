@@ -52,3 +52,30 @@ namespace Editor.ViewModels
 		{
 			get { return newProject.Description; }
 			set
+			{
+				newProject.Description = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public string License
+		{
+			get { return newProject.License; }
+			set
+			{
+				newProject.License = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public DateTime CreatedAt
+		{
+			get { return newProject.CreatedAt; }
+			set
+			{
+				newProject.CreatedAt = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public DateTime UpdatedAt
