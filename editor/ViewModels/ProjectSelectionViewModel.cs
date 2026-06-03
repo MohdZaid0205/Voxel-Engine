@@ -121,3 +121,43 @@ namespace Editor.ViewModels
             if (recentProjects.Contains(recentModel))
             {
                 recentProjects.Remove(recentModel);
+            }
+            recentProjects.Insert(0, recentModel);
+            SaveRecentProjects();
+        }
+
+        public static void SaveRecentProjects()
+        {
+            try
+            {
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                string jsonString = JsonSerializer.Serialize(recentProjects, options);
+                File.WriteAllText(__recentProjectFile, jsonString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving recent projects: {ex.Message}");
+            }
+        }
+
+        private void RemoveProject(object? parameter)
+        {
+            if (parameter is ProjectRecent projectToRemove)
+            {
+                if (projectToRemove != null && recentProjects.Contains(projectToRemove))
+                {
+                    recentProjects.Remove(projectToRemove);
+                    SaveRecentProjects();
+                }
+            }
+        }
+
+        private void AddNewProject(object? parameter)
+        {
+            if (parameter is ProjectMetadata projectMetadata)
+            {
+                AddRecentProjects(projectMetadata.Name, projectMetadata.Base);
+            }
+        }
+    }
+}
