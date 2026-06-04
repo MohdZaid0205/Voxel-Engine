@@ -31,3 +31,14 @@ namespace Editor.Views.Screens
             dialog.Title = "Select Project Location";
             if (dialog.ShowDialog() == true)
             {
+                if (this.DataContext is CreateProjectViewModel viewModle)
+                {
+                    if (viewModle.Name != null)
+                    {
+                        viewModle.Path = System.IO.Path.Combine(dialog.FolderName, viewModle.Name);
+                    }
+                }
+            }
+        }
+    }
+}
