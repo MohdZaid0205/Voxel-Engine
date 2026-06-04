@@ -20,3 +20,14 @@ namespace Editor.Views.Screens
             }
         }
 
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void BrowseFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFolderDialog dialog = new OpenFolderDialog();
+            dialog.Title = "Select Project Location";
+            if (dialog.ShowDialog() == true)
+            {
