@@ -316,3 +316,109 @@
                         Background="{DynamicResource brush_bg_surface}"
                         Content="{Binding Author}"
                         Foreground="{DynamicResource brush_neutral_default_foreground}" />
+                </Grid>
+
+
+                <Grid Height="30" Margin="0,0,0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Margin="0,0,1,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="Created At"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
+
+                    <Label
+                        Grid.Column="1"
+                        Margin="0,0,1,0"
+                        Padding="8,0,0,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="{Binding CreatedAt}"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
+                </Grid>
+
+                <Grid Height="30" Margin="0,0,0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Margin="0,0,1,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="Updated At"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
+
+                    <Label
+                        Grid.Column="1"
+                        Margin="0,0,1,0"
+                        Padding="8,0,0,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="{Binding UpdatedAt}"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
+                </Grid>
+
+                <Grid Height="auto" Margin="0,0,0,2">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="0,1,0,0"
+                        Padding="8"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Foreground="{DynamicResource brush_muted_default_foreground}"
+                        Tag="No default description"
+                        Text="{Binding Description}"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+            </StackPanel>
+
+            <Button
+                x:Name="OpenProjectButton"
+                Grid.Row="2"
+                Padding="0"
+                Background="{DynamicResource brush_bg_hover}"
+                BorderBrush="{DynamicResource brush_bg_hover}"
+                Click="OpenProjectButton_Click"
+                Content="Open Selected"
+                FontWeight="Bold"
+                Foreground="{DynamicResource brush_neutral_default_foreground}"
+                Style="{DynamicResource ButtonStyle.Secondary}" />
+
+            <Button
+                x:Name="NewProjectButton"
+                Grid.Row="1"
+                Padding="0"
+                Background="{DynamicResource brush_bg_hover}"
+                BorderBrush="{DynamicResource brush_bg_hover}"
+                Click="CreateNewProject_Click"
+                Content="New Project"
+                FontWeight="Bold"
+                Foreground="{DynamicResource brush_accent}"
+                Style="{DynamicResource ButtonStyle.Secondary}" />
+
+        </Grid>
+    </Grid>
+</Window>
