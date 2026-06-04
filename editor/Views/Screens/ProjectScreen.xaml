@@ -1,0 +1,106 @@
+<Window
+    x:Class="Editor.Views.Screens.ProjectScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Editor.Resources.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Editor"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Editor.ViewModels"
+    Title="ProjectScreen"
+    Width="1000"
+    Height="650"
+    Icon="/editor/Resources/Icons/app-icon.png"
+    mc:Ignorable="d">
+
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="0"
+            CornerRadius="0"
+            GlassFrameThickness="0"
+            ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
+
+
+    <Window.DataContext>
+        <viewModels:ProjectSelectionViewModel />
+    </Window.DataContext>
+
+    <Grid Background="{DynamicResource brush_bg_elevated}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" MinWidth="300" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" MinWidth="100" />
+        </Grid.ColumnDefinitions>
+
+
+        <!--  Top Heading  -->
+        <Grid
+            x:Name="TitleBar"
+            Grid.Row="0"
+            Grid.ColumnSpan="3"
+            Background="{DynamicResource brush_bg_hover}"
+            MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <controls:SpinnerControl
+                x:Name="project_screen_topleft_spinner"
+                Grid.Column="0"
+                Size="25"
+                Visibility="Hidden" />
+
+            <Image
+                x:Name="project_screen_topleft_static"
+                Grid.Column="0"
+                Width="15"
+                Height="15"
+                Source="{DynamicResource app-icon}"
+                Visibility="Visible" />
+
+            <Label
+                Grid.Column="1"
+                VerticalContentAlignment="Center"
+                Content="Recent Projects"
+                FontFamily="Cascadia Mono"
+                FontSize="13"
+                FontWeight="Bold"
+                Foreground="{DynamicResource brush_neutral_default_foreground}" />
+
+            <Button
+                Grid.Column="2"
+                Margin="3"
+                Padding="3,0"
+                Click="MinimizeButton_Click"
+                Content="➖"
+                FontSize="10"
+                FontWeight="Black"
+                Foreground="{DynamicResource brush_neutral_default_foreground}"
+                Style="{DynamicResource ButtonStyle.Secondary}" />
+
+
+            <Button
+                Grid.Column="3"
+                Margin="3"
+                Padding="3,0"
+                Click="CloseButton_Click"
+                Content="❌"
+                FontSize="10"
+                FontWeight="Black"
+                Foreground="{DynamicResource brush_neutral_default_foreground}"
+                Style="{DynamicResource ButtonStyle.Secondary}" />
+
+
+        </Grid>
