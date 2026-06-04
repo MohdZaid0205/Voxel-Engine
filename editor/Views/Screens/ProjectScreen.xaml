@@ -210,3 +210,109 @@
                     Foreground="{DynamicResource brush_accent}"
                     Style="{DynamicResource ButtonStyle.Secondary}" />
             </Grid>
+        </Grid>
+        <!--  TODO: make sure to add contols for listing recent projects and creating new  -->
+
+        <GridSplitter
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch"
+            Background="{DynamicResource brush_bg_overlay}" />
+
+        <!--  Available Options  -->
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Margin="10"
+                DataContext="{Binding selectedProject}">
+
+                <Grid Height="30" Margin="0,0,0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Margin="0,0,1,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="Name"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
+
+                    <Label
+                        Grid.Column="1"
+                        Margin="0,0,1,0"
+                        Padding="8,0,0,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="{Binding Name}"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
+                </Grid>
+
+                <Grid Height="30" Margin="0,0,0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Margin="0,0,1,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="Path"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
+
+                    <Label
+                        Grid.Column="1"
+                        Margin="0,0,1,0"
+                        Padding="8,0,0,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="{Binding Base}"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
+                </Grid>
+
+                <Grid Height="30" Margin="0,0,0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Margin="0,0,1,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="Author"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
+
+                    <Label
+                        Grid.Column="1"
+                        Margin="0,0,1,0"
+                        Padding="8,0,0,0"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{DynamicResource brush_bg_surface}"
+                        Content="{Binding Author}"
+                        Foreground="{DynamicResource brush_neutral_default_foreground}" />
