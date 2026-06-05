@@ -26,3 +26,17 @@ namespace Editor.Views.Screens
         {
             if (e.ChangedButton == MouseButton.Left)
             {
+                this.DragMove();
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MinimizeButton_Click(Object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
