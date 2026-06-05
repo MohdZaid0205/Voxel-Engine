@@ -12,3 +12,17 @@ namespace Editor.Views.Screens
             InitializeComponent();
         }
 
+        private void CreateNewProject_Click(object sender, RoutedEventArgs e)
+        {
+            project_screen_topleft_spinner.Visibility = Visibility.Visible;
+            project_screen_topleft_static.Visibility = Visibility.Hidden;
+            NewProjectScreen newProjectScreen = new NewProjectScreen();
+            newProjectScreen.ShowDialog();
+            project_screen_topleft_spinner.Visibility = Visibility.Hidden;
+            project_screen_topleft_static.Visibility = Visibility.Visible;
+        }
+
+        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
