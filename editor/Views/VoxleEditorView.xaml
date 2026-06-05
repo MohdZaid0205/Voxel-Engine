@@ -8,3 +8,13 @@
     xmlns:viewModles="clr-namespace:Editor.ViewModels"
     Title="Voxle Editor"
     Width="1000"
+    Height="650"
+    Icon="{DynamicResource app-icon}"
+    mc:Ignorable="d">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="0"
+            CornerRadius="0"
+            GlassFrameThickness="0"
+            ResizeBorderThickness="5" />
