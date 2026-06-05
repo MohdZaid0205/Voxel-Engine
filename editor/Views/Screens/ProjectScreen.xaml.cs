@@ -40,3 +40,15 @@ namespace Editor.Views.Screens
             this.WindowState = WindowState.Minimized;
         }
 
+        private void OpenProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext is ProjectSelectionViewModel viewModle)
+            {
+                if (viewModle.OpenSelectedProject())
+                {
+                    Close();
+                }
+            }
+        }
+    }
+}
