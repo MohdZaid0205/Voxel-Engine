@@ -28,3 +28,10 @@
 
         <Button
             HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Click="CloseButton_Click"
+            Content="❌"
+            Style="{DynamicResource ButtonStyle.Secondary}" />
+
+    </Grid>
+</Window>
