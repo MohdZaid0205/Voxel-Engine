@@ -18,3 +18,13 @@
             CornerRadius="0"
             GlassFrameThickness="0"
             ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
+
+    <Window.DataContext>
+        <viewModles:CreateProjectViewModel />
+    </Window.DataContext>
+
+    <Grid Background="{DynamicResource brush_bg_hover}" MouseLeftButtonDown="Body_MouseLeftButtonDown">
+
+        <Button
+            HorizontalAlignment="Center"
