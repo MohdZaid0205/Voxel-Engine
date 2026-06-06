@@ -5,3 +5,10 @@ namespace Editor.Views
 {
     public partial class VoxleEditorView : Window
     {
+        public VoxleEditorView()
+        {
+            InitializeComponent();
+        }
+
+        private void Body_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
