@@ -22,3 +22,15 @@ namespace Engine {
 
 		Attempt::Status FailedToInitializeGlfwException(String reason);
 		Attempt::Status FailedToInitializeGladException(String reason);
+		Attempt::Status FailedToInitializeWndwException(String reason);
+	};
+
+	namespace State {
+		extern enum State {
+			STATE_PAUSED  = 0b00,
+			STATE_RUNNING = 0b01,
+			STATE_UNKNOWN = 0b10,
+		} current;
+
+		ENGINE_API bool EnginePause();
+		ENGINE_API bool EngineRun();
