@@ -34,3 +34,12 @@ namespace Engine {
 
 		ENGINE_API bool EnginePause();
 		ENGINE_API bool EngineRun();
+	}
+
+	ENGINE_API bool IsInitialized();
+	ENGINE_API HWND OnInitialize(HWND parentHwnd, String name, i32 width, i32 height);
+	ENGINE_API void OnEvent(Event* event);
+	ENGINE_API void OnUpdate();
+	ENGINE_API void OnStandalone();
+	ENGINE_API void OnShutdown();
+}
