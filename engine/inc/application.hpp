@@ -97,3 +97,34 @@ namespace Engine {
 		void pollEvents() { glfwPollEvents(); }
 
 	public:
+		// set of predefined functions for default resize callback
+
+		static void defaultResizableWindowCallback(GLFWwindow* window, u32 w, u32 h);
+		static void defaultFixedSizeWindowCallback(GLFWwindow* window, u32 w, u32 h);
+		static void defaultNoDefaultWindowCallback(GLFWwindow* window, u32 w, u32 h);
+	};
+
+#pragma region ApplicationException[s]
+	class ApplicationInstanceException : public std::exception {
+	private:
+		String message;
+	public:
+		ApplicationInstanceException(String msg) : message(msg) {}
+	public:
+		const char* what() const noexcept override {
+			return message.c_str();
+		}
+	};
+
+	class ApplicationCreationException : public std::exception {
+	private:
+		String message;
+	public:
+		ApplicationCreationException(String msg) : message(msg) {}
+	public:
+		const char* what() const noexcept override {
+			return message.c_str();
+		}
+	};
+#pragma endregion
+}
