@@ -64,3 +64,36 @@ namespace Engine {
 		// all valid getters for private attributes belonging to Application
 
 		LayerStack& get_application_layer_stack();
+		String get_application_title();
+		u32 get_application_height();
+		u32 get_application_width();
+		GLFWwindow* get_application_window();
+		WindowCallbackFunction get_application_window_callback();
+
+	public:
+		void on_update();					// most important function that runs for each frame
+		void on_event(Event& e);
+		void queue_event(Unique<Event> e);
+
+	public:
+		// all valid setters for private attributes belonging to Application
+
+		// void set_application_layer_stack(LayerStack stack);
+		void set_application_title(String new_title);
+		void set_application_height(u32 new_height);		// only through callbacks
+		void set_application_width(u32 new_width);			// only through callbacks
+		void set_application_window(GLFWwindow* window);
+		void set_application_window_callback(WindowCallbackFunction function);
+
+	public:
+		// GLFW WINDOW API encapsulation
+		// NOTE: directly add more functionalities as per usage here!
+		// NOTE: use camel case here to differentiate GLFW functionalities from core
+		// NOTE: sort functions alphabetically
+
+		bool isOpen() { return !glfwWindowShouldClose(application_window); }
+		void makeContextCurrent() { glfwMakeContextCurrent(application_window); }
+		void swapBufferes() { glfwSwapBuffers(application_window); }
+		void pollEvents() { glfwPollEvents(); }
+
+	public:
