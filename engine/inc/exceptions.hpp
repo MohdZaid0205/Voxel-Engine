@@ -54,3 +54,59 @@ namespace Engine {
 			std::invoke_result_t<Func, Args...> _result;
 		private:
 			using Hook = std::function<bool(const String&)>;
+		private:
+			Hook _prep = [](const String&) { return true; };
+			Hook _comp = [](const String&) { return true; };
+			Hook _rest = [](const String&) { return true; };
+		private:
+			std::function<void()> _does_log = [] {};
+			std::function<void()> _pass_log = [] {};
+			std::function<void()> _warn_log = [] {};
+			std::function<void()> _fail_log = [] {};
+		public:
+			explicit Runner(Func func, Args... args);
+		public:
+			Runner& prepare (Hook func);	// register _prep
+			Runner& restore (Hook func);	// register _rest
+			Runner& complete(Hook func);	// register _comp
+		public:
+			template<typename... FArgs> Runner& does(FArgs&&... args) noexcept;
+			template<typename... FArgs> Runner& pass(FArgs&&... args) noexcept;
+			template<typename... FArgs> Runner& warn(FArgs&&... args) noexcept;
+			template<typename... FArgs> Runner& fail(FArgs&&... args) noexcept;
+		public:
+			// Invoke and get the return value/result if evaluation succeeded
+			std::invoke_result_t<Func, Args...> execute(const String& context = "Attempt");
+		};
+
+		// Attempt::to( do, arguments... ).<chain>;
+		template<typename Func, typename... Args>
+		Runner<std::decay_t<Func>, std::decay_t<Args>...> to(Func&& func, Args&&... args);
+	};
+
+	template<typename T> using Expected = std::expected<T, Attempt::Status>;
+}
+
+#pragma region Engine::Attempt Implementation
+
+template<typename Func, typename ...Args>
+inline Engine::Attempt::Runner<Func, Args...>::Runner(Func func, Args... args)
+	: _func(std::move(func)), _args(std::move(args)...) {}
+
+template<typename Func, typename ...Args>
+inline Engine::Attempt::Runner<Func, Args...>&
+Engine::Attempt::Runner<Func, Args...>::prepare(Hook func) {
+	_prep = std::move(func);
+	return *this;
+}
+
+template<typename Func, typename ...Args>
+inline Engine::Attempt::Runner<Func, Args...>&
+Engine::Attempt::Runner<Func, Args...>::restore(Hook func) {
+	_rest = std::move(func);
+	return *this;
+}
+
+template<typename Func, typename ...Args>
+inline Engine::Attempt::Runner<Func, Args...>&
+Engine::Attempt::Runner<Func, Args...>::complete(Hook func) {
