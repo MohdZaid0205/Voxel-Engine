@@ -50,3 +50,55 @@ namespace Engine {
 	ENGINE_API MouseMovedEvent*				CreateMouseMovedEvent			(f32 x, f32 y);
 	ENGINE_API MouseScrolledEvent*			CreateMouseScrolledEvent		(f32 x, f32 y);
 #pragma endregion
+
+#pragma region EventTypesImplementation
+
+	// just to make life easier
+	#define GET_EVENT_TYPE(type) EventType get_event_type() const override { return type; }
+	#define GET_STRING_TYPE(type) Engine::String get_string_type() const override { return #type; }
+	#define GET_STATIC_TYPE(type) static EventType get_static_type() { return type; }
+
+#pragma region 	Window[...]Events
+	class WindowClosedEvent : public Event {
+	private:
+		// .. (NO DATA REQUIRED)
+	public:
+		WindowClosedEvent() = default;
+		~WindowClosedEvent() override = default;
+	public:
+		GET_EVENT_TYPE(EventType::WindowClosed);
+		GET_STATIC_TYPE(EventType::WindowClosed);
+		GET_STRING_TYPE(EventType::WindowClosed);
+	};
+
+	class WindowResizedEvent : public Event {
+	private:
+		u32 width;
+		u32 height;
+	public:
+		WindowResizedEvent(u32 w, u32 h) : width(w), height(h) {}
+		~WindowResizedEvent() override = default;
+	public:
+		GET_EVENT_TYPE(EventType::WindowResized);
+		GET_STATIC_TYPE(EventType::WindowResized);
+		GET_STRING_TYPE(EventType::WindowResized);
+	public:
+		u32 get_width() { return width; }
+		u32 get_height() { return height; }
+	};
+#pragma endregion
+#pragma region Keyboard[...]Events
+	class KeyPressedEvent : public Event {
+	private:
+		i32 key_code;
+		i32 repeat_count;
+	public:
+		KeyPressedEvent(i32 k, i32 rep) : key_code(k), repeat_count(rep) {}
+		~KeyPressedEvent() override = default;
+	public:
+		GET_EVENT_TYPE(EventType::KeyPressed);
+		GET_STATIC_TYPE(EventType::KeyPressed);
+		GET_STRING_TYPE(EventType::KeyPressed);
+	public:
+		i32 get_key_code() { return key_code; }
+		i32 ger_repeat_count() { return repeat_count; }
