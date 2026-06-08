@@ -102,3 +102,55 @@ namespace Engine {
 	public:
 		i32 get_key_code() { return key_code; }
 		i32 ger_repeat_count() { return repeat_count; }
+	};
+
+	class KeyReleasedEvent : public Event {
+	private:
+		i32 key_code;
+	public:
+		KeyReleasedEvent(i32 k) : key_code(k) {}
+		~KeyReleasedEvent() override = default;
+	public:
+		GET_EVENT_TYPE(EventType::KeyReleased);
+		GET_STATIC_TYPE(EventType::KeyReleased);
+		GET_STRING_TYPE(EventType::KeyReleased);
+	public:
+		i32 get_key_code() { return key_code; }
+	};
+#pragma endregion
+#pragma region Mouse[...]Events
+	class MouseButtonClickedEvent : public Event {
+	private:
+		f32 x_position;
+		f32 y_position;
+	public:
+		MouseButtonClickedEvent(f32 x, f32 y) : x_position(x), y_position(y) {}
+		~MouseButtonClickedEvent() override {};
+	public:
+		GET_EVENT_TYPE(EventType::MouseButtonClicked);
+		GET_STATIC_TYPE(EventType::MouseButtonClicked);
+		GET_STRING_TYPE(EventType::MouseButtonClicked);
+	public:
+		f32 get_x_position() { return x_position; }
+		f32 get_y_position() { return y_position; }
+	};
+
+	class MouseButtonReleasedEvent : public Event {
+	private:
+		f32 x_position;
+		f32 y_position;
+	public:
+		MouseButtonReleasedEvent(f32 x, f32 y) : x_position(x), y_position(y) {}
+		~MouseButtonReleasedEvent() override {};
+	public:
+		GET_EVENT_TYPE(EventType::MouseButtonReleased);
+		GET_STATIC_TYPE(EventType::MouseButtonReleased);
+		GET_STRING_TYPE(EventType::MouseButtonReleased);
+	public:
+		f32 get_x_position() { return x_position; }
+		f32 get_y_position() { return y_position; }
+	};
+
+	class MouseMovedEvent : public Event {
+	private:
+		f32 x_position;
