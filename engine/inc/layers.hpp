@@ -20,3 +20,14 @@ namespace Engine {
 		inline const String& get_layer_name() const { return layer_name; }
 	};
 
+	class LayerStack {
+	private:
+		std::vector<Layer*> stack;
+		u32 insertion_index = 0;
+	public:
+		LayerStack() = default;
+		~LayerStack();
+	public:
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* layer);
+		void PopLayer(Layer* layer);
