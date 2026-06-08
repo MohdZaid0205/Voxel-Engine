@@ -154,3 +154,52 @@ namespace Engine {
 	class MouseMovedEvent : public Event {
 	private:
 		f32 x_position;
+		f32 y_position;
+	public:
+		MouseMovedEvent(f32 x, f32 y) : x_position(x), y_position(y) {}
+		~MouseMovedEvent() override = default;
+	public:
+		GET_EVENT_TYPE(EventType::MouseMoved);
+		GET_STATIC_TYPE(EventType::MouseMoved);
+		GET_STRING_TYPE(EventType::MouseMoved);
+	public:
+		f32 get_x_position() { return x_position; }
+		f32 get_y_position() { return y_position; }
+	};
+
+	class MouseScrolledEvent : public Event {
+	private:
+		f32 x_offset;
+		f32 y_offset;
+	public:
+		MouseScrolledEvent(f32 x, f32 y) : x_offset(x), y_offset(y) {}
+		~MouseScrolledEvent() override = default;
+	public:
+		GET_EVENT_TYPE(EventType::MouseScrolled);
+		GET_STATIC_TYPE(EventType::MouseScrolled);
+		GET_STRING_TYPE(EventType::MouseScrolled);
+	public:
+		f32 get_x_position() { return x_offset; }
+		f32 get_y_position() { return y_offset; }
+	};
+#pragma endregion
+
+#pragma endregion
+
+	class EventDispatcher {
+	private:
+		Event& event;
+	public:
+		EventDispatcher(Event& e) : event(e) {}
+		~EventDispatcher() = default;
+	public:
+		template<typename T, typename F> bool dispatch(F callback) {
+			if (event.get_event_type() == T::get_static_type()) {
+				event.is_handled |= callback(static_cast<T&>(event));
+				return true;
+			}
+			return false;
+		}
+	};
+
+}
