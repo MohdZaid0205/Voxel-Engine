@@ -110,3 +110,59 @@ Engine::Attempt::Runner<Func, Args...>::restore(Hook func) {
 template<typename Func, typename ...Args>
 inline Engine::Attempt::Runner<Func, Args...>&
 Engine::Attempt::Runner<Func, Args...>::complete(Hook func) {
+	_comp = std::move(func);
+	return *this;
+}
+
+
+template<typename Func, typename ...Args>
+template<typename ...FArgs>
+inline Engine::Attempt::Runner<Func, Args...>&
+Engine::Attempt::Runner<Func, Args...>::does(FArgs&& ...args) noexcept {
+	_does_log = [...args = std::forward<FArgs>(args)]() mutable {
+		Engine::Console::Info("[A] =>"_D, args...);
+		};
+	return *this;
+}
+
+template<typename Func, typename ...Args>
+template<typename ...FArgs>
+inline Engine::Attempt::Runner<Func, Args...>&
+Engine::Attempt::Runner<Func, Args...>::pass(FArgs&& ...args) noexcept {
+	_pass_log = [...args = std::forward<FArgs>(args)]() mutable {
+		Engine::Console::Info("[A] P>"_D, args...);
+		};
+	return *this;
+}
+
+template<typename Func, typename ...Args>
+template<typename ...FArgs>
+inline Engine::Attempt::Runner<Func, Args...>&
+Engine::Attempt::Runner<Func, Args...>::warn(FArgs&& ...args) noexcept {
+	_warn_log = [...args = std::forward<FArgs>(args)]() mutable {
+		Engine::Console::Warn("[A] W>"_D, args...);
+		};
+	return *this;
+}
+
+template<typename Func, typename ...Args>
+template<typename ...FArgs>
+inline Engine::Attempt::Runner<Func, Args...>&
+Engine::Attempt::Runner<Func, Args...>::fail(FArgs&& ...args) noexcept {
+	_fail_log = [...args = std::forward<FArgs>(args)]() mutable {
+		Engine::Console::Error("[A] F>"_D, args...);
+		};
+	return *this;
+}
+
+template<typename Func, typename ...Args>
+inline std::invoke_result_t<Func, Args...>
+Engine::Attempt::Runner<Func, Args...>::execute(const String& context) {
+
+	_does_log();
+
+	if (!_prep(context)) {
+		Engine::Console::Error("[A] ->"_D, "PreparationPhaseFailed"_B);
+		Engine::Console::Error("[A] ->"_D, "Transaction aborted before execution as PreperationPhaseFailed"_D);
+		_fail_log();
+
