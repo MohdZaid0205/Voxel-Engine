@@ -166,3 +166,58 @@ Engine::Attempt::Runner<Func, Args...>::execute(const String& context) {
 		Engine::Console::Error("[A] ->"_D, "Transaction aborted before execution as PreperationPhaseFailed"_D);
 		_fail_log();
 
+		return std::unexpected(Engine::Attempt::makeError("PreparationPhaseFailed", "The preparation hook returned false."));
+	}
+
+
+	_result = std::apply(_func, std::move(_args));
+	_eval = true;
+
+	if (_result.has_value()) {
+		if (!_comp(context)) {
+			Engine::Console::Error("[A] ->"_D, "CompletionHookFailed"_B);
+			Engine::Console::Error("[A] ->"_D, "Main task succeeded, cleanup failed as CompletionHookFailed"_D);
+			_fail_log();
+
+			return std::unexpected(Engine::Attempt::makeError("CompletionHookFailed", "The completion hook returned false."));
+		}
+		_pass_log();
+	}
+	else {
+		const auto& err = _result.error();
+
+		if (err.type == Status::Warning || err.type == Status::Recoverable_Warning) {
+			_warn_log();
+			Engine::Console::Warn("[A] ->"_D, err.name);
+			if (!err.mess.empty()) { Engine::Console::Warn("[A] ->"_D, err.mess); }
+		}
+		else {
+			_fail_log();
+			Engine::Console::Error("[A] ->"_D, err.name);
+			if (!err.mess.empty()) { Engine::Console::Error("[A] ->"_D, err.mess); }
+		}
+
+		if (err.type == Status::Recoverable_Error || err.type == Status::Recoverable_Warning) {
+			if (!_rest(err.name)) {
+				Engine::Console::Error("[A] ->"_D, "RecoveryHookFailed"_B);
+				Engine::Console::Error("[A] ->"_D, "The system failed to restore its previous state."_D);
+
+				return std::unexpected(Engine::Attempt::makeError("RecoveryHookFailed", "The recovery hook returned false."));
+			}
+			else {
+				Engine::Console::Info("[A] ->"_D, "Recovery restored the program state."_D);
+			}
+		}
+	}
+
+	return _result;
+}
+
+template<typename Func, typename... Args>
+inline Engine::Attempt::Runner<std::decay_t<Func>, std::decay_t<Args>...>
+Engine::Attempt::to(Func&& func, Args&&... args) {
+	return Runner<std::decay_t<Func>, std::decay_t<Args>...>(
+		std::forward<Func>(func), std::forward<Args>(args)...);
+}
+
+#pragma endregion
