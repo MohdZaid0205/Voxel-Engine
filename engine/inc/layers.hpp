@@ -31,3 +31,12 @@ namespace Engine {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 		void PopLayer(Layer* layer);
+		void PopOverlay(Layer* layer);
+	public:
+		std::vector<Layer*>::iterator begin() { return stack.begin(); }
+		std::vector<Layer*>::iterator end() { return stack.end(); }
+
+		std::vector<Layer*>::reverse_iterator rbegin() { return stack.rbegin(); }
+		std::vector<Layer*>::reverse_iterator rend() { return stack.rend(); }
+	};
+}
