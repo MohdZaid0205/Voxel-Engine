@@ -130,3 +130,44 @@ inline void Engine::__recurse_output() {
 				ENGINE_CONSOLE_XX_DBG
 			), ":", msg, args...
 		);
+	}
+
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Warn(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_WRN,
+				ENGINE_CONSOLE_FG_WRN,
+				ENGINE_CONSOLE_BG_WRN,
+				ENGINE_CONSOLE_XX_WRN
+			), ":", msg, args...
+		);
+	}
+
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Error(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_ERR,
+				ENGINE_CONSOLE_FG_ERR,
+				ENGINE_CONSOLE_BG_ERR,
+				ENGINE_CONSOLE_XX_ERR
+			), ":", msg, args...
+		);
+	}
+#else
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Log(T msg, Args ...args) {}
+
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Info(T msg, Args ...args) {}
+
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Debug(T msg, Args ...args) {}
+
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Warn(T msg, Args ...args) {}
+
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Error(T msg, Args ...args) {}
+#endif
