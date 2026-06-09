@@ -86,3 +86,47 @@ Engine::String operator"" _I(const char* str, Engine::u64 len);	// italics
 
 // IMPLEMENTATION (Templated functions cannot be placed in .cpp files apparently)
 
+template<typename T, typename ... Arg> void Engine::__recurse_output(T item, Arg ...args) {
+	std::cout << item << " ";
+	__recurse_output(args...);
+}
+
+inline void Engine::__recurse_output() {
+	std::cout << std::endl;
+}
+
+#ifdef _DEBUG
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Log(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_LOG,
+				ENGINE_CONSOLE_FG_LOG,
+				ENGINE_CONSOLE_BG_LOG,
+				ENGINE_CONSOLE_XX_LOG
+			), ":", msg, args...
+		);
+	}
+
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Info(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_INF,
+				ENGINE_CONSOLE_FG_INF,
+				ENGINE_CONSOLE_BG_INF,
+				ENGINE_CONSOLE_XX_INF
+			), ":", msg, args...
+		);
+	}
+
+	template<Engine::LogPriority P, typename T, typename ...Args>
+	void Engine::Console::Debug(T msg, Args ...args) {
+		__recurse_output(
+			__get_banner<P>(
+				ENGINE_CONSOLE_BA_DBG,
+				ENGINE_CONSOLE_FG_DBG,
+				ENGINE_CONSOLE_BG_DBG,
+				ENGINE_CONSOLE_XX_DBG
+			), ":", msg, args...
+		);
