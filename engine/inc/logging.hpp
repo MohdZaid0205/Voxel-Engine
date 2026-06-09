@@ -42,3 +42,47 @@ namespace Engine {
 		INF = 0b00010,
 		DBG = 0b00100,
 		WRN = 0b01000,
+		ERR = 0b10000,
+	};
+
+	// Logging priorities used to indicate message importance
+	enum LogPriority {
+		LOW = 0b001,
+		MED = 0b010,
+		HIG = 0b100,
+	};
+
+	String __fg_color_hex_to_ansi(Color val);
+	String __bg_color_hex_to_ansi(Color val);
+
+	template<LogPriority P> String __get_banner(String of, Color fg, Color bg, Color xx);
+	template<LogPriority P> String __get_highlight(String on, Color highlight, Color xx);
+
+	template String __get_banner<LOW>(String, Color, Color, Color);
+	template String __get_banner<MED>(String, Color, Color, Color);
+	template String __get_banner<HIG>(String, Color, Color, Color);
+
+	template String __get_highlight<LOW>(String, Color, Color);
+	template String __get_highlight<MED>(String, Color, Color);
+	template String __get_highlight<HIG>(String, Color, Color);
+
+	template<typename T, typename... Arg> void __recurse_output(T item, Arg... args);
+	inline void __recurse_output();
+
+	namespace Console {
+		template<LogPriority P = HIG, typename T, typename... Args>  void Log(T msg, Args... args);
+		template<LogPriority P = HIG, typename T, typename... Args>  void Info(T msg, Args... args);
+		template<LogPriority P = HIG, typename T, typename... Args>  void Debug(T msg, Args... args);
+		template<LogPriority P = HIG, typename T, typename... Args>  void Warn(T msg, Args... args);
+		template<LogPriority P = HIG, typename T, typename... Args>  void Error(T msg, Args... args);
+	};
+};
+
+Engine::String operator"" _H(const char* str, Engine::u64 len);	// highlight
+Engine::String operator"" _B(const char* str, Engine::u64 len);	// bold
+Engine::String operator"" _D(const char* str, Engine::u64 len);	// dim
+Engine::String operator"" _U(const char* str, Engine::u64 len);	// underline
+Engine::String operator"" _I(const char* str, Engine::u64 len);	// italics
+
+// IMPLEMENTATION (Templated functions cannot be placed in .cpp files apparently)
+
