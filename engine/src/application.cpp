@@ -60,3 +60,34 @@ void Engine::Application::set_application_title(Engine::String new_title) {
 void Engine::Application::set_application_height(Engine::u32 new_height) {
 	application_h = new_height;
 }
+void Engine::Application::set_application_width(Engine::u32 new_width) {
+	application_w = new_width;
+}
+
+Engine::Application::WindowCallbackFunction
+Engine::Application::get_application_window_callback() {
+	return application_window_callback;
+}
+
+void Engine::Application::on_update() {
+	for (auto& e : application_deferred_events) {
+		on_event(*e);
+	}
+
+	application_deferred_events.clear();
+
+	for (Layer* layer : application_layer_stack) {
+		layer->on_update();
+	}
+}
+
+void Engine::Application::on_event(Event& e) {
+	for (auto it = application_layer_stack.rbegin(); it != application_layer_stack.rend(); ++it) {
+		(*it)->on_event(e);
+		if (e.is_handled)
+			break;
+	}
+}
+
+void Engine::Application::queue_event(Unique<Event> e) {
+	application_deferred_events.push_back(std::move(e));
