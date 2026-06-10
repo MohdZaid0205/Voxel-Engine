@@ -29,3 +29,34 @@ Engine::Application& Engine::Application::instance() {
 	if (!Application::application)
 		Application::application.reset(CreateApplication());
 	return *Application::application;
+}
+
+
+Engine::LayerStack& Engine::Application::get_application_layer_stack()
+{
+	return application_layer_stack;
+}
+
+Engine::String Engine::Application::get_application_title() {
+	return application_title;
+}
+
+Engine::u32 Engine::Application::get_application_width() {
+	return application_w;
+}
+
+Engine::u32 Engine::Application::get_application_height() {
+	return application_h;
+}
+
+GLFWwindow* Engine::Application::get_application_window() {
+	return application_window;
+}
+
+// TODO: remove setter for title, height and width and cleanup
+void Engine::Application::set_application_title(Engine::String new_title) {
+	application_title = new_title;
+}
+void Engine::Application::set_application_height(Engine::u32 new_height) {
+	application_h = new_height;
+}
