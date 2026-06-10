@@ -26,3 +26,17 @@ namespace Engine {
         T x, y, z;
 
         constexpr Vector3() : x(0), y(0), z(0) {}
+        constexpr Vector3(T x, T y, T z) : x(x), y(y), z(z) {}
+
+        // Math Operators
+        Vector3 operator+(const Vector3& v) const { return { x + v.x, y + v.y, z + v.z }; }
+        Vector3 operator-(const Vector3& v) const { return { x - v.x, y - v.y, z - v.z }; }
+        Vector3 operator*(T scalar) const { return { x * scalar, y * scalar, z * scalar }; }
+        Vector3 operator/(T scalar) const { return { x / scalar, y / scalar, z / scalar }; }
+
+        Vector3& operator+=(const Vector3& v) { x += v.x; y += v.y; z += v.z; return *this; }
+        Vector3& operator-=(const Vector3& v) { x -= v.x; y -= v.y; z -= v.z; return *this; }
+        Vector3& operator*=(T scalar) { x *= scalar; y *= scalar; z *= scalar; return *this; }
+        Vector3& operator/=(T scalar) { x /= scalar; y /= scalar; z /= scalar; return *this; }
+
+        // Equality Operators
