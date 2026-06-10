@@ -91,3 +91,31 @@ void Engine::Application::on_event(Event& e) {
 
 void Engine::Application::queue_event(Unique<Event> e) {
 	application_deferred_events.push_back(std::move(e));
+}
+
+void Engine::Application::set_application_window(GLFWwindow* window) {
+	application_window = window;
+}
+
+void Engine::Application::set_application_window_callback(
+	Engine::Application::WindowCallbackFunction function
+) {
+	application_window_callback = function;
+}
+
+
+void Engine::Application::defaultFixedSizeWindowCallback(
+	GLFWwindow* window, u32 w, u32 h) {
+	glfwSetWindowAttrib(window, GLFW_RESIZABLE, false);;
+}
+
+void Engine::Application::defaultResizableWindowCallback(
+	GLFWwindow* window, u32 w, u32 h) {
+	glViewport(0, 0, w, h);
+}
+
+
+void Engine::Application::defaultNoDefaultWindowCallback(
+	GLFWwindow* window, u32 w, u32 h) {
+	// DOES NOTHING LOL
+}
