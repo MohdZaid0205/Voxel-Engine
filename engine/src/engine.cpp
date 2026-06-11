@@ -88,3 +88,48 @@ ENGINE_API HWND Engine::OnInitialize(HWND parentHwnd, Engine::String name, Engin
 		.fail("Could Not initialize GLFW context"_D)
 		.execute("Startup::initGlfw");
 
+	if (!initGlfw.value_or(false))
+		return nullptr;
+
+	if (parentHwnd != nullptr) {
+		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+	} else {
+		glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+	}
+
+	auto initWndw = Attempt::to(Startup::initWndw, width, height, name)
+		.does("Initilize GlfwWindow and setup Applicaiton"_D)
+		.pass("Sucessfully created a new GlfwWindow & App"_D)
+		.fail("Could not initialize GlfwWindow"_D)
+		.execute("Startup::initWndw");
+
+	if (!initWndw.value_or(false))
+		return nullptr;
+
+	HWND glfwHwnd = glfwGetWin32Window(
+		Engine::Application::instance().get_application_window()
+	);
+
+	if (parentHwnd != nullptr) {
+		SetParent(glfwHwnd, parentHwnd);
+		LONG style = GetWindowLong(glfwHwnd, GWL_STYLE);
+		SetWindowLong(
+			glfwHwnd, GWL_STYLE,
+			(style & ~WS_POPUP) | WS_CHILD | WS_VISIBLE
+		);
+	}
+
+	auto initGlad = Attempt::to(Startup::initGlad)
+		.does("Initilaize Glad context in memory"_D)
+		.pass("Sucessfully initialized Glad context"_D)
+		.fail("Could not initliazie Glad context"_D)
+		.execute("Startup::initGlad");
+
+	if (!initGlad.value_or(false))
+		return nullptr;
+
+	return glfwHwnd;
+}
+
+ENGINE_API void Engine::OnEvent(Event* event){
+	Application::instance().queue_event(
