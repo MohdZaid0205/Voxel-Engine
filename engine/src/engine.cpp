@@ -133,3 +133,48 @@ ENGINE_API HWND Engine::OnInitialize(HWND parentHwnd, Engine::String name, Engin
 
 ENGINE_API void Engine::OnEvent(Event* event){
 	Application::instance().queue_event(
+		Engine::Unique<Event>(event)
+	);
+}
+
+ENGINE_API void Engine::OnUpdate(){
+	if (!IsInitialized())
+		return;
+	Application::instance().on_update();
+}
+
+ENGINE_API void Engine::OnStandalone() {
+	if (!IsInitialized())
+		return;
+
+	while (Application::instance().isOpen()) {
+		Application::instance().pollEvents();
+
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		OnUpdate();
+
+		Application::instance().swapBufferes();
+	}
+}
+
+ENGINE_API void Engine::OnShutdown(){
+	
+}
+
+Engine::Application* Engine::CreateApplication(){
+	return application_initializer();
+}
+
+ENGINE_API bool Engine::State::EnginePause(){
+	// FIXME: implement way to pause and run
+	return true;
+}
+
+ENGINE_API bool Engine::State::EngineRun(){
+	// FIXME: implement way to pause and run
+	return false;
+}
+
+
