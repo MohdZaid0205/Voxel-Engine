@@ -25,3 +25,9 @@ ENGINE_API Engine::MouseButtonReleasedEvent* Engine::CreateMouseButtonReleasedEv
 }
 
 ENGINE_API Engine::MouseMovedEvent* Engine::CreateMouseMovedEvent(f32 x, f32 y){
+	return new MouseMovedEvent(x, y);
+}
+
+ENGINE_API Engine::MouseScrolledEvent* Engine::CreateMouseScrolledEvent(f32 x, f32 y){
+	return new MouseScrolledEvent(x, y);
+}
