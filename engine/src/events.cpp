@@ -16,3 +16,12 @@ ENGINE_API Engine::KeyReleasedEvent* Engine::CreateKeyReleasedEvent(i32 k){
 	return new KeyReleasedEvent(k);
 }
 
+ENGINE_API Engine::MouseButtonClickedEvent* Engine::CreateMouseButtonClickedEvent(f32 x, f32 y){
+	return new MouseButtonClickedEvent(x, y);
+}
+
+ENGINE_API Engine::MouseButtonReleasedEvent* Engine::CreateMouseButtonReleasedEvent(f32 x, f32 y){
+	return new MouseButtonReleasedEvent(x, y);
+}
+
+ENGINE_API Engine::MouseMovedEvent* Engine::CreateMouseMovedEvent(f32 x, f32 y){
