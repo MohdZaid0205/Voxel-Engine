@@ -28,3 +28,13 @@ void Engine::LayerStack::PopLayer(Layer* layer) {
 		layer->on_detach();
 		stack.erase(it);
 		insertion_index--;
+	}
+}
+
+void Engine::LayerStack::PopOverlay(Layer* layer) {
+	auto it = std::find(stack.begin() + insertion_index, stack.end(), layer);
+	if (it != stack.end()) {
+		layer->on_detach();
+		stack.erase(it);
+	}
+}
