@@ -18,3 +18,13 @@ void Engine::LayerStack::PushLayer(Layer* layer) {
 void Engine::LayerStack::PushOverlay(Layer* layer) {
 	if (layer) {
 		stack.push_back(layer);
+		layer->on_attach();
+	}
+}
+
+void Engine::LayerStack::PopLayer(Layer* layer) {
+	auto it = std::find(stack.begin(), stack.begin() + insertion_index, layer);
+	if (it != stack.begin() + insertion_index) {
+		layer->on_detach();
+		stack.erase(it);
+		insertion_index--;
