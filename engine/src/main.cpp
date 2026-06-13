@@ -10,3 +10,4 @@ int main() {
 	
 	Engine::Console::Log("HELLO");
 	return 0;
+}
